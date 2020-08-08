@@ -1,78 +1,79 @@
 
-
-    function drawRectangle(){
-		
-		
-		
-		
-		
-	}
-	
-	
 var area_1 = [];
-var currentOperation = "arrea_1";	
+var pathArea_1 = new Path2D();
+var isEndArea_1 = false;
+var area_2 = false;
+var currentOperation = "area_1";
+var halfPoitSize = 5;
+var isMovePoint = false;
+
+	
 	
 	//определяет клики по кнопке button (play now)
 canvas.onmousedown = function (e) {
 	
-	var bbox = canvas.getBoundingClientRect();
-	
-	var point = [e.clientX - bbox.left * (canvas.width / bbox.width), e.clientY - bbox.top * (canvas.height / bbox.height)];
+	var point = getCanvasPoint(e);
     
-  if(currentOperation == "arrea_1"){	
-	endArea("arrea_1", point);
-	area_1.push(point);	
-	drawArea(area_1);
-	mouseSquare(point, 10);
- }
- if(currentOperation == "arrea_2"){	
-
-
-
- }	
+  if(currentOperation == "area_1"){
     
-};
-function isClickOnPoint(point){
-	
-	var isClick = false;
-	
-	for(var i=0; i<area_1.length; i++){
+	if(isEndArea_1 === false){
+		var isEnd = endArea("area_1", point);	  
+		if( ! isEnd )area_1.push(point);
+    }else{
 		
-		if(point[0] - area_1[0][0] <= Math.abs(5) && point[1] - area_1[0][1] <= Math.abs(5)){
-			
-			
-			
-		}		
-	}	
-}
-function endArea(operation, point){	
-			if(operation == "arrea_1" && area_1.length > 3){		
-			if(point[0] - area_1[0][0] <= Math.abs(5) && point[1] - area_1[0][1] <= Math.abs(5)){			
-				point[0] = area_1[0][0];
-				point[1] = area_1[0][1];				
-			    currentOperation = "arrea_2"	
-			}		
-		}	
-}
-function drawArea(area){	
-	if(area.length > 1){
-		for(var i=1; i<area.length; i++){			
-			drawLine(area[i-1], area[i]);
-		}		
-	}	
-}
-function drawLine(point1, point2){	
-	ctx.strokeStyle = "red";
-	ctx.beginPath();       // Начинает новый путь
-	ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
-	ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
-	ctx.lineWidth = 3;
-	ctx.stroke();
-}
-///рисует квадрат 
-function mouseSquare(point, size){
+		var isClickPoint = isClickOnPoint(area_1 ,point);
+		if(isClickPoint) currentOperation = "area_2"
+	}		
+	drawArea(area_1, isEndArea_1, 1);
+	drawAllSquares(area_1, halfPoitSize);
+	//mouseSquare(point, halfPoitSize, (isEndArea_1)? 0 : area_1.length-1);
+ }
+ if(currentOperation == "area_2"){	
+         		 
+		 if(!area_2){
+			 isMovePoint = isClickOnPoint(area_1, point);
+			 area_2 = area_1.slice(0);
+		}
+		 isMovePoint = isClickOnPoint(area_2, point);
+ }	  
+};
+canvas.onmousemove = function (e) { 
 	
-	ctx.fillStyle = "yellow";
-	ctx.fillRect(point[0]-size/2, point[1]-size/2, size, size);
-	
+	if(isMovePoint !== false){
+		
+		area_2[isMovePoint] = getCanvasPoint(e);
+		//console.log(area_2);
+		ctx.drawImage(img, 0, 0); 
+		drawArea(area_2, true, 2);
+		drawAllSquares(area_2, halfPoitSize)		
+	}
+}
+canvas.onmouseup = function (e) { 
+	//console.log(isMovePoint);
+	if(isMovePoint !== false){
+		
+		isMovePoint = false;
+        cutAndScale(area_1, area_2);		
+	}
+}
+add_point_button.onclick = function(event){ 
+       
+	   event.preventDefault();
+	   
+       var index = parseInt(document.querySelector("form").querySelector("input").value);
+        
+      // if(area_2){
+		   
+		//  addPointTooArray(area_2, index );
+		  
+	 //  }else{
+		   
+		  if( addPointTooArray(area_1, index ) ){
+			  
+			  area_2 = area_1.slice(0);
+		  };
+		   
+		   
+		   
+	 //  }	   
 }
