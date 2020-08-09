@@ -1,0 +1,19 @@
+{
+  "name": "img_matrix",
+  "version": "1.0.0",
+  "description": "Приложение для создания спрайтов и коллажей на основе фото",
+  "main": "app.js",
+  "author": "Maksaev Mihail",
+  "license": "Apache License Version 2.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergeyOvechkin/img_matrix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SergeyOvechkin/img_matrix.js/issues"
+  },
+  "homepage": "https://github.com/SergeyOvechkin/img_matrix#readme"
+}
