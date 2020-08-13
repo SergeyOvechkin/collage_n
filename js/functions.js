@@ -1,12 +1,48 @@
 //проверяет клик по угловой точке на многоугольнике
 function isClickOnPoint(area ,point){
 	for(var i=0; i<area.length; i++){	
-		if( Math.abs(point[0] - area[i][0]) <= halfPoitSize && Math.abs(point[1] - area[i][1]) <= halfPoitSize){
+		if( Math.abs(point[0] - area[i][0]) <= halfPoitSize*1.5 && Math.abs(point[1] - area[i][1]) <= halfPoitSize*1.5){
            // console.log(i);			
 			return i;			
 		}		
 	}
     return false;	
+}
+///возвращает сторону квадрата 
+function getSquareSide(area, indexPoint){
+	
+	var imgBox = getBox(area);	
+	var side = 0;	
+	var halfW = (imgBox[1][0] - imgBox[0][0])/2;
+	var halfH = (imgBox[1][1] - imgBox[0][1])/2;
+	
+	var l_x = indexPoint[0] - imgBox[0][0];
+	var r_x = imgBox[1][0] - indexPoint[0];
+	var t_y = indexPoint[1] - imgBox[0][1];
+	var b_y = imgBox[1][1] - indexPoint[1];
+	
+	if(indexPoint[0] < imgBox[0][0] + halfW && indexPoint[1] < imgBox[0][1] + halfH ){
+		side = 3;
+		if(halfW/l_x > halfH/t_y)side = 2;		
+		//side = 0;
+	}
+	if(indexPoint[0] < imgBox[0][0] + halfW && indexPoint[1] > imgBox[0][1] + halfH ){
+		side = 1;
+		if(halfW/l_x > halfH/b_y )side = 2;
+		//side = 3;
+	}
+	if(indexPoint[0] > imgBox[0][0] + halfW && indexPoint[1] > imgBox[0][1] + halfH ){
+		side = 1;
+		if(halfW/r_x > halfH/b_y )side = 0;
+		//side = 2;
+	}
+	if(indexPoint[0] > imgBox[0][0] + halfW && indexPoint[1] < imgBox[0][1] + halfH ){
+		side = 3;
+		if(halfW/r_x > halfH/t_y )side = 0;
+		//side = 1;
+	}
+	return side;
+	//console.log(side);	
 }
 //замыкает контур фигуры при клике на начальную точку
 function endArea(operation, point){	
@@ -45,7 +81,7 @@ function drawAllSquares(points, halfPoitSize){
 		mouseSquare(points[i], halfPoitSize, i);
 	}
 }
-///рисует квадрат 
+///рисует квадрат для точки площади выделения
 function mouseSquare(point, halfPoitSize, number){	
 	ctx.fillStyle = "yellow";
 	ctx.fillRect(point[0]-halfPoitSize, point[1]-halfPoitSize, halfPoitSize*2, halfPoitSize*2);

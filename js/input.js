@@ -49,8 +49,16 @@ canvas.onmouseup = function (e) {
 	//console.log(isMovePoint);
 	if(isMovePoint !== false){
 		
-		
-        cutAndScale(area_1, area_2, isMovePoint);
+		var side = getSquareSide(area_2, area_2[isMovePoint]);
+		if(side == 0){			
+			cutAndScale_r(area_1, area_2, isMovePoint);			
+		}else if(side == 2){			
+			cutAndScale_l(area_1, area_2, isMovePoint);
+		}else if(side == 1){			
+			cutAndScale_b(area_1, area_2, isMovePoint);
+		}else if(side == 3){			
+			cutAndScale_t(area_1, area_2, isMovePoint);
+		}       
 		isMovePoint = false;
 	}
 }
