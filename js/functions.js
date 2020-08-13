@@ -57,7 +57,7 @@ function endArea(operation, point){
 		}
         return false;		
 }
-//рисует многоугольник из точек ели передать isEnd = true замыкает его на нулевой точке
+//рисует многоугольник из точек если передать isEnd = true замыкает его на нулевой точке
 function drawArea(area, isEnd, areaNumb){	
 	if(area.length > 1){
 		for(var i=1; i<area.length; i++){			
@@ -162,13 +162,13 @@ function getImgData(typeOperation,  imgBox, imgBox2, cutWidth, cutWidth2, cutHei
 	return [imgMap, imgMap2]
 }
 
-//метод масщтабирует точку выделенной площади area_2 относительно тички площади area_1
+//метод масштабирует точку выделенной площади area_2 относительно точки площади area_1
 //movePoint - индекс точки из массивов area_1 и area_2 
 //flip - true -масштабирует левую часть области изображения, false правую
 //area_1, area_2, - массивы с точками выделенной области до масштабирования и после, точка - также массив в формате [x, y];
 // transparent - делает прозрачной область вокруг выделения (пока не работает)
 function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent){	
-     //flip - true - с лева от картинки; false - справа от картинки
+   
 	//определяем смещение точек
     //определяем начальные и конечные индексы
 	var startIndex = movePoint-1; if(movePoint == 0) startIndex = area_1.length-1;
