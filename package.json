@@ -1,7 +1,7 @@
 {
-  "name": "img_matrix",
+  "name": "img_distoryion",
   "version": "1.0.0",
-  "description": "Приложение для создания спрайтов и коллажей на основе фото",
+  "description": "масштабирует и искажает выделенную область изображения",
   "main": "app.js",
   "author": "Maksaev Mihail",
   "license": "Apache License Version 2.0",
