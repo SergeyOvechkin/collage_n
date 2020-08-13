@@ -11,19 +11,21 @@
 
 </head>
 	<body>
-
-         
-       <canvas id="canvas" style="border: none;" width="400" height="400" ></canvas>
+	
 	    <form onsubmit="return false">
 			<p><b>Добавить точку после - index:</b><br>
 			<input type="text" name="index_point" style="width: 250px"  placeholder="точка после указанного индекса"><Br>
 			<p><button id="add_point_button">Добавить</button></p>
+			<p><button id="reset">Сбросить выделение</button></p>
 		</form>
+        <p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, затем перетащить выделенную точку контура в новое положение</p><br> 
+       <canvas id="canvas" style="border: none;" width="400" height="400" ></canvas>
+
 	   
 	   
 	   <script src="./js/functions.js"></script>
-	   <script src="./js/test2.js"></script>
-       <script src="./js/input.js"></script>
+	   <script src="./js/main.js"></script>
+
 	   
 
     </body>
