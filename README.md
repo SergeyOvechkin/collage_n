@@ -2,7 +2,7 @@
 
  масштабирует, искажает и перемещает выделенную область изображения
  
- <img height="350" src="https://github.com/SergeyOvechkin/collagen/blob/master/dolphins.png">
+ <img height="350" src="https://github.com/SergeyOvechkin/collagen/blob/master/dolphins1.png">
 
 
 
