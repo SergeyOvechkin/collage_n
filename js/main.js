@@ -200,6 +200,28 @@ reset.onclick = function(event){
 		ctx.putImageData(saveImg, 0, 0);
 	}
    
+  
+}
+
+add_img_button.onclick = function(event){ 
+       
+
+   var fd = document.forms["formA"].elements['img'].value;
+   	 img = new Image();
+	 img.crossOrigin = "Anonymous";
+	 img.src=fd;
+	 img.onload = function(){ 
+
+		 srcWidth=img.naturalWidth;
+		 srcHeight=img.naturalHeight;
+	
+		canvas.width=srcWidth;
+		canvas.height=srcHeight;	        
+		ctx.drawImage(img, 0, 0); 
+		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+
+	}
+  
 }
 
 

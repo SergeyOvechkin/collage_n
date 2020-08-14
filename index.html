@@ -12,14 +12,17 @@
 </head>
 	<body>
 	
-	    <form onsubmit="return false">
+	    <form name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST">
 			<p><b>Добавить точку после - index:</b><br>
 			<input type="text" name="index_point" style="width: 250px"  placeholder="точка после указанного индекса"><Br>
 			<p><button id="add_point_button">Добавить</button></p>
 			<p><button id="reset">Сбросить выделение</button></p>
+			<input type="text" name="img" style="width: 250px"  placeholder="url картинки"><Br>
+			<p><button id="add_img_button">Загрузить картинку</button></p>
 		</form>
         <p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, затем перетащить выделенную точку контура в новое положение</p>
 		<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, затем перетащить выделенную область в новое положение</p>
+		<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы</p>
        <canvas id="canvas" style="border: none;" width="400" height="400" ></canvas>
 
 	   
