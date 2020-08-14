@@ -70,10 +70,14 @@ function drawArea(area, isEnd, areaNumb){
 function drawLine(point1, point2){	
 	ctx.strokeStyle = "red";
 	ctx.beginPath();       // Начинает новый путь
-	ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
-	ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
-	ctx.lineWidth = 3;
-	ctx.stroke();
+
+		ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
+	    ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
+		ctx.lineWidth = 3;
+		ctx.stroke();
+	
+
+	
 }
 //рисует контрольные точки многоугольника
 function drawAllSquares(points, halfPoitSize){	
@@ -81,6 +85,8 @@ function drawAllSquares(points, halfPoitSize){
 		mouseSquare(points[i], halfPoitSize, i);
 	}
 }
+//ctx.translate( moveImgArr[1][0]-distance[0], moveImgArr[1][1]-distance[1]);
+//ctx.rotate(rotateFigure * Math.PI / 180);
 ///рисует квадрат для точки площади выделения
 function mouseSquare(point, halfPoitSize, number){	
 	ctx.fillStyle = "yellow";
@@ -271,10 +277,11 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent){
 						if(transparent)imgData[ point+3] = 0; //прозрачным область вокруг площади выделения		
 					}								
 				}
-			}			
+			}
+        return [imgMap, [imgBox2[0][0]-diff,  imgBox2[0][1] ] ]; 			
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
-		ctx.putImageData(imgMap, imgBox2[0][0]-diff, imgBox2[0][1]);
-		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+		//ctx.putImageData(imgMap, imgBox2[0][0]-diff, imgBox2[0][1]);
+		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 		
 }
 //аналогичен предыдущему только по вертикали flip - true -для верхней стороны картинки, false нижней
@@ -387,11 +394,89 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent){
 						}
 					}								
 				}
-			}			
+			}
+		 return [imgMap, [imgBox2[0][0],  imgBox2[0][1]-diff] ]; 
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
-		ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
-		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+		//ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
+		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 }
+
+function drawImgData(ctx, imgMap, point){
+	
+   Promise.all([
+   
+    createImageBitmap(imgMap),
+    
+  ]).then(function(sprites) {
+  
+    ctx.drawImage(sprites[0], point[0], point[1]);
+	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+    drawArea(area_2, true, 2);
+    drawAllSquares(area_2, halfPoitSize);
+	
+  });
+	
+}
+function getImg(imgMap, point){
+	
+   Promise.all([
+   
+    createImageBitmap(imgMap),
+    
+  ]).then(function(sprites) {
+  
+    moveImgArr = [sprites[0], point];
+	 //ctx.drawImage(sprites[0], 0, 0);
+	
+  });
+	
+}
+function getCutImg(ctx, area){
+	
+    ///прямогугольники в которые вписана данная область	
+	var imgBox = getBox(area); 
+	
+	//ширина и высота прямоугольников
+	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];
+	
+	//точки площади с вычетом рассояния до прямоугольника
+	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]); 
+
+	//обект области фигуры
+	var cutPathArea =  getPathArea(cutArea); 
+
+	if(!saveImg){
+		ctx.drawImage(img, 0, 0);
+	}else{
+		ctx.putImageData(saveImg, 0, 0);
+	}
+	var H , W;
+	
+	H = cutHeight; W = cutWidth;
+		
+		var imgMap = ctx.getImageData(imgBox[0][0], imgBox[0][1], cutWidth , cutHeight);	
+	
+			for(var tmpX = 0; tmpX <  W; tmpX++) {
+				for(var tmpY = 0;  tmpY < H; tmpY++) {
+					
+					var point = (tmpY*W+tmpX)*4; 
+			
+								
+					if(! ctx.isPointInPath(cutPathArea, tmpX, tmpY)){						
+						
+						imgMap.data[ point+3] = 0;	
+
+					}								
+				}
+			}
+		 return [imgMap, [imgBox[0][0],  imgBox[0][1]] ]; 
+
+}
+
+
+
+
+	
 
 	
 
