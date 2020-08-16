@@ -11,7 +11,7 @@
 	 var img = new Image();
 	 img.src="./img/img.png";
 	 var saveImg = false; //предыдущее преобразование картинки
-	 var restoreImg = img;
+	 var restoreImg = false;
 	 var halfPoitSize = 5; //размер половины квадрата точки на площади
 	 var mainImgScale = 0.6; //множитель размера картинки(масштаб)
 	 

@@ -24,7 +24,9 @@ var StateMap = {
 				restoreImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			},
 			restore_img: function(){
-				saveImg = restoreImg;
+				if(restoreImg){
+					saveImg = restoreImg;
+				}	
 				this.$methods().renderAll();				
 			},
 			restart_img: function(){
