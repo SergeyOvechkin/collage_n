@@ -4,33 +4,95 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style type="text/css"> 
+<link rel="stylesheet" href="./css/bootstrap.min.css">
 
+<style type="text/css"> 
+body, html { 
+	   position: relative; 
+       margin: 0; 
+       padding: 0;
+	   height: 100%;
+     }
+#canvas_container{
+	position: relative;
+	min-height: 500px;
+}	 
+canvas { 
+     position: absolute; 
+     width: 100%; 
+     min-height: 500px; 
+	 margin: 0; 
+     padding: 0;
+	 border: none;
+	 right: 0px;
+
+   }
+ .list-group-item:hover{
+       cursor: pointer;
+ 
+ }  
 </style>
 
 
 </head>
 	<body>
 	
-	    <form name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST">
-			<p><b>Добавить точку после - index:</b><br>
-			<input type="text" name="index_point" style="width: 250px"  placeholder="точка после указанного индекса"><Br>
-			<p><button id="add_point_button">Добавить</button></p>
-			<p><button id="reset">Сбросить выделение</button></p>
-			<input type="text" name="img" style="width: 250px"  placeholder="url картинки"><Br>
-			<p><button id="add_img_button">Загрузить картинку</button></p>
-		</form>
-        <p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, затем перетащить выделенную точку контура в новое положение</p>
-		<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, затем перетащить выделенную область в новое положение</p>
-		<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы</p>
-       <canvas id="canvas" style="border: none;" width="400" height="400" ></canvas>
 
+		
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-8" id="canvas_container" >
+					<canvas data-canvas="container" id="canvas"  ></canvas>
+						<div style="margin-top: 520px;"> 
+							<p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, создать спрайт, затем перетащить выделенную точку контура в новое положение</p>
+							<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения,создать замкнутый контур,  создать спрайт,  затем перетащить выделенную область в новое положение</p>
+							<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы</p>      
+						</div>
+				</div>
+				<div class="col-4">
+						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST">
+								 <div class="form-group">
+										<label for="exampleFormControlInput1">Загрузить картинку из url</label>
+											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="url картинки">
+								  </div>
+								 <div class="form-group">
+										<label for="exampleFormControlInput1">Коэффициент масштабирования картинки</label>
+											<input name="img_main_scale" type="text" class="form-control form-control-sm"  placeholder="scale (0.7)" value="0.7">
+								  </div>
+								 <div class="form-group">
+										<label for="exampleFormControlInput1">Добавить точку после - index:</label>
+											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="точка после указанного индекса">
+								  </div>
+								 <div class="form-group">
+										<label for="exampleFormControlInput1">Удалить точку - index:</label>
+											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки">
+								 </div>	
+								 <button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
+								 <button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button>
+								 <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm">Работать с фоновым изображением</button>
+								 <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm">очистить фон</button>
+								
+							</form>
+							<ul data-sprites="array" class="list-group" style="margin-top: 30px; max-height: 300px; overflow: auto;">
+								<li data-sprite="template" class="list-group-item">
+									<span name="id"></span>
+									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">Удалить</button>
+								</li>
+							</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+ 
+		
 	   
-	   
+	   <script src="./js/htmlix.js"></script>
+	   <script src="./js/sprites.js"></script>
 	   <script src="./js/functions.js"></script>
+	    <script src="./js/functions_new.js"></script>
 	   <script src="./js/main.js"></script>
-
-	   
+	   <script src="./js/interface.js"></script>
 
     </body>
 	

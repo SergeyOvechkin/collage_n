@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
 	  
             readFile(req, res, "./index.html");
   }  ////отдаем статические файлы и файлы из базы данных на любом сервере
-  else if(parsUrl.dir.split("/")[1] == "img" ||  parsUrl.dir.split("/")[1] == "js"){
+  else if(parsUrl.dir.split("/")[1] == "img" ||  parsUrl.dir.split("/")[1] == "js" ||  parsUrl.dir.split("/")[1] == "css"){
 	  
 	  // console.log(`Запрошенный адрес: ${parsUrl.dir} / ${parsUrl.base}`);
 	  
