@@ -13,9 +13,38 @@ var StateMap = {
 				 ["rm_index_point", "inputvalue", "[name='rm_index_point']"], ["rm_index_point_click", 'change', "[name='rm_index_point']"],
 				 ["create_sprite", 'click', "[name='create_sprite']"], ["reset_area", 'click', "[name='reset_area']"],
 				 ["to_phone_img", 'click', "[name='operation_with']"], ["clear_phone", 'click', "[name='clear_phone']"],
+				 ["scale_or_move_point_click", 'click', "[name='scale_or_move_point']"], ["scale_or_move_point", 'text', "[name='scale_or_move_point']"],
+				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
+				  
+				 
 				
 		],		 
 		methods: {
+			save_img: function(){				
+				restoreImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+			},
+			restore_img: function(){
+				saveImg = restoreImg;
+				this.$methods().renderAll();				
+			},
+			restart_img: function(){
+					ctx.drawImage(img, 0, 0, img.naturalWidth*mainImgScale, img.naturalHeight*mainImgScale); 
+					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
+					this.$methods().renderAll();
+			},
+			scale_or_move_point_click: function(){
+				
+				var current = this.$props("commonProps").scale_or_move;
+				
+				if(current == "move"){
+					this.$props("commonProps").scale_or_move = "scale";
+					this.props("scale_or_move_point").setProp("Перемещать точку");					
+				}else{
+					this.$props("commonProps").scale_or_move = "move";
+					this.props("scale_or_move_point").setProp("Искажать");					
+				}
+				
+			},
 			clear_phone: function(){
 				ctx.clearRect(0, 0, srcWidth , srcHeight);
 				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
@@ -111,8 +140,9 @@ var StateMap = {
 									}else{										
 										this.$props("commonProps").isEndArea_1 = true;
 									}
-							}else{		
-								 this.$props("commonProps").isMovePoint  = isClickOnPoint(area_1 ,point);
+							}else /*if(this.$props("commonProps").scale_or_move == "move")*/{		
+								 this.$props("commonProps").isMovePoint  = isClickOnPoint(area_1 ,point); ///индекс движемой точки
+								 this.$props("commonProps").area_2 = this.$props("commonProps").area_1.slice(0);
 							}	
 								//console.log(this.$props("commonProps").isEndArea_1);
 								drawArea(area_1, isEndArea_1);
@@ -138,18 +168,22 @@ var StateMap = {
 			},
 			mousemove: function(){					
 					if(this.$props("operationWith") == "common"){
-                        var indexPoint = this.$props("commonProps").isMovePoint;						
-						if(indexPoint !== false){
-							//console.log(1);
-							this.$props("commonProps").area_1[indexPoint] = getCanvasPoint(event, this.parent.htmlLink);
-							
-							this.$methods().renderAll();
-							
-							//ctx.putImageData(saveImg, 0, 0);
-							drawArea(this.$props("commonProps").area_1, true);
-							drawAllSquares(this.$props("commonProps").area_1, halfPoitSize);
+                        var indexPoint = this.$props("commonProps").isMovePoint;
+						
+						if(indexPoint !== false){							
+							if(this.$props("commonProps").scale_or_move == "move"){
+								this.$props("commonProps").area_1[indexPoint] = getCanvasPoint(event, this.parent.htmlLink);							
+								this.$methods().renderAll();
+								drawArea(this.$props("commonProps").area_1, true);
+								drawAllSquares(this.$props("commonProps").area_1, halfPoitSize);
+							}else if(this.$props("commonProps").scale_or_move == "scale"){
+								this.$props("commonProps").area_2[indexPoint] = getCanvasPoint(event, this.parent.htmlLink);
+								this.$methods().renderAll();
+								drawArea(this.$props("commonProps").area_2, true);
+								drawAllSquares(this.$props("commonProps").area_2, halfPoitSize);
+							}	
 						}											
-					}else if(this.$props().sprites[this.$props("operationWith")]){
+					}else if(this.$props().sprites[this.$props("operationWith")]){ //операция с конкретным спрайтом, если он не удален
 						
 						var sprite = this.$props().sprites[this.$props("operationWith")];						
 						 var point = getCanvasPoint(event, canvas);	
@@ -182,7 +216,28 @@ var StateMap = {
 					if(event.which !== 1)return;				
 					if(this.$props("operationWith") == "common"){						
 						if(this.$props("commonProps").isMovePoint !== false){
-							this.$props("commonProps").isMovePoint = false;
+							
+							if(this.$props("commonProps").scale_or_move == "scale"){
+                                var area_1 = this.$props("commonProps").area_1; var area_2 = this.$props("commonProps").area_2;	var move_point = this.$props("commonProps").isMovePoint;							
+									var side = getSquareSide(area_2, area_2[move_point]);
+									var imgDataArr;
+									ctx.putImageData(saveImg, 0, 0);
+									if(side == 0){			
+										imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, false, false, );			
+									}else if(side == 2){			
+										imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, true, false, );
+									}else if(side == 1){			
+										imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, false, false, );
+									}else if(side == 3){			
+										imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, true, false, );
+									}
+									saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+								    this.$methods().renderAll();
+								    this.$props("commonProps").area_1 = area_2.slice(0);															
+								drawArea(area_2, true);
+								drawAllSquares(area_2, halfPoitSize);								
+							}
+							this.$props("commonProps").isMovePoint = false;							
 						}						
 					}else if(this.$props().sprites[this.$props("operationWith")]){
 						var sprite = this.$props().sprites[this.$props("operationWith")];	
@@ -268,8 +323,10 @@ var StateMap = {
 		operationWith: "common", ///"sprite" операция с объектом или общей картинкой
 		commonProps: {		
 			area_1: [], //область выделения до смещения
+			area_2: [], //область выделения после смещения
 			isEndArea_1: false, //флаг показывает - закончено ли выделение первой области
 			isMovePoint : false, //индекс перемещаемой точки
+			scale_or_move: "move",
 		},
 		sprites: {},
 		

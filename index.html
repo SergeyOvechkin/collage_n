@@ -50,11 +50,22 @@ canvas {
 						</div>
 				</div>
 				<div class="col-4">
-						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST">
-								 <div class="form-group">
-										<label for="exampleFormControlInput1">Загрузить картинку из url</label>
+						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
+								<div class="form-row">
+									<div class="form-group col-md-4">
+											
 											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="url картинки">
-								  </div>
+									</div>
+									<div class="form-group col-md-2">
+										<button type="button"  name="save_img" class="btn btn-success btn-sm">save</button>
+									</div>
+									<div class="form-group col-md-3">
+										<button type="button"  name="restore_img" class="btn btn-warning btn-sm">restore</button>
+									</div>
+									<div class="form-group col-md-3">
+										<button type="button"  name="restart_img" class="btn btn-danger btn-sm">restart</button>
+									</div>
+								</div>	
 								 <div class="form-group">
 										<label for="exampleFormControlInput1">Коэффициент масштабирования картинки</label>
 											<input name="img_main_scale" type="text" class="form-control form-control-sm"  placeholder="scale (0.7)" value="0.6">
@@ -66,7 +77,8 @@ canvas {
 								 <div class="form-group">
 										<label for="exampleFormControlInput1">Удалить точку - index:</label>
 											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки">
-								 </div>	
+								 </div>
+							     <button type="button"  style="margin-top: 5px;" name="scale_or_move_point" class="btn btn-secondary btn-sm">искажать</button>
 								 <button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
 								 <button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button>
 								 <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm">Работать с фоновым изображением</button>

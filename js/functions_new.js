@@ -158,6 +158,21 @@ function getImgToSprite(imgMapArr, sprite){
   });
 	
 }
+function drawImgData(ctx, imgMap, point, area){
+	
+   Promise.all([
+   
+    createImageBitmap(imgMap),
+    
+  ]).then(function(sprites) {
+	  
+    ctx.drawImage(sprites[0], point[0], point[1]);
+    drawArea(area, true);
+    drawAllSquares(area, halfPoitSize);
+	
+  });
+	
+}
 
 
 ///возвращает сторону квадрата 
@@ -359,9 +374,12 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 					}								
 				}
 			}
+		if(!transparent){
+			ctx.putImageData(imgMap, imgBox2[0][0]-diff, imgBox2[0][1]);
+		}
         return [imgMap, [imgBox2[0][0]-diff,  imgBox2[0][1] ] ]; 			
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
-		//ctx.putImageData(imgMap, imgBox2[0][0]-diff, imgBox2[0][1]);
+		//
 		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 		
 }
@@ -483,6 +501,9 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 					}								
 				}
 			}
+	   if(!transparent){
+			ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
+		}
 		 return [imgMap, [imgBox2[0][0],  imgBox2[0][1]-diff] ]; 
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
 		//ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
