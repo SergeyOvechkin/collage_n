@@ -13,6 +13,7 @@ function CollageSprite(img, area, point, id, point2){
 	this.moveStart = false; //начало движения координаты
 	this.isMovePoint = false; //движение оной точки i точки	
 	this.rotate = 0;
+	this.show = true;
 	
 }
 CollageSprite.prototype.rotateArea = function(fi){
@@ -24,11 +25,13 @@ CollageSprite.prototype.rotateArea = function(fi){
 
 CollageSprite.prototype.render = function(sprite_id ,operationName, point_){
 	
+	if(!this.show)return;
+	
 	if(this.rotate !== 0){
 		this.rotateArea();
-			var move = [this.point[0]+(this.point2[0] - this.point[0])/2, this.point[1]+(this.point2[1] - this.point[1])/2];
-	        
-			ctx.translate( move[0],  move[1]);
+			var move = [this.point[0]+(this.point2[0] - this.point[0])/2,this.point[1]+(this.point2[1] - this.point[1])/2];
+			//ctx.imageSmoothingEnabled = false;
+			ctx.translate(move[0],   move[1]);
 			ctx.rotate(this.rotate);
 	}
 	

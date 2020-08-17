@@ -16,12 +16,15 @@ var StateMap = {
 				 ["scale_or_move_point_click", 'click', "[name='scale_or_move_point']"], ["scale_or_move_point", 'text', "[name='scale_or_move_point']"],
 				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
 				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"],
-				 
+				 ["smoothing", 'checkbox', "[name='smoothing']"],
 				
 		],		 
 		methods: {
 			rotate_area_click: function(){
 				var fi = parseInt(this.props("rotate_area").getProp())* Math.PI / 180;
+				var smoothing = this.props("smoothing").getProp();
+				//console.log(smoothing);
+				ctx.imageSmoothingEnabled = smoothing;
 				
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){						
 					var area_1 = this.$props("commonProps").area_1;	
@@ -31,7 +34,8 @@ var StateMap = {
 					//console.log(area_1);
 					
 					this.$props("commonProps").area_1 = area_1.slice(0);
-					this.$props("commonProps").area_2 = area_1.slice(0);;	
+					this.$props("commonProps").area_2 = area_1.slice(0);
+					
 					ctx.putImageData(saveImg, 0, 0);
 					rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2], area_1, fi, this.$methods().renderAll.bind(this.rootLink));
 					
@@ -84,6 +88,10 @@ var StateMap = {
 					//sprite.render("scale");
 					this.$props().operationWith = "common";
 					this.$methods().renderAll();
+					var area_1 = this.$props("commonProps").area_1;
+					drawArea(area_1, this.$props("commonProps").isEndArea_1);
+					drawAllSquares(area_1, halfPoitSize);
+					
 			},
 			load_url_img_click: function(){ ///загрузить картинку
 				
@@ -323,8 +331,23 @@ var StateMap = {
 			}
 		},
 		container: "sprite",
-		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],],
+		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
+		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], ],
 		methods : {
+			show_sprite_click: function(){
+				
+				var text = this.props("show_sprite");
+				var id = this.props("id").getProp();
+				var sprite = this.$props().sprites[id];
+				if(sprite.show){
+					sprite.show = false;
+					text.setProp("Отобразить");
+				}else{
+					sprite.show = true;
+					text.setProp("Скрыть");
+				}
+				
+			},
 			click: function(){
 				
 				var id = this.props("id").getProp();
