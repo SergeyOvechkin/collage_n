@@ -101,7 +101,7 @@ function getPathArea(area){
 	path.closePath();	
 	return path;
 }
-function getCutImg(ctx, area){
+function getCutImg(ctx, area, isDrawSaveImg){
 	
     ///прямогугольники в которые вписана данная область	
 	var imgBox = getBox(area); 
@@ -114,12 +114,15 @@ function getCutImg(ctx, area){
 
 	//обект области фигуры
 	var cutPathArea =  getPathArea(cutArea); 
-
-	if(!saveImg){
-		ctx.drawImage(img, 0, 0);
-	}else{
-		ctx.putImageData(saveImg, 0, 0);
+	
+	if(isDrawSaveImg != false){
+		if(!saveImg){
+			ctx.drawImage(img, 0, 0);
+		}else{
+			ctx.putImageData(saveImg, 0, 0);
+		}
 	}
+	
 	var H , W;
 	
 	H = cutHeight; W = cutWidth;
@@ -139,19 +142,20 @@ function getCutImg(ctx, area){
 					}								
 				}
 			}
-		 return [imgMap, [imgBox[0][0],  imgBox[0][1]] ]; 
+		 return [imgMap, [imgBox[0][0],  imgBox[0][1]],  [imgBox[1][0],  imgBox[1][1]] ]; 
 
 }
-function getImgToSprite(imgMapArr, sprite){
+function getImgToSprite(imgMapArr, sprite, isRender){
    Promise.all([
    
     createImageBitmap(imgMapArr[0]),
     
   ]).then(function(sprites) {
     
-    sprite.point = 	imgMapArr[1]
+    sprite.point = 	imgMapArr[1];
+	sprite.point2 = imgMapArr[2];
     sprite.frame = sprites[0];
-	sprite.render(sprite.id);
+	if(isRender != false)sprite.render(sprite.id);
 	
 	 //ctx.drawImage(sprites[0], 0, 0);
 	
@@ -172,6 +176,49 @@ function drawImgData(ctx, imgMap, point, area){
 	
   });
 	
+}
+function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
+	
+	var move = [point[0]+(point2[0] - point[0])/2, point[1]+(point2[1] - point[1])/2];
+	
+	ctx.translate( move[0],  move[1]);
+	ctx.rotate(fi);
+	
+   Promise.all([
+   
+    createImageBitmap(imgMap),
+    
+  ]).then(function(sprites) {
+	  
+    ctx.drawImage( sprites[0], -(point2[0] - point[0])/2, -(point2[1] - point[1])/2 ) ;
+	
+	ctx.rotate(-fi);
+	ctx.translate( -move[0],  -move[1]);
+	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
+	callb();
+		
+    //drawArea(area, true);
+   // drawAllSquares(area, halfPoitSize);
+	
+  });
+	
+}
+function rotationArea(area, fi){
+	
+	var imgBox = getBox(area);
+	var width = imgBox[1][0] - imgBox[0][0];
+	var height = imgBox[1][1] - imgBox[0][1];
+	
+	var cutArea = getCutSize(area, imgBox[0][0]+width/2, imgBox[0][1]+height/2);
+	
+	var newArr = [];
+	
+	for(var i=0; i< cutArea.length; i++){
+		var X = cutArea[i][0] * Math.cos(fi) - cutArea[i][1] * Math.sin(fi) ;
+		var Y = cutArea[i][1] * Math.cos(fi) + cutArea[i][0]  * Math.sin(fi) ;
+		newArr.push( [Math.round(X+imgBox[0][0]+width/2), Math.round(Y+imgBox[0][1]+height/2)] );
+	}
+	return newArr;	
 }
 
 
@@ -208,15 +255,10 @@ function getSquareSide(area, indexPoint){
 		if(halfW/r_x > halfH/t_y )side = 0;
 		//side = 1;
 	}
+	//console.log(side, indexPoint);
 	return side;
-	//console.log(side);	
+		
 }
-
-
-
-
-
-
 ///возвращает прямоугольник с координатами в который вписана данная область
 function getBox(area){	
 	var start = [null, null];
@@ -244,6 +286,7 @@ function getCutSize(area, startX, startY){
 		return [pos[0]-startX, pos[1]-startY];
 	})
 }
+
 //получает массив с двумя imgData объектами для последующей трансформации
 function getImgData(typeOperation,  imgBox, imgBox2, cutWidth, cutWidth2, cutHeight, cutHeight2, ctx){	
 	var imgMap, imgMap2;	
@@ -377,7 +420,7 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 		if(!transparent){
 			ctx.putImageData(imgMap, imgBox2[0][0]-diff, imgBox2[0][1]);
 		}
-        return [imgMap, [imgBox2[0][0]-diff,  imgBox2[0][1] ] ]; 			
+        return [imgMap, [imgBox2[0][0]-diff,  imgBox2[0][1] ], [imgBox2[1][0],  imgBox2[1][1] ] ]; 			
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
 		//
 		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
@@ -469,8 +512,6 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 				for(var tmpY = 0;  tmpY < H; tmpY++) {
 										
 					if(startSegmentY === false)startSegmentY = 0;					
-					//var point = (tmpX*H+tmpY)*4; 
-					//var point2 = (tmpX*H)*4;
 					
 					var point = ((tmpY+diff)*W+tmpX)*4; 
 					var point2, tmpY_ ;// = (tmpY*W)*4;
@@ -504,7 +545,7 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 	   if(!transparent){
 			ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
 		}
-		 return [imgMap, [imgBox2[0][0],  imgBox2[0][1]-diff] ]; 
+		 return [imgMap, [imgBox2[0][0],  imgBox2[0][1]-diff], [imgBox2[1][0],  imgBox2[1][1] ]  ]; 
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
 		//ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
 		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);

@@ -15,11 +15,34 @@ var StateMap = {
 				 ["to_phone_img", 'click', "[name='operation_with']"], ["clear_phone", 'click', "[name='clear_phone']"],
 				 ["scale_or_move_point_click", 'click', "[name='scale_or_move_point']"], ["scale_or_move_point", 'text', "[name='scale_or_move_point']"],
 				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
-				  
+				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"],
 				 
 				
 		],		 
 		methods: {
+			rotate_area_click: function(){
+				var fi = parseInt(this.props("rotate_area").getProp())* Math.PI / 180;
+				
+				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){						
+					var area_1 = this.$props("commonProps").area_1;	
+                     //console.log(area_1);					
+					var img_data_arr =  getCutImg(ctx, area_1);
+				    area_1 = rotationArea(area_1, fi);
+					//console.log(area_1);
+					
+					this.$props("commonProps").area_1 = area_1.slice(0);
+					this.$props("commonProps").area_2 = area_1.slice(0);;	
+					ctx.putImageData(saveImg, 0, 0);
+					rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2], area_1, fi, this.$methods().renderAll.bind(this.rootLink));
+					
+				}else if(this.$props().sprites[this.$props("operationWith")]){
+					var sprite = this.$props().sprites[this.$props("operationWith")];
+					sprite.rotate = fi;
+					this.$methods().renderAll();
+					
+				}
+								
+			},
 			save_img: function(){				
 				restoreImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			},
@@ -52,7 +75,7 @@ var StateMap = {
 				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 				this.$methods().renderAll();				
 			},
-			to_phone_img: function(){
+			to_phone_img: function(){ //работать с фоновой картинкой
 				
 				var sprite = this.$props().sprites[this.$props("operationWith")];
 				if(sprite != undefined){
@@ -62,7 +85,7 @@ var StateMap = {
 					this.$props().operationWith = "common";
 					this.$methods().renderAll();
 			},
-			load_url_img_click: function(){
+			load_url_img_click: function(){ ///загрузить картинку
 				
 				var fd = this.props("load_url_img").getProp();
 				img = new Image();
@@ -74,26 +97,26 @@ var StateMap = {
 					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			    };
 			},
-			img_main_scale_click: function(){
+			img_main_scale_click: function(){ //масштабировать фоновую картинку
 				
 				mainImgScale = this.props("img_main_scale").getProp();
 				ctx.clearRect(0, 0, srcWidth, srcHeight); 
 				ctx.drawImage(img, 0, 0, img.naturalWidth*mainImgScale, img.naturalHeight*mainImgScale); 
 				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			},
-			add_index_point_click: function(){				
+			add_index_point_click: function(){		//добавить точку после индекса		
 				     var index = parseInt(this.props("add_index_point").getProp());
 					if( this.$props("operationWith") == "common" ){		  
 							addPointTooArray(this.$props("commonProps").area_1, index );
 					};
 			},
-			rm_index_point_click: function(){				
+			rm_index_point_click: function(){	//удалить точку после индекса			
 				     var index = parseInt(this.props("rm_index_point").getProp());
 					if( this.$props("operationWith") == "common" ){		  
 							rmPointFromArray(this.$props("commonProps").area_1, index );
 					};
 			},
-			reset_area: function(){
+			reset_area: function(){ //сбросить область выделения
 				if( this.$props("operationWith") == "common"  ){ 
 					// ctx.putImageData(saveImg, 0, 0);
 					this.$methods().renderAll();
@@ -101,14 +124,14 @@ var StateMap = {
 					 this.$props("commonProps").isEndArea_1 = false;				
 				}				
 			},
-			create_sprite: function(){
+			create_sprite: function(){ //создать спрайт
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){ 
 
 					 var id = "sprite_"+Math.floor(Math.random()*10000); 
 					 this.$props().operationWith = id;
 					 var area = this.$props("commonProps").area_1;
 					 var img_data_arr =  getCutImg(ctx, area);
-					 var sprite = new CollageSprite(false,  area.slice(0), img_data_arr[1], id);
+					 var sprite = new CollageSprite(false,  area.slice(0), img_data_arr[1], id, img_data_arr[2]);
 					 //console.log(sprite);
 					 this.$methods().renderAll();
 					 this.$props("sprites")[id] = sprite;					 
@@ -251,6 +274,8 @@ var StateMap = {
 								sprite.area_1 = sprite.area_2.slice(0);
 								sprite.point[0] -= distance[0];
 								sprite.point[1] -= distance[1];
+								sprite.point2[0] -= distance[0];
+								sprite.point2[1] -= distance[1];
 								this.$methods().renderAll();
 								sprite.moveStart =false;
 						}
