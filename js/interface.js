@@ -217,7 +217,9 @@ var StateMap = {
 		},
 		container: "sprite",
 		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
-		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], ],
+		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], 
+				  ["stamp", "click", "[name='stamp']"],
+				  ],
 		methods : {
 			show_sprite_click: function(){	//отображает либо скрывает спрайт			
 				var text = this.props("show_sprite");
@@ -246,6 +248,15 @@ var StateMap = {
 				this.$methods().renderAll();
 				this.parent.remove();
 				
+			},
+			stamp: function(){ 
+					var id = this.props("id").getProp();
+					var sprite = this.$props().sprites[id];
+			        ctx.putImageData(saveImg, 0, 0);
+					sprite.render("common");
+					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+					this.$methods().renderAll();
+					
 			}
 			
 		},		
