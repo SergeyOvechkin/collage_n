@@ -8,7 +8,10 @@ var StateMap = {
 		container: "main_form",
 		props: [ 
 				 ["load_url_img", "inputvalue", "[name='load_url_img']"], ["load_url_img_click", 'change', "[name='load_url_img']"],
-				 ["img_main_scale", "inputvalue", "[name='img_main_scale']"], ["img_main_scale_click", 'change', "[name='img_main_scale']"], 
+				 /*["img_main_scale", "inputvalue", "[name='img_main_scale']"], */ ["phone_scale_mirror", 'click', "[name='phone_scale_mirror']"],
+				 ["img_main_scale_x", 'inputvalue', "[name='img_main_scale_x']"], ["img_main_scale_y", 'inputvalue', "[name='img_main_scale_y']"],
+				 ["mirror_x", 'checkbox', "[name='mirror_x']"], ["mirror_y", 'checkbox', "[name='mirror_y']"],
+				 
 				 ["add_index_point", "inputvalue", "[name='add_index_point']"], ["add_index_point_click", 'change', "[name='add_index_point']"],
 				 ["rm_index_point", "inputvalue", "[name='rm_index_point']"], ["rm_index_point_click", 'change', "[name='rm_index_point']"],
 				 ["create_sprite", 'click', "[name='create_sprite']"], ["reset_area", 'click', "[name='reset_area']"],
@@ -46,8 +49,11 @@ var StateMap = {
 					
 				}								
 			},
-			save_img: function(){				
+			save_img: function(){
+				ctx.clearRect(0, 0, srcWidth, srcHeight);
+				ctx.putImageData(saveImg, 0, 0);
 				restoreImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+				this.$methods().renderAll();
 			},
 			restore_img: function(){
 				if(restoreImg){
@@ -92,8 +98,18 @@ var StateMap = {
 						startImg();
 			    };
 			},
-			img_main_scale_click: function(){ //масштабировать фоновую картинку				
-				mainImgScale = this.props("img_main_scale").getProp();
+			phone_scale_mirror: function(){ //масштаб и отражение фоновой картинки
+			
+			    var props = this.parent.props;
+				var mirror_x_ = props.mirror_x.getProp();
+				var mirror_y_ = props.mirror_y.getProp();
+				mainImgScale_y =  props.img_main_scale_y.getProp() ;
+				mainImgScale_x =  props.img_main_scale_x.getProp() ;
+				
+				if(mirror_x_){mirror_x = -1;}else{mirror_x = 1;}
+				if(mirror_y_){mirror_y = -1;}else{mirror_y = 1;}
+				console.log(mirror_x, mirror_y, mainImgScale_x, mainImgScale_y);				
+				//mainImgScale = this.props("img_main_scale").getProp();
 				startImg();
 			},
 			add_index_point_click: function(){		//добавить точку после индекса		

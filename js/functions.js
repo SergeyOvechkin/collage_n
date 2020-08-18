@@ -133,9 +133,20 @@ function getPathArea(area){
 	return path;
 }
 function startImg(){	
-	ctx.clearRect(0, 0, srcWidth, srcHeight); 	        
-	ctx.drawImage(img, 0, 0, img.naturalWidth*mainImgScale, img.naturalHeight*mainImgScale); 
+	ctx.clearRect(0, 0, srcWidth, srcHeight);
+	ctx.save()
+	if(mirror_x  == -1){
+		ctx.translate(srcWidth, 0);
+		ctx.scale( mirror_x, 1);	
+	}
+	if(mirror_y  == -1){
+		ctx.translate(0, srcHeight);
+		ctx.scale( 1, mirror_y);	
+	}
+	ctx.drawImage(img, 0, 0, img.naturalWidth*mainImgScale_x, img.naturalHeight*mainImgScale_y); 
 	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+	ctx.restore();
+
 }
 
 

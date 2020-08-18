@@ -66,10 +66,40 @@ canvas {
 										<button type="button"  name="restart_img" class="btn btn-danger btn-sm">restart</button>
 									</div>
 								</div>
-								 <div class="form-group">
-										<label for="exampleFormControlInput1">Коэффициент масштабирования картинки</label>
-											<input name="img_main_scale" type="text" class="form-control form-control-sm"  placeholder="scale (0.7)" value="0.6">
-								  </div>
+								<div class="form-row">
+								
+								 
+									<div class="form-group col-md-3">
+										
+											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X (0.6)" value="0.6"> 
+									</div>
+									<div class="form-group col-md-3">
+								
+											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y (0.6)" value="0.6">
+									</div>
+									
+									<div class="form-group col-md-3"> 
+										<div class="form-check">
+											<input type="checkbox" name="mirror_x"  class="form-check-input" id="exampleCheck1">
+											<label class="form-check-label" for="exampleCheck1">mirror_X</label>
+										</div>	
+									</div>	
+									<div class="form-group col-md-3"> 
+										<div class="form-check">
+											<input type="checkbox" name="mirror_y"  class="form-check-input" id="exampleCheck1">
+											<label class="form-check-label" for="exampleCheck1">mirror_Y</label>
+										</div>	
+									</div>	
+									
+								 </div> 
+								 <div class="form-row">
+									<div class="form-group col-md-8">
+										<label for="exampleFormControlInput1">Коэффициенты x,y масштабирования и отражение фона</label>
+									</div>	
+									<div class="form-group col-md-4">	
+										<button type="button"  style="margin-top: 5px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">Применить</button>
+									</div>	
+								</div>
 								 <div class="form-group">
 										<label for="exampleFormControlInput1">Добавить точку после - index:</label>
 											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="точка после указанного индекса">
