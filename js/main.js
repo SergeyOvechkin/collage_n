@@ -5,9 +5,7 @@
 	
 	canvas.width=srcWidth;
     canvas.height=srcHeight;
-	//console.log(srcWidth, srcHeight);
-	
-	
+
 	 var img = new Image();
 	 img.src="./img/img.png";
 	 var saveImg = false; //предыдущее преобразование картинки
