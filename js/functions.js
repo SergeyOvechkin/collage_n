@@ -1,4 +1,8 @@
 
+function getDistance(point_1, point_2){
+	
+	return[ point_1[0]-point_2[0], point_1[1]-point_2[1] ];
+}
 
 
 function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg){
