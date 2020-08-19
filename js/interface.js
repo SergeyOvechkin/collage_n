@@ -3,6 +3,50 @@
 var StateMap = {
 	
 	
+	form_b: {
+		container: "form_b",
+		props: [ ["function_to_pixels", "inputvalue", "[name='function_to_pixels']"], 
+		          ["function_to_pixels_click", "click", "[name='function_to_pixels_click']"],
+				  
+				  ["rgba_effect", 'click', "[name='rgba_effect']"], ["color_r", 'inputvalue', "[name='color_r']"], ["color_g", 'inputvalue', "[name='color_g']"],
+				 ["color_b", 'inputvalue', "[name='color_b']"], ["color_a", 'inputvalue', "[name='color_a']"],
+				 ],
+        methods: { 
+			function_to_pixels_click: function(){
+				
+				
+				var script = this.props("function_to_pixels").getProp();
+				if(!this.$props("commonProps").isEndArea_1){					
+						alert("сперва нужно закончить выделение");
+						return;					
+				}
+				console.log(script);
+				var area_1 = this.$props("commonProps").area_1;	
+				addEffect_1(ctx, area_1, script)
+			    saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+			    this.$methods().renderAll();
+				
+			},
+			rgba_effect: function (){
+				if(!this.$props("commonProps").isEndArea_1){					
+						alert("сперва нужно закончить выделение");
+						return;					
+				}
+				var R =false; var G =false; var B  = false; var A = false;
+				var props = this.parent.props;
+				 R = props.color_r.getProp();
+				 G = props.color_g.getProp();
+				 B = props.color_b.getProp();
+				 A = props.color_a.getProp();				
+				var area_1 = this.$props("commonProps").area_1;	
+				addEffect(ctx, area_1, [R, G, B, A])
+				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+				this.$methods().renderAll();
+			},			
+		}				 
+		
+		
+	},
 	main_form: {
 
 		container: "main_form",
@@ -21,28 +65,11 @@ var StateMap = {
 				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"],
 				 ["smoothing", 'checkbox', "[name='smoothing']"],
 				 
-				 ["rgba_effect", 'click', "[name='rgba_effect']"], ["color_r", 'inputvalue', "[name='color_r']"], ["color_g", 'inputvalue', "[name='color_g']"],
-				 ["color_b", 'inputvalue', "[name='color_b']"], ["color_a", 'inputvalue', "[name='color_a']"],
+
 				 
 				
 		],		 
 		methods: {
-			rgba_effect: function (){
-				if(!this.$props("commonProps").isEndArea_1){					
-						alert("сперва нужно закончить выделение");
-						return;					
-				}
-				var R =false; var G =false; var B  = false; var A = false;
-				var props = this.parent.props;
-				 R = props.color_r.getProp();
-				 G = props.color_g.getProp();
-				 B = props.color_b.getProp();
-				 A = props.color_a.getProp();				
-				var area_1 = this.$props("commonProps").area_1;	
-				addEffect(ctx, area_1, [R, G, B, A])
-				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
-				this.$methods().renderAll();
-			},
 			rotate_area_click: function(){
 				var fi = parseInt(this.props("rotate_area").getProp())* Math.PI / 180;
 				var smoothing = this.props("smoothing").getProp();

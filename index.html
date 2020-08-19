@@ -56,6 +56,7 @@ canvas {
 						<div class="canvas-container">
 							<canvas data-canvas="container" id="canvas"  ></canvas>
 						</div>
+
 						<div style=""> 
 
 							<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы (например https://sergeyovechkin.github.io/collagen/img/dolphin.jpg), для загрузки картинки на локальном сервере нужно поместить их в папку img  http://localhost:3000/img/dolphin.jpg </p>
@@ -138,7 +139,24 @@ canvas {
 											</div>											
 										</div>	
 								 </div>
-								 <div class="form-row">
+							     <button type="button"  style="margin-top: 5px;" name="scale_or_move_point" class="btn btn-warning btn-sm">Искажать</button>
+								 <button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
+								 <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm">Очистить фон</button>
+								 <button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button>
+								 <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm">Работать с фоновым изображением</button>
+								 
+								
+							</form>
+							<ul data-sprites="array" class="list-group" style="margin-top: 30px; max-height: 300px; overflow: auto;">
+								<li data-sprite="template" class="list-group-item">
+									<span name="id"></span>
+									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">Удалить</button>
+									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm">Скрыть</button>
+									<button type="button" name="stamp" class="btn btn-secondary btn-sm">Штамп</button>
+								</li>
+							</ul>
+							<form name="formB" onsubmit="return false" data-form_b="container" style="margin-top: 10px;">
+								<div class="form-row">
 									<div class="form-group col-md-3">
 											<input type="text" name="color_r"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Red 0-255">	
 									</div>
@@ -161,22 +179,16 @@ canvas {
 										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm">Применить к выделению</button>
 									</div>	
 								</div>
-							     <button type="button"  style="margin-top: 5px;" name="scale_or_move_point" class="btn btn-warning btn-sm">Искажать</button>
-								 <button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
-								 <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm">Очистить фон</button>
-								 <button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button>
-								 <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm">Работать с фоновым изображением</button>
-								 
-								
+								<div class="form-row">
+									<div class="form-group col-md-8">
+										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H</label>
+										<textarea name="function_to_pixels" rows="10" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота;   пример:   if(X>W/2){  R=255; G=0; B=255;  }"></textarea>
+									</div>	
+									<div class="form-group col-md-4">	
+										<button type="button"  style="margin-top: 5px;" name="function_to_pixels_click" class="btn btn-primary btn-sm">Применить формулу</button>
+									</div>	
+								</div>
 							</form>
-							<ul data-sprites="array" class="list-group" style="margin-top: 30px; max-height: 300px; overflow: auto;">
-								<li data-sprite="template" class="list-group-item">
-									<span name="id"></span>
-									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">Удалить</button>
-									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm">Скрыть</button>
-									<button type="button" name="stamp" class="btn btn-secondary btn-sm">Штамп</button>
-								</li>
-							</ul>
 				</div>
 			</div>
 		</div>
