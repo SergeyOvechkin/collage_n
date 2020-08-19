@@ -14,17 +14,25 @@ body, html {
 	   height: 100%;
      }
 #canvas_container{
-	position: relative;
-	min-height: 500px;
-}	 
+	position: relative;	
+	
+	
+}
+.canvas-container{
+
+   position: relative;
+	width: 100%;	
+	height: 90vh;
+	overflow: hidden;
+} 
 canvas { 
-     position: absolute; 
-     width: 100%; 
-     min-height: 500px; 
+     
+     width: 100%;     
+	 height: 100%px; 
 	 margin: 0; 
      padding: 0;
 	 border: none;
-	 right: 0px;
+	 
 
    }
  .list-group-item:hover{
@@ -42,11 +50,13 @@ canvas {
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-8" id="canvas_container" >
-					<canvas data-canvas="container" id="canvas"  ></canvas>
-						<div style="margin-top: 520px;"> 
+						<div class="canvas-container">
+							<canvas data-canvas="container" id="canvas"  ></canvas>
+						</div>
+						<div style=""> 
 							<p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, кликнуть по кнопке "искажать", затем перетащить выделенную точку контура в новое положение</p>
 							<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения,создать замкнутый контур,  создать спрайт,  затем перетащить выделенную область в новое положение</p>
-							<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы</p>      
+							<p>Для загрузки новой картинки из интернета нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы, для загрузки картинки на локальном сервере нужно поместить их в папку img  http://localhost:3000/img/dolphin.jpg</p>      
 						</div>
 				</div>
 				<div class="col-4">

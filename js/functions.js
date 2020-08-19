@@ -58,12 +58,12 @@ function drawArea(area, isEnd){
 }
 //рисует линию на канвас
 function drawLine(point1, point2){	
-	ctx.strokeStyle = "red";
+	ctx.strokeStyle = lineColor;
 	ctx.beginPath();       // Начинает новый путь
 
 		ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
 	    ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
-		ctx.lineWidth = 3;
+		ctx.lineWidth = lineWidth;
 		ctx.stroke();
 }
 //рисует контрольные точки многоугольника
@@ -132,7 +132,30 @@ function getPathArea(area){
 	path.closePath();	
 	return path;
 }
-function startImg(){	
+function startImg(){
+    var min_width = document.getElementsByClassName("canvas-container")[0].clientWidth; 
+	var min_height = document.getElementsByClassName("canvas-container")[0].clientHeight;
+	document.getElementsByClassName("canvas-container")[0].setAttribute("style", "");
+
+	canvas.setAttribute("style", "width:"+Math.round(min_width)+"px; height: "+Math.round(min_height)+"px;");
+	srcWidth = canvas.clientWidth; srcHeight = canvas.clientHeight;
+	canvas.width=srcWidth;
+    canvas.height=srcHeight;
+
+    if(img.width*mainImgScale_x > min_width || img.height*mainImgScale_y> min_height){
+		
+		if(img.width*mainImgScale_x > min_width && img.height*mainImgScale_y > min_height){			
+			document.getElementsByClassName("canvas-container")[0].setAttribute("style", "overflow: scroll");
+		}else 	if(img.height*mainImgScale_y > min_height){
+			document.getElementsByClassName("canvas-container")[0].setAttribute("style", "overflow-y: scroll");
+		}else 	if(img.width*mainImgScale_x > min_width){
+			document.getElementsByClassName("canvas-container")[0].setAttribute("style", "overflow-x: scroll");
+		}
+		 canvas.setAttribute("style", "width:"+Math.round(img.width*mainImgScale_x)+"px; height: "+Math.round(img.height*mainImgScale_y)+"px;"); 
+	     srcWidth = Math.round(canvas.clientWidth); srcHeight = Math.round(canvas.clientHeight);	
+		 canvas.width=srcWidth;
+		 canvas.height=srcHeight;
+	}	
 	ctx.clearRect(0, 0, srcWidth, srcHeight);
 	ctx.save()
 	if(mirror_x  == -1){
@@ -143,7 +166,15 @@ function startImg(){
 		ctx.translate(0, srcHeight);
 		ctx.scale( 1, mirror_y);	
 	}
-	ctx.drawImage(img, 0, 0, img.naturalWidth*mainImgScale_x, img.naturalHeight*mainImgScale_y); 
+	if(img.width*mainImgScale_x > min_width || img.height*mainImgScale_y> min_height){
+
+		ctx.drawImage(img, 0, 0, srcWidth, srcHeight);
+	
+	}else{
+		
+		ctx.drawImage(img, 0, 0, img.width*mainImgScale_x, img.height*mainImgScale_y);
+	}
+	 
 	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 	ctx.restore();
 

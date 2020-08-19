@@ -104,12 +104,9 @@ var StateMap = {
 				var mirror_x_ = props.mirror_x.getProp();
 				var mirror_y_ = props.mirror_y.getProp();
 				mainImgScale_y =  props.img_main_scale_y.getProp() ;
-				mainImgScale_x =  props.img_main_scale_x.getProp() ;
-				
+				mainImgScale_x =  props.img_main_scale_x.getProp() ;				
 				if(mirror_x_){mirror_x = -1;}else{mirror_x = 1;}
 				if(mirror_y_){mirror_y = -1;}else{mirror_y = 1;}
-				console.log(mirror_x, mirror_y, mainImgScale_x, mainImgScale_y);				
-				//mainImgScale = this.props("img_main_scale").getProp();
 				startImg();
 			},
 			add_index_point_click: function(){		//добавить точку после индекса		
