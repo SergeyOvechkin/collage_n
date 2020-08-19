@@ -43,9 +43,7 @@ var StateMap = {
 				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 				this.$methods().renderAll();
 			},			
-		}				 
-		
-		
+		}				 	
 	},
 	main_form: {
 
