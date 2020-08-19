@@ -43,6 +43,72 @@ function getCutImg(ctx, area, isDrawSaveImg){
 		 return [imgMap, [imgBox[0][0],  imgBox[0][1]],  [imgBox[1][0],  imgBox[1][1]] ]; 
 
 }
+function addEffect(ctx, area, rgbaArr){
+	
+	var imgBox = getBox(area); 	
+	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];
+	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]); 
+	var cutPathArea =  getPathArea(cutArea); 
+	ctx.putImageData(saveImg, 0, 0);
+	
+	var rgbaArr_action = [false, false, false, false];
+	
+	var rgbaArr_numb = [false, false, false, false];
+	
+	for(var i=0; i< rgbaArr.length; i++){
+		
+		if(rgbaArr[i] !== false && rgbaArr[i] != "" && rgbaArr[i] != undefined){
+            
+			console.log(i);
+			
+			if(rgbaArr[i].slice(0, 2) == "+="){
+				rgbaArr_action[i] = "add";
+				rgbaArr_numb[i] = parseInt(rgbaArr[i].slice(2));
+			}else if(rgbaArr[i].slice(0, 2) == "-="){
+				rgbaArr_action[i] = "subtract";
+				rgbaArr_numb[i] = parseInt( rgbaArr[i].slice(2) );
+			}else if(rgbaArr[i].slice(0, 2) == "*="){
+				rgbaArr_action[i] = "multiply";
+				rgbaArr_numb[i] = parseInt(  rgbaArr[i].slice(2) );
+			}
+			else if(rgbaArr[i].slice(0, 2) == "/="){
+				rgbaArr_action[i] = "split";
+				rgbaArr_numb[i] = parseInt(  rgbaArr[i].slice(2) );
+			}else{
+				rgbaArr_action[i] = "set";
+				rgbaArr_numb[i] = parseInt( rgbaArr[i] );
+			}
+		}		
+	}		
+	var H , W;	
+	H = cutHeight; W = cutWidth;
+		
+		var imgMap = ctx.getImageData(imgBox[0][0], imgBox[0][1], cutWidth , cutHeight);  	
+	
+			for(var tmpX = 0; tmpX <  W; tmpX++) {
+				for(var tmpY = 0;  tmpY < H; tmpY++) {
+					
+					var point = (tmpY*W+tmpX)*4; 								
+					if(ctx.isPointInPath(cutPathArea, tmpX, tmpY)){						
+						
+						for (var i=0; i<4; i++){
+							if(rgbaArr_action[i] == "set"){
+								imgMap.data[ point+i] = rgbaArr_numb[i];
+							}else if(rgbaArr_action[i] == "add"){
+								imgMap.data[ point+i] += rgbaArr_numb[i];
+							}else if(rgbaArr_action[i] == "subtract"){
+								imgMap.data[ point+i] -= rgbaArr_numb[i];
+							}else if(rgbaArr_action[i] == "multiply"){
+								imgMap.data[ point+i] *= rgbaArr_numb[i];
+							}else if(rgbaArr_action[i] == "split"){
+								imgMap.data[ point+i] /= rgbaArr_numb[i];
+							}	
+						}
+					}								
+				}
+			}
+			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
+}
 function getImgToSprite(imgMapArr, sprite, isRender){
    Promise.all([
    

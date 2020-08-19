@@ -38,7 +38,10 @@ canvas {
  .list-group-item:hover{
        cursor: pointer;
  
- }  
+ }
+.form-group {
+    margin-bottom: 0.7rem;
+} 
 </style>
 
 
@@ -55,9 +58,9 @@ canvas {
 						</div>
 						<div style=""> 
 
-							<p>Для загрузки новой картинки из интернета нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы (например https://sergeyovechkin.github.io/collagen/img/dolphin.jpg), для загрузки картинки на локальном сервере нужно поместить их в папку img  http://localhost:3000/img/dolphin.jpg </p>
+							<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы (например https://sergeyovechkin.github.io/collagen/img/dolphin.jpg), для загрузки картинки на локальном сервере нужно поместить их в папку img  http://localhost:3000/img/dolphin.jpg </p>
 							<p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, кликнуть по кнопке "искажать", затем перетащить выделенную точку контура в новое положение</p>
-							<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения,создать замкнутый контур,  создать спрайт,  затем перетащить выделенную область в новое положение</p>							
+							<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения,создать замкнутый контур,  создать спрайт,  затем перетащить выделенную область в новое положение</p>	
 						</div>
 				</div>
 				<div class="col-4">
@@ -111,13 +114,15 @@ canvas {
 										<button type="button"  style="margin-top: 5px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">Применить</button>
 									</div>	
 								</div>
-								 <div class="form-group">
-										<label for="exampleFormControlInput1">Добавить точку после - index:</label>
-											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="точка после указанного индекса">
-								  </div>
-								 <div class="form-group">
-										<label for="exampleFormControlInput1">Удалить точку - index:</label>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="exampleFormControlInput1">Точка после index:</label>
+											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки +1">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="exampleFormControlInput1">Удалить точку index:</label>
 											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки">
+									</div>
 								 </div>
 								 <div class="form-group">
 										<label for="exampleFormControlInput1">Вращать :</label>
@@ -133,6 +138,29 @@ canvas {
 											</div>											
 										</div>	
 								 </div>
+								 <div class="form-row">
+									<div class="form-group col-md-3">
+											<input type="text" name="color_r"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Red 0-255">	
+									</div>
+									<div class="form-group col-md-3">
+											<input type="text" name="color_g"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Green 0-255">	
+									</div>
+									
+									<div class="form-group col-md-3"> 										  
+											<input type="text" name="color_b" class="form-control form-control-sm" id="exampleCheck1" placeholder="Blue 0-255">																					
+									</div>	
+									<div class="form-group col-md-3"> 
+											<input type="text" name="color_a"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Opacity 0-255">
+									</div>						
+								 </div> 
+								 <div class="form-row">
+									<div class="form-group col-md-8">
+										<label for="exampleFormControlInput1">Цвет пикселя либо формула (+=n, -=n, /=n, *=n)</label>
+									</div>	
+									<div class="form-group col-md-4">	
+										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm">Применить к выделению</button>
+									</div>	
+								</div>
 							     <button type="button"  style="margin-top: 5px;" name="scale_or_move_point" class="btn btn-warning btn-sm">Искажать</button>
 								 <button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
 								 <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm">Очистить фон</button>

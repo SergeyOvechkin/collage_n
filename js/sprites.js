@@ -72,16 +72,6 @@ CollageSprite.prototype.mousedown = function(point){
             return ;								
 		}							
 	}
-	/*var area = this.area_1;
-	if(this.rotate !== 0){
-		area = rotationArea(this.area_1, this.rotate);
-		this.temporalArr = {area_1: area.slice(0), area_2: area.slice(0)};
-	}
-	var isClick = isClickOnPoint(area ,point);
-	if(isClick !==false && this.currentOperation === false){   //move_poin движение одной точки i (искажение)							
-			this.currentOperation = "move_point";
-			this.isMovePoint = isClick;							
-	}	*/
 }
 CollageSprite.prototype.mousemove  = function(point, context){
 	
@@ -92,16 +82,6 @@ CollageSprite.prototype.mousemove  = function(point, context){
 		this.point2 = [this.savePoints.point2[0] -distance[0], this.savePoints.point2[1] -distance[1]];
 		context.$methods().renderAll("move");
 	}
-	/*if(this.currentOperation === "move_point"){
-		//move_poin движение одной точки i (искажение)
-		if(this.rotate !== 0){ 
-			this.temporalArr.area_2[this.isMovePoint] = point;
-		}else{
-			this.area_2[this.isMovePoint] = point;
-		}
-		
-		context.$methods().renderAll("move_point");
-	}*/
 }
 CollageSprite.prototype.mouseup  = function(context){ 
 
@@ -116,30 +96,6 @@ CollageSprite.prototype.mouseup  = function(context){
 		context.$methods().renderAll();
 		this.moveStart =false;
 	}
-	/*
-	if(this.currentOperation === "move_point"){
-		context.$methods().renderAll("scale", "rotate_no");
-		if(this.rotate !== 0){
-
-            var distance = getDistance(this.temporalArr.area_2[this.isMovePoint], this.temporalArr.area_1[this.isMovePoint]);			
-
-			var R = (distance[1] )*(distance[1])+(distance[0] )*(distance[0] );
-			R = Math.sqrt(R)
-			console.log(R);
-			var X = R*Math.cos(-this.rotate);
-			var Y = R*Math.sin(-this.rotate);
-			console.log(X, Y);
-			
-			this.area_2 = this.area_1.slice(0);
-         	this.area_2[this.isMovePoint][0] +=	distance[0]; this.area_2[this.isMovePoint][1] += distance[1] Y;	
-		}
-        var imgDataArr = cutAndScale(this.area_1, this.area_2, this.isMovePoint, true, false)		
-		getImgToSprite(imgDataArr, this)								
-		this.currentOperation = false;
-		this.isMovePoint = false;
-		this.area_1 = this.area_2.slice(0);							
-	}
-	*/
 }
 CollageSprite.prototype.cursorOver_ = function(point){
 	var area = this.area_1;

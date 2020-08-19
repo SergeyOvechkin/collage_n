@@ -6,7 +6,7 @@
 	 img.src="./img/img.png";
 	 var saveImg = false; //предыдущее преобразование картинки
 	 var restoreImg = false;
-	 var halfPoitSize = 5; //размер половины квадрата точки на площади
+	 var halfPoitSize = 5; //размер половины квадрата точки на площади выделения контура
 	 var lineColor = "red"; //цвет линии выделения
 	 var lineWidth = 3; //толщина линии выделения
 	 var mainImgScale_x = 0.7; //множитель размера картинки(масштаб)
