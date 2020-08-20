@@ -13,21 +13,29 @@ var StateMap = {
 				 ],
         methods: { 
 			function_to_pixels_click: function(){
-				
+				if(this.$props("operationWith") != "common"){					
+						alert("сперва нужно переключиться на фоновое изображение");
+						return;					
+				}
 				
 				var script = this.props("function_to_pixels").getProp();
 				if(!this.$props("commonProps").isEndArea_1){					
 						alert("сперва нужно закончить выделение");
 						return;					
 				}
-				console.log(script);
+				
 				var area_1 = this.$props("commonProps").area_1;	
 				addEffect_1(ctx, area_1, script)
 			    saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			    this.$methods().renderAll();
+				drawAreaPoints(this.$props("commonProps").area_1);
 				
 			},
 			rgba_effect: function (){
+				if(this.$props("operationWith") != "common"){					
+						alert("сперва нужно переключиться на фоновое изображение");
+						return;					
+				}
 				if(!this.$props("commonProps").isEndArea_1){					
 						alert("сперва нужно закончить выделение");
 						return;					
@@ -42,6 +50,7 @@ var StateMap = {
 				addEffect(ctx, area_1, [R, G, B, A])
 				saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 				this.$methods().renderAll();
+				drawAreaPoints(this.$props("commonProps").area_1);
 			},			
 		}				 	
 	},
