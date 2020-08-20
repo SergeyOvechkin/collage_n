@@ -162,6 +162,10 @@ var StateMap = {
 						alert("сперва нужно закончить выделение");
 						return;					
 				}
+				if(this.$props("operationWith") != "common"){					
+						alert("сперва нужно переключиться на фоновое изображение");
+						return;					
+				}
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){					
 						var area_1 = this.$props("commonProps").area_1;
 						var img_data_arr =  getCutImg(ctx, area_1);
@@ -177,6 +181,10 @@ var StateMap = {
 			 mirror_y_area: function(){
 				 if(!this.$props("commonProps").isEndArea_1){					
 						alert("сперва нужно закончить выделение");
+						return;					
+				}
+				if(this.$props("operationWith") != "common"){					
+						alert("сперва нужно переключиться на фоновое изображение");
 						return;					
 				}
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){
