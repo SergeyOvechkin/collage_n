@@ -348,6 +348,7 @@ var StateMap = {
 			show_sprite_click: function(){	//отображает либо скрывает спрайт			
 				var text = this.props("show_sprite");
 				var id = this.props("id").getProp();
+				var sprite = this.$props().sprites[id];
 				
 				if(sprite.show){
 					sprite.show = false;
