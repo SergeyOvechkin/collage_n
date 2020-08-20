@@ -229,7 +229,11 @@ var StateMap = {
 					this.$methods().renderAll();				
 				}				
 			},
-			create_sprite: function(){ //создать спрайт
+			create_sprite: function(){ //создать спрайт			
+				if(!this.$props("commonProps").isEndArea_1 || this.$props("operationWith") != "common"){					
+						alert("сперва нужно переключиться на фоновое изображение и закончить выделение");
+						return;					
+				}
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){ 
 
 					 var id = "sprite_"+Math.floor(Math.random()*10000); 
@@ -274,7 +278,7 @@ var StateMap = {
 
 					}else if(this.$props().sprites[this.$props("operationWith")]){						
 						var sprite = this.$props().sprites[this.$props("operationWith")];
-						sprite.mousedown(point);						
+						sprite.mousedown(point, event, this);						
 					}				
 			},
 			mousemove: function(){
@@ -295,7 +299,7 @@ var StateMap = {
 					}else if(this.$props().sprites[this.$props("operationWith")]){ //операция с конкретным спрайтом, если он не удален						
 						 var sprite = this.$props().sprites[this.$props("operationWith")];												 	
 						 sprite.cursorOver_(point);
-						 sprite.mousemove(point, this);
+						 sprite.mousemove(point, this, event);
 					}								
 			},
 			mouseup: function(){
@@ -332,7 +336,7 @@ var StateMap = {
 		container: "sprite",
 		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
 		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], 
-				  ["stamp", "click", "[name='stamp']"], ["layer_up", "click", "[name='layer_up']"],
+				   ["layer_up", "click", "[name='layer_up']"], ["stamp", "click", "[name='stamp']"], ["stamp_cursor", "click", "[name='stamp_cursor']"],
 				  ],
 		methods : {
 			layer_up: function(){
@@ -391,6 +395,18 @@ var StateMap = {
 					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 					this.$methods().renderAll();
 					
+			},
+			stamp_cursor: function(){
+				var id = this.props("id").getProp();
+				var sprite = this.$props().sprites[id];
+				if(!sprite.stamp_cursor){
+					sprite.stamp_cursor = true;
+					this.htmlLink.style = "background-color: red;";
+				}else{
+					sprite.stamp_cursor = false;
+					this.htmlLink.style = "";
+				}	
+				
 			}
 			
 		},		

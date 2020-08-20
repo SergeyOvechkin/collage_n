@@ -14,7 +14,7 @@ function CollageSprite(img, area, point, id, point2){
 	this.isMovePoint = false; //движение одной точки - ее индекс i	
 	this.rotate = 0;
 	this.show = true;
-	
+	this.stamp_cursor = false;
 }
 CollageSprite.prototype.rotateArea = function(){
 	
@@ -32,6 +32,9 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	}	
 	var point = this.point;
 	
+	if(this.stamp_cursor == true && this.stamp_cursor_point){	
+		point = this.stamp_cursor_point ;
+	}
 	
 	if(this.rotate !== 0 && option != "rotate_no"){
 		//this.rotateArea();
@@ -46,24 +49,35 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		    var halfW = (this.point2[0] - this.point[0])/2;
 			var halfH = (this.point2[1] - this.point[1])/2;			
 			var move = [this.point[0]+  halfW, this.point[1] + halfH];
-
+            if(this.stamp_cursor == true){
+				
+				move = [point[0]+  halfW , point[1] + halfH ];
+			}
+			ctx.save();
 			ctx.translate(move[0],   move[1]);
 			ctx.rotate(this.rotate);
-			ctx.drawImage(this.frame, -halfW, -halfH);
-			ctx.rotate(-this.rotate);
-			ctx.translate( -move[0],  -move[1]);
+			if(this.stamp_cursor == true){
+				
+				ctx.drawImage(this.frame, -halfW, -halfH);
+			}else{
+				
+				ctx.drawImage(this.frame, -halfW, -halfH);
+			}
+			ctx.restore();
+			//ctx.rotate(-this.rotate);
+			//ctx.translate( -move[0],  -move[1]);
 			
 	}else{
 		
 		ctx.drawImage(this.frame, point[0], point[1]);
 	}
 
-	if(this.id == sprite_id && operationName != "scale"){	
+	if(this.id == sprite_id && operationName != "scale" && this.stamp_cursor == false){	
 		drawAreaPoints(area)
 	}
 }
 
-CollageSprite.prototype.mousedown = function(point){	
+CollageSprite.prototype.mousedown = function(point, e, context){	
 	if(this.cursorOver){     //move движение всего спрайта							
 		if(this.moveStart === false && this.isMovePoint === false && this.currentOperation === false){
 			this.moveStart = point;
@@ -72,8 +86,16 @@ CollageSprite.prototype.mousedown = function(point){
             return ;								
 		}							
 	}
+    if(this.stamp_cursor === true){
+		var point = getCanvasPoint(e, canvas, context);
+		this.stamp_cursor_point = [ point[0] - (this.point2[0]-this.point[0])/2,   point[1] - (this.point2[1]-this.point[1])/2,];
+		ctx.putImageData(saveImg, 0, 0);
+		this.render();
+		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+		context.$methods().renderAll();		
+	}
 }
-CollageSprite.prototype.mousemove  = function(point, context){
+CollageSprite.prototype.mousemove  = function(point, context, e){
 	
 	if(this.currentOperation === "move"){					                        //move движение всего спрайта					
 		var distance = [this.moveStart[0] - point[0], this.moveStart[1] -  point[1] ];		
@@ -82,6 +104,15 @@ CollageSprite.prototype.mousemove  = function(point, context){
 		this.point2 = [this.savePoints.point2[0] -distance[0], this.savePoints.point2[1] -distance[1]];
 		context.$methods().renderAll("move");
 	}
+	if(this.stamp_cursor === true){
+		var point = getCanvasPoint(e, canvas, context);
+		this.stamp_cursor_point = [ point[0] - (this.point2[0]-this.point[0])/2,   point[1] - (this.point2[1]-this.point[1])/2,];
+		//ctx.putImageData(saveImg, 0, 0);
+		//this.render();
+		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+		context.$methods().renderAll();		
+	}
+	
 }
 CollageSprite.prototype.mouseup  = function(context){ 
 
