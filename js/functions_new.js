@@ -110,7 +110,7 @@ function addEffect(ctx, area, rgbaArr){
 			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
 }
 function addEffect_1(ctx, area, script){
-	
+	var temporaryObj = {};
 	var imgBox = getBox(area); 	
 	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];
 	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]); 
@@ -131,7 +131,7 @@ function addEffect_1(ctx, area, script){
 					var point = (tmpY*W+tmpX)*4; 								
 					if(ctx.isPointInPath(cutPathArea, tmpX, tmpY)){							
 												
-						var arr_ = runEval(imgMap.data[ point], imgMap.data[ point+1], imgMap.data[ point+2], imgMap.data[ point+3], tmpX, tmpY, W, H);
+						var arr_ = runEval(imgMap.data[ point], imgMap.data[ point+1], imgMap.data[ point+2], imgMap.data[ point+3], tmpX, tmpY, W, H, temporaryObj);
 						imgMap.data[ point] = arr_ [0]; imgMap.data[ point+1] = arr_ [1]; imgMap.data[ point+2] = arr_ [2]; imgMap.data[ point+3] = arr_ [3];
 						
 					}								
@@ -139,7 +139,7 @@ function addEffect_1(ctx, area, script){
 			}
 			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
 			
-	function runEval(R,G,B,A,X,Y,W,H){	
+	function runEval(R,G,B,A,X,Y,W,H,TMP){	
 		eval(script);	
 		return [R,G,B,A];
 	}		
@@ -158,7 +158,7 @@ function getImgToSprite(imgMapArr, sprite, isRender){
   });
 	
 }
-function drawImgData(ctx, imgMap, point, area){
+function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y){
 	
    Promise.all([
    
@@ -166,7 +166,26 @@ function drawImgData(ctx, imgMap, point, area){
     
   ]).then(function(sprites) {
 	  
+	ctx.save();
+						
+	if(mirror_x){
+		var imgBox = getBox(area);
+	    ctx.translate(imgBox[1][0], 0);
+		ctx.scale( -1, 1);
+		ctx.translate(-imgBox[1][0]+(imgBox[1][0]-imgBox[0][0]), 0);			
+	}
+	if(mirror_y){
+		var imgBox = getBox(area);
+		ctx.translate(0, imgBox[1][1]);
+		ctx.scale( 1, -1);
+		ctx.translate(0, -imgBox[1][1]+(imgBox[1][1]-imgBox[0][1]));		
+	}		
+	  
     ctx.drawImage(sprites[0], point[0], point[1]);
+	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+	
+	ctx.restore();
+	
     drawArea(area, true);
     drawAllSquares(area, halfPoitSize);
 	
@@ -215,6 +234,21 @@ function rotationArea(area, fi){
 		newArr.push( [Math.round(X+imgBox[0][0]+width/2), Math.round(Y+imgBox[0][1]+height/2)] );
 	}
 	return newArr;	
+}
+function mirror_x_area(area, x, y){
+	var imgBox = getBox(area);
+	var width = imgBox[1][0] - imgBox[0][0];
+	var height = imgBox[1][1] - imgBox[0][1];
+	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]);
+	var newArr = [];
+	var X, Y;
+    for(var i=0; i< cutArea.length; i++){
+		if(x){X = width - cutArea[i][0];}else{X = cutArea[i][0]}		
+		if(y){Y = height - cutArea[i][1];}else{Y = cutArea[i][1]}
+		newArr.push( [   Math.round(X+imgBox[0][0]) ,  Math.round(Y+imgBox[0][1]) ] );
+	}
+	return newArr;	
+	
 }
 
 

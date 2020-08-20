@@ -41,7 +41,28 @@ canvas {
  }
 .form-group {
     margin-bottom: 0.7rem;
-} 
+}
+
+[data-sprites] { 
+
+	border: 1px solid black;
+	padding: 2px;
+
+}
+
+[data-sprite] {
+
+		background-color: #f5e2d2;
+		padding: .0rem .0rem !important;
+}
+[data-sprite] button{
+
+	padding: 0px;
+	padding-left: 2px;
+	padding-right: 2px;
+
+}
+
 </style>
 
 
@@ -56,29 +77,22 @@ canvas {
 						<div class="canvas-container">
 							<canvas data-canvas="container" id="canvas"  ></canvas>
 						</div>
-
-						<div style=""> 
-
-							<p>Для загрузки новой картинки нужно указать url картинки, сервера который поддерживает "Access-Control-Allow-Origin' запросы (например https://sergeyovechkin.github.io/collagen/img/dolphin.jpg), для загрузки картинки на локальном сервере нужно поместить их в папку img  http://localhost:3000/img/dolphin.jpg </p>
-							<p>Для искажения части изображения нужно кликнуть по canvas для начала выделения, создать замкнутый контур, кликнуть по кнопке "искажать", затем перетащить выделенную точку контура в новое положение</p>
-							<p>Для перемещения части изображения нужно кликнуть по canvas для начала выделения,создать замкнутый контур,  создать спрайт,  затем перетащить выделенную область в новое положение</p>	
-						</div>
 				</div>
 				<div class="col-4">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
 								<div class="form-row">
 									<div class="form-group col-md-4">
 											
-											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="url картинки">
+											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="url картинки" title="Url картинки сервера разрешающего crossorigin запросы">
 									</div>
 									<div class="form-group col-md-2">
-										<button type="button"  name="save_img" class="btn btn-success btn-sm">save</button>
+										<button type="button"  name="save_img" class="btn btn-success btn-sm" title="Сделать снимок фонового изображения">save</button>
 									</div>
 									<div class="form-group col-md-3">
-										<button type="button"  name="restore_img" class="btn btn-warning btn-sm">restore</button>
+										<button type="button"  name="restore_img" class="btn btn-warning btn-sm" title="Отобразить предыдущий снимок фонового изображения">restore</button>
 									</div>
 									<div class="form-group col-md-3">
-										<button type="button"  name="restart_img" class="btn btn-danger btn-sm">restart</button>
+										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение">restart</button>
 									</div>
 								</div>
 								<div class="form-row">
@@ -86,11 +100,11 @@ canvas {
 								 
 									<div class="form-group col-md-3">
 										
-											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X (0.6)" value="0.6"> 
+											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X (0.6)" value="0.6" title="Коэффициент масштабирования по вертикали"> 
 									</div>
 									<div class="form-group col-md-3">
 								
-											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y (0.6)" value="0.6">
+											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y (0.6)" value="0.6" title="Коэффициент масштабирования по горизонтали">
 									</div>
 									
 									<div class="form-group col-md-3"> 
@@ -118,18 +132,18 @@ canvas {
 								<div class="form-row">
 									<div class="form-group col-md-6">
 										<label for="exampleFormControlInput1">Точка после index:</label>
-											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки +1">
+											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки +1" title="Добавить точку к замкнутому контуру выделения области">
 									</div>
 									<div class="form-group col-md-6">
 										<label for="exampleFormControlInput1">Удалить точку index:</label>
-											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки">
+											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки" title="Удалить точку из контура выделения области">
 									</div>
 								 </div>
 								 <div class="form-group">
 										<label for="exampleFormControlInput1">Вращать :</label>
 										<div class="form-row">
 											<div class="form-group col-md-7">
-												<input name="rotate_area" type="text" class="form-control form-control-sm"  placeholder="градус вращения выделения или спрайта">
+												<input name="rotate_area" type="text" class="form-control form-control-sm"  placeholder="градус вращения выделения или спрайта" title="Вращать спрайт или выделенную область">
 											</div>	
 											<div class="form-group col-md-4"> 
 												<div class="form-check">
@@ -139,23 +153,27 @@ canvas {
 											</div>											
 										</div>	
 								 </div>
-							     <button type="button"  style="margin-top: 5px;" name="scale_or_move_point" class="btn btn-warning btn-sm">Искажать</button>
+							     <button type="button"  style="margin-top: 5px;" name="scale_or_move_point" class="btn btn-warning btn-sm" title="Масштабировать по точкам выделения">Искажать</button>
 								 <button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
-								 <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm">Очистить фон</button>
+								 <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm" title="Установить прозрачность фона = 0">Очистить фон</button>
 								 <button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button>
 								 <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm">Работать с фоновым изображением</button>
-								 
-								
+								 <button type="button"  style="margin-top: 5px;" name="mirror_x_area" class="btn btn-primary btn-sm" title="Отразить выделенную область по горизонтали">mirror x</button>
+								 <button type="button"  style="margin-top: 5px;" name="mirror_y_area" class="btn btn-primary btn-sm" title="Отразить выделенную область по вертикали">mirror y</button>
+								 		
 							</form>
-							<ul data-sprites="array" class="list-group" style="margin-top: 30px; max-height: 300px; overflow: auto;">
+							
+							<ul data-sprites="array" class="list-group" style="margin-top: 30px; margin-bottom: 30px; max-height: 300px; overflow: auto;">
 								<li data-sprite="template" class="list-group-item">
 									<span name="id"></span>
 									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">Удалить</button>
 									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm">Скрыть</button>
-									<button type="button" name="stamp" class="btn btn-secondary btn-sm">Штамп</button>
+									<button type="button" name="stamp" class="btn btn-secondary btn-sm" title="Сделать отпечаток спрайта на фоновом изображении">Штамп</button>
+									<button type="button" name="layer_up" class="btn btn-info btn-sm" title="Поднять спрайт на верхний слой">Слой up</button>
 								</li>
 							</ul>
-							<form name="formB" onsubmit="return false" data-form_b="container" style="margin-top: 10px;">
+							
+							<form name="form_effects" onsubmit="return false" data-form_effects="container" style="margin-top: 10px;">
 								<div class="form-row">
 									<div class="form-group col-md-3">
 											<input type="text" name="color_r"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Red 0-255">	
@@ -176,13 +194,15 @@ canvas {
 										<label for="exampleFormControlInput1">Цвет пикселя либо формула (+=n, -=n, /=n, *=n)</label>
 									</div>	
 									<div class="form-group col-md-4">	
-										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm">Применить к выделению</button>
+										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm" title="Применить ко всем свойствам или к некоторым (оставить поля пустыми)">Применить к выделению</button>
 									</div>	
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-8">
-										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H</label>
-										<textarea name="function_to_pixels" rows="10" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота;   пример:   if(X>W/2){  R=255; G=0; B=255;  }"></textarea>
+										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
+										<textarea name="function_to_pixels" rows="10" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота, TMP - объект для хранения временных данных между итерациями цикла;
+										пример - покрасить черный в красный:        if(R+G+B < 70){   R=255; }
+										пример TMP:    if(TMP.num == undefined){ TMP.num = 0; } else {  TMP.num +=1;  if(TMP.num > 7000) R +=155; }"></textarea>
 									</div>	
 									<div class="form-group col-md-4">	
 										<button type="button"  style="margin-top: 5px;" name="function_to_pixels_click" class="btn btn-primary btn-sm">Применить формулу</button>

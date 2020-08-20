@@ -3,7 +3,7 @@
 var StateMap = {
 	
 	
-	form_b: {
+	form_effects: {
 		container: "form_b",
 		props: [ ["function_to_pixels", "inputvalue", "[name='function_to_pixels']"], 
 		          ["function_to_pixels_click", "click", "[name='function_to_pixels_click']"],
@@ -62,6 +62,8 @@ var StateMap = {
 				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
 				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"],
 				 ["smoothing", 'checkbox', "[name='smoothing']"],
+				 ["mirror_x_area", 'click', "[name='mirror_x_area']"], ["mirror_y_area", 'click', "[name='mirror_y_area']"],
+				
 				 
 
 				 
@@ -154,6 +156,43 @@ var StateMap = {
 				if(mirror_y_){mirror_y = -1;}else{mirror_y = 1;}
 				startImg();
 			},
+			
+			 mirror_x_area: function(){
+				if(!this.$props("commonProps").isEndArea_1){					
+						alert("сперва нужно закончить выделение");
+						return;					
+				}
+				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){					
+						var area_1 = this.$props("commonProps").area_1;
+						var img_data_arr =  getCutImg(ctx, area_1);
+						 area_1 = mirror_x_area(area_1, true, false);
+						this.$props("commonProps").area_1 = area_1;
+						ctx.putImageData(saveImg, 0, 0);
+						drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, true, false);
+				 
+						//this.$methods().renderAll();
+						//drawAreaPoints(this.$props("commonProps").area_1);
+				}
+			 },
+			 mirror_y_area: function(){
+				 if(!this.$props("commonProps").isEndArea_1){					
+						alert("сперва нужно закончить выделение");
+						return;					
+				}
+				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){
+				 var area_1 = this.$props("commonProps").area_1;
+				 var img_data_arr =  getCutImg(ctx, area_1);
+				 area_1 = mirror_x_area(area_1, false, true);
+				 this.$props("commonProps").area_1 = area_1;
+				 ctx.putImageData(saveImg, 0, 0);
+				 drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, false, true);
+				 
+				 
+				 //this.$methods().renderAll();
+				 //drawAreaPoints(this.$props("commonProps").area_1);
+				}
+				 
+			 },
 			add_index_point_click: function(){		//добавить точку после индекса		
 				    var index = parseInt(this.props("add_index_point").getProp());
 					if( this.$props("operationWith") == "common" ){		  
@@ -270,19 +309,38 @@ var StateMap = {
 				for(var i=0; i < this.parent.data.length; i++){					
 					this.parent.data[i].props.class.removeProp("active");					
 				}				
-				this.parent.add({id: id, class: "active"});				
+				this.parent.add({id: id, class: "active"}, 0);				
 			}
 		},
 		container: "sprite",
 		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
 		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], 
-				  ["stamp", "click", "[name='stamp']"],
+				  ["stamp", "click", "[name='stamp']"], ["layer_up", "click", "[name='layer_up']"],
 				  ],
 		methods : {
+			layer_up: function(){
+				var id = this.props("id").getProp();
+				var index = this.parent.index;
+				var sprite = this.$props().sprites[id];
+				delete this.$props().sprites[id];
+				this.$props().sprites[id] = sprite;
+				
+				var newOrderArr = [];
+				var length = this.component().data.length;
+				for(var i=0; i<length; i++){
+					newOrderArr.push(i);
+				}
+				var newIndex = newOrderArr.splice(index, 1);
+				newOrderArr.unshift(newIndex);
+				
+				this.component().order(newOrderArr);
+				
+				
+			},
 			show_sprite_click: function(){	//отображает либо скрывает спрайт			
 				var text = this.props("show_sprite");
 				var id = this.props("id").getProp();
-				var sprite = this.$props().sprites[id];
+				
 				if(sprite.show){
 					sprite.show = false;
 					text.setProp("Отобразить");
