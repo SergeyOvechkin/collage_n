@@ -76,6 +76,11 @@ canvas {
 	color: white;
 	padding: 2px;
 }
+[name="load_img"]{
+	position: absolute;
+	top: 0px;
+	visibility: hidden;
+}
 
 </style>
 
@@ -102,7 +107,7 @@ canvas {
 								    <div class="form-group col-md-3">
 										 <div class="form-group">
 											<label name="load_img_click" class="inp-file" for="exampleFormControlFile1" title="Загрузить картинку с компьютера">load img</label>
-											<input name="load_img" type="file" class="form-control-file form-control-sm" style="visibility:hidden;" id="exampleFormControlFile1">
+											<input name="load_img" type="file" class="form-control-file form-control-sm"  id="exampleFormControlFile1">
 										</div>
 									</div>
 									<div class="form-group col-md-2">
@@ -120,11 +125,11 @@ canvas {
 								 
 									<div class="form-group col-md-3">
 										
-											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X (0.6)" value="0.6" title="Коэффициент масштабирования по вертикали"> 
+											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X" value="0.7" title="Коэффициент масштабирования по вертикали"> 
 									</div>
 									<div class="form-group col-md-3">
 								
-											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y (0.6)" value="0.6" title="Коэффициент масштабирования по горизонтали">
+											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y" value="0.7" title="Коэффициент масштабирования по горизонтали">
 									</div>
 									
 									<div class="form-group col-md-3"> 
