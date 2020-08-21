@@ -73,10 +73,27 @@ var StateMap = {
 				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
 				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"],
 				 ["smoothing", 'checkbox', "[name='smoothing']"],
-				 ["mirror_x_area", 'click', "[name='mirror_x_area']"], ["mirror_y_area", 'click', "[name='mirror_y_area']"],	
+				 ["mirror_x_area", 'click', "[name='mirror_x_area']"], ["mirror_y_area", 'click', "[name='mirror_y_area']"],
+				  ["scale_x_area", 'inputvalue', "[name='scale_x_area']"], ["scale_y_area", 'inputvalue', "[name='scale_y_area']"],
+			//	["scale_x_area_click", 'change', "[name='scale_x_area']"], ["scale_y_area_click", 'change', "[name='scale_y_area']"],
+				["scale_x_y", 'click', "[name='scale_x_y']"], 				 
 		],			
 		methods: {
-				load_img_click: function(event){			
+			scale_x_y: function(){				
+				var coeff_x = this.props("scale_x_area").getProp();
+				var coeff_y = this.props("scale_y_area").getProp();
+				if(coeff_y == "" || coeff_y == false)coeff_y = 1;
+				if(coeff_x == "" || coeff_x == false)coeff_x = 1;
+				var area_1 = this.$props("commonProps").area_1;	
+				var area = scaleArea(area_1, coeff_x, coeff_y);			
+				var imgArr = getCutImg(ctx, area_1);
+				var imgBox_2 =  getBox(area);
+				drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  imgBox_2[1][0] -  imgBox_2[0][0],  imgBox_2[1][1] -  imgBox_2[0][1]);				
+				this.$props("commonProps").area_1 = area.slice(0);
+				this.$props("commonProps").area_2 = area.slice(0);
+				this.$methods().renderAll();				
+			},
+			load_img_click: function(event){			
 				var img_ = this.parent.props.load_img.htmlLink.files[0];
 				handleFiles(img_); 			
 				function handleFiles(file) {

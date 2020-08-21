@@ -158,7 +158,7 @@ function getImgToSprite(imgMapArr, sprite, isRender){
   });
 	
 }
-function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y){
+function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height){
 	
    Promise.all([
    
@@ -179,9 +179,14 @@ function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y){
 		ctx.translate(0, imgBox[1][1]);
 		ctx.scale( 1, -1);
 		ctx.translate(0, -imgBox[1][1]+(imgBox[1][1]-imgBox[0][1]));		
-	}		
-	  
-    ctx.drawImage(sprites[0], point[0], point[1]);
+	}			  
+	 if(width && height){
+		 
+		 ctx.drawImage(sprites[0], point[0], point[1], width, height);
+	 } else{
+		 ctx.drawImage(sprites[0], point[0], point[1]);
+	 }
+    
 	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 	
 	ctx.restore();
@@ -234,6 +239,43 @@ function rotationArea(area, fi){
 		newArr.push( [Math.round(X+imgBox[0][0]+width/2), Math.round(Y+imgBox[0][1]+height/2)] );
 	}
 	return newArr;	
+}
+function scaleArea(area, coeff_x, coeff_y){
+	var imgBox = getBox(area);
+	var width = imgBox[1][0] - imgBox[0][0];
+	var height = imgBox[1][1] - imgBox[0][1];
+	var cutArea = getCutSize(area, imgBox[0][0]+ width/2, imgBox[0][1]+height/2);
+	//cutArea = getCutSize(area, width/2, height/2);
+	var newArr = [];
+	var X, Y;
+	 for(var i=0; i< cutArea.length; i++){
+		if(coeff_x){
+			if(cutArea[i][0] > 0){
+				//console.log(cutArea[i][0]/(width/2));
+				var dist =cutArea[i][0]*coeff_x - cutArea[i][0];				
+				X = cutArea[i][0] + dist*cutArea[i][0]/(width/2);
+				
+				//if(coeff_x >1)X = cutArea[i][0]+(coeff_x*width/2*cutArea[i][0]/width/2);
+				//if(coeff_x <1)X = cutArea[i][0]-(coeff_x*width/2*cutArea[i][0]/width/2);
+			}else if(cutArea[i][0] < 0){
+				var dist = cutArea[i][0] - cutArea[i][0]*coeff_x;
+				X = cutArea[i][0] + dist*cutArea[i][0]/(width/2);
+			}
+		}else{X = cutArea[i][0]}		
+		if(coeff_y){
+			if(cutArea[i][1] > 0){
+				var dist =cutArea[i][1]*coeff_y - cutArea[i][1];				
+				Y = cutArea[i][1] + dist*cutArea[i][1]/(height/2);
+
+			}else if(cutArea[i][1] < 0){					
+				var dist =cutArea[i][1] - cutArea[i][1]*coeff_y;			
+				Y = cutArea[i][1] + dist*cutArea[i][1]/(height/2);				
+			}
+		}else{Y = cutArea[i][1]}
+		newArr.push( [   Math.round(X+imgBox[0][0]+width/2) ,  Math.round(Y+imgBox[0][1]+height/2) ] );
+	}
+	return newArr;
+	
 }
 function mirror_x_area(area, x, y){
 	var imgBox = getBox(area);
