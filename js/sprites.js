@@ -146,6 +146,59 @@ CollageSprite.prototype.cursorOver_ = function(point){
 
 
 
+CollageSprite.prototype.saveOnPC = function(){ 
+
+				//var id = this.props("id").getProp();
+				//var sprite = this.$props().sprites[id];
+				var name = this.id;
+				var img = this.frame;
+				
+				var imgAsURL = getBase64Image(img);
+				//console.log(imgAsURL);
+                
+				var area = this.area_1.slice(0);
+                var imgBox = getBox(area);				
+				var cut_area = getCutSize(area, imgBox[0][0], imgBox[0][1]);
+				
+                var state = get_from_storage("spritesState");
+				
+				if(state == null)state = {};
+			
+				state[name] = {
+					cut_area: cut_area,
+					imgAsURL: imgAsURL,					
+				}
+				
+				save_in_storage (state, "spritesState");
+
+}
+
+function createFromPC(spr_id, context){
+	var sprite_ = get_from_storage ("spritesState", spr_id);
+	
+	var imgBox = getBox(sprite_.cut_area);
+    var img = new Image();
+	var sprite = new CollageSprite( img, sprite_.cut_area, imgBox[0], spr_id, imgBox[1]);
+	context.$props("sprites")[spr_id] = sprite;
+	var dataURL = 'data:image/png;base64,' + sprite_.imgAsURL;
+	img.src=dataURL;
+	img.onload = function(){ 		
+		context.$methods().renderAll();		
+	}	
+	return sprite;	
+}
+function removeFromPC(spr_id){
+	var sprites = get_from_storage ("spritesState");
+	delete sprites [spr_id];
+	
+	save_in_storage (sprites, "spritesState");
+	
+}
+
+
+
+
+
 
 
 

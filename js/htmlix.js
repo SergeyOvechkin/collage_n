@@ -1787,7 +1787,7 @@ HTMLixState.prototype.arrayInit = function (node, StateMap, key) {
         var string = StateMap[key]["arrayProps"][t][0];
         var selector = StateMap[key]["arrayProps"][t][2];
         var type = StateMap[key]["arrayProps"][t][1];
-
+       
         if (type == "aux") {
           if (StateMap[key]["arrayMethods"][string] == undefined) console.log("error название свойства массива " + key + " - " + string + " не совпадает с названием метода");
           if (this.state[key].methods == undefined) this.state[key].methods = {};
@@ -1799,13 +1799,15 @@ HTMLixState.prototype.arrayInit = function (node, StateMap, key) {
           t--;
           continue;
         }
-
+		//console.log(StateMap[key]["arrayProps"][t]);
         var htmlLinkToProp = this.state[key].htmlLink;
 
         if (selector != "") {
           htmlLinkToProp = this.state[key].htmlLink.querySelector(selector);
-          if (htmlLinkToProp == undefined) console.log("error не возможно найти селектор для свойства " + selector + " массива " + key + " проверьте правильность селектора");
-          continue;
+          if (htmlLinkToProp == undefined || htmlLinkToProp == null){
+			  console.log("error не возможно найти селектор для свойства " + selector + " массива " + key + " проверьте правильность селектора");
+			  continue;
+		  } 
         }
 
         this.state[key]["props"][string] = constructorProps(htmlLinkToProp, key, StateMap[key]["arrayProps"][t], StateMap[key]["arrayMethods"][string], key, this.state[key], this);

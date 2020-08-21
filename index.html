@@ -49,6 +49,12 @@ canvas {
 	padding: 2px;
 
 }
+[data-save_sprites]{
+  margin-top: 10px; 
+  border: 1px solid black; 
+  margin-bottom: 10px; 
+  padding: 5px;
+ } 
 
 [data-sprite] {
 
@@ -61,6 +67,14 @@ canvas {
 	padding-left: 2px;
 	padding-right: 2px;
 
+}
+.inp-file:hover{
+	cursor: pointer;
+}
+.inp-file{
+	background-color: green;
+	color: white;
+	padding: 2px;
 }
 
 </style>
@@ -81,17 +95,23 @@ canvas {
 				<div class="col-4">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
 								<div class="form-row">
-									<div class="form-group col-md-4">
+									<div class="form-group col-md-3">
 											
-											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="url картинки" title="Url картинки сервера разрешающего crossorigin запросы">
+											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="img url" title="Url картинки сервера разрешающего crossorigin запросы">
+									</div>
+								    <div class="form-group col-md-3">
+										 <div class="form-group">
+											<label name="load_img_click" class="inp-file" for="exampleFormControlFile1" title="Загрузить картинку с компьютера">load img</label>
+											<input name="load_img" type="file" class="form-control-file form-control-sm" style="visibility:hidden;" id="exampleFormControlFile1">
+										</div>
 									</div>
 									<div class="form-group col-md-2">
 										<button type="button"  name="save_img" class="btn btn-success btn-sm" title="Сделать снимок фонового изображения">save</button>
 									</div>
-									<div class="form-group col-md-3">
+									<div class="form-group col-md-2">
 										<button type="button"  name="restore_img" class="btn btn-warning btn-sm" title="Отобразить предыдущий снимок фонового изображения">restore</button>
 									</div>
-									<div class="form-group col-md-3">
+									<div class="form-group col-md-2">
 										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение">restart</button>
 									</div>
 								</div>
@@ -170,7 +190,9 @@ canvas {
 									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm">Скрыть</button>
 									<button type="button" name="layer_up" class="btn btn-info btn-sm" title="Поднять спрайт на верхний слой">Слой up</button>
 									<button type="button" name="stamp" class="btn btn-secondary btn-sm" title="Сделать отпечаток спрайта на фоновом изображении">Штамп</button>
+									<button type="button" name="copy_contur" class="btn btn-warning btn-sm" title="Скоприровать контур спрайта на фоную картинку">Copy contur</button>
 									<button type="button" name="stamp_cursor" class="btn btn-secondary btn-sm" title="Сделать отпечаток спрайта на фоновом изображении с помощью курсора мыши">Штамп курсор</button>
+									<button type="button" name="save_sprite" class="btn  btn-success btn-sm" title="Сохранить спрайт на компьютере в локальном хранилище">Save on PC</button>
 									
 								</li>
 							</ul>
@@ -211,6 +233,17 @@ canvas {
 									</div>	
 								</div>
 							</form>
+							
+							<div data-save_sprites="array">
+								<button  type="button" name="load_save_sprites" class="btn btn-danger btn-sm">Показать сохраненные спрайты</button>
+								<ul  class="list-group" style="max-height: 300px; overflow: auto; margin-top: 10px; ">
+									<li data-save_sprite="template" class="list-group-item" >
+										<span name="id"></span>
+										<button type="button" name="create_save_sprite" class="btn btn-primary btn-sm">Создать</button>
+										<button type="button" name="rm_save_sprite" class="btn btn-danger btn-sm">Удалить</button>									
+									</li>
+								</ul>						
+							</div>
 				</div>
 			</div>
 		</div>

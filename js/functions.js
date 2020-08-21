@@ -180,6 +180,43 @@ function startImg(){
 
 }
 
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
+ function save_in_storage (spritesState, name){
+			
+				var string = JSON.stringify(spritesState);
+				
+				 spritesStorage.setItem(name, string);
+				 
+				// var spritesState_ = localStorage.getItem(name);
+				 
+				// var newObj = JSON.parse(spritesState_);
+				 
+				 //console.log(newObj);
+			
+}
+function get_from_storage (name, spr_id){
+			
+				var spritesState = localStorage.getItem(name);
+				 
+				 var newObj = JSON.parse(spritesState);
+				 
+				 if(spr_id)return newObj[spr_id];
+				 
+				 return newObj;
+			
+}
 
 
 

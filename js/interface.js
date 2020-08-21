@@ -59,6 +59,8 @@ var StateMap = {
 		container: "main_form",
 		props: [ 
 				 ["load_url_img", "inputvalue", "[name='load_url_img']"], ["load_url_img_click", 'change', "[name='load_url_img']"],
+				 ["load_img_click", 'change', "[name='load_img']"], ["load_img", 'inputvalue', "[name='load_img']"], 
+				
 				 /*["img_main_scale", "inputvalue", "[name='img_main_scale']"], */ ["phone_scale_mirror", 'click', "[name='phone_scale_mirror']"],
 				 ["img_main_scale_x", 'inputvalue', "[name='img_main_scale_x']"], ["img_main_scale_y", 'inputvalue', "[name='img_main_scale_y']"],
 				 ["mirror_x", 'checkbox', "[name='mirror_x']"], ["mirror_y", 'checkbox', "[name='mirror_y']"],
@@ -71,14 +73,21 @@ var StateMap = {
 				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
 				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"],
 				 ["smoothing", 'checkbox', "[name='smoothing']"],
-				 ["mirror_x_area", 'click', "[name='mirror_x_area']"], ["mirror_y_area", 'click', "[name='mirror_y_area']"],
-				
-				 
-
-				 
-				
-		],		 
+				 ["mirror_x_area", 'click', "[name='mirror_x_area']"], ["mirror_y_area", 'click', "[name='mirror_y_area']"],	
+		],			
 		methods: {
+				load_img_click: function(event){			
+				var img_ = this.parent.props.load_img.htmlLink.files[0];
+				handleFiles(img_); 			
+				function handleFiles(file) {
+						img.file = file;
+						var reader = new FileReader();
+						reader.onload = (function(aImg) { return function(e) { 
+							aImg.src = e.target.result; startImg();						
+						}; })(img);
+						reader.readAsDataURL(file);					
+				}			
+			},
 			rotate_area_click: function(){
 				var fi = parseInt(this.props("rotate_area").getProp())* Math.PI / 180;
 				var smoothing = this.props("smoothing").getProp();
@@ -140,7 +149,8 @@ var StateMap = {
 				var sprite = this.$props().sprites[this.$props("operationWith")];
 				if(sprite != undefined){
 					sprite.currentOperation = false; sprite.isMove = false; sprite.moveStart = false; sprite.isMovePoint = false; 
-				}	
+				}
+				   lineColor = colorCommonarea;
 					this.$props().operationWith = "common";
 					this.$methods().renderAll();
 					drawAreaPoints(this.$props("commonProps").area_1);					
@@ -235,6 +245,8 @@ var StateMap = {
 						return;					
 				}
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){ 
+				
+				      lineColor = colorSpritearea;
 
 					 var id = "sprite_"+Math.floor(Math.random()*10000); 
 					 this.$props().operationWith = id;
@@ -337,8 +349,25 @@ var StateMap = {
 		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
 		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], 
 				   ["layer_up", "click", "[name='layer_up']"], ["stamp", "click", "[name='stamp']"], ["stamp_cursor", "click", "[name='stamp_cursor']"],
+				   ["save_sprite", "click", "[name='save_sprite']"],  ["copy_contur", "click", "[name='copy_contur']"],
 				  ],
 		methods : {
+			copy_contur: function(){
+				var id = this.props("id").getProp();
+				var sprite = this.$props().sprites[id];
+				this.$props("commonProps").area_1 = sprite.area_1.slice(0);
+			    this.$props("commonProps").area_2 = sprite.area_1.slice(0);
+				this.$props("commonProps").isEndArea_1 = true;				
+				//this.$("main_form").props.to_phone_img.emitEvent("click");				
+			},
+			save_sprite: function(){
+				var id = this.props("id").getProp();
+				var sprite = this.$props().sprites[id];
+				sprite.saveOnPC();
+				//var img = sprite.frame;				
+				//var imgAsURL = getBase64Image(img);
+				//console.log(imgAsURL);
+			},
 			layer_up: function(){
 				var id = this.props("id").getProp();
 				var index = this.parent.index;
@@ -376,6 +405,7 @@ var StateMap = {
 				for(var i=0; i < this.component().data.length; i++){					
 					this.component().data[i].props.class.removeProp("active");					
 				}
+				 lineColor = colorSpritearea;
                 this.props("class").setProp("active");
 				this.$props().operationWith = id;
 				this.$methods().renderAll();				
@@ -411,6 +441,45 @@ var StateMap = {
 			
 		},		
 	},
+	save_sprites: {
+		selector: "ul:first-of-type",
+		arrayProps: [ ["load_save_sprites", "click", "[name='load_save_sprites']",] ],
+		arrayMethods: {
+			load_save_sprites: function(){	
+                this.parent.removeAll();			
+				var sprites_ = get_from_storage("spritesState");
+				if(sprites_){					
+					for(var key in sprites_){						
+						this.parent.add({id: key});						
+					}				
+				}
+				delete sprites_;				
+			}	
+		},		
+		container: "save_sprite",
+		props: [ ["create_save_sprite", "click", "[name='create_save_sprite']"], ["id", "text", "[name='id']"],
+				 ["rm_save_sprite", "click", "[name='rm_save_sprite']"], 
+		],
+		methods: {
+			create_save_sprite: function(){
+				var id = this.props("id").getProp();
+				if(this.$props().sprites[id]){					
+					alert("спрайт с таким именем уже загружен");
+					return;
+				}
+				 lineColor = colorSpritearea;
+				this.$props().operationWith = id;
+				var sprite = createFromPC(id, this);
+                if(sprite)this.$$("emiter-create-sprite").set(id);				
+								
+			},
+			rm_save_sprite: function(){
+				var id = this.props("id").getProp();
+				removeFromPC(id);
+                this.component().props.load_save_sprites.emitEvent("click");			
+			}			
+		},
+	},
 	stateProperties: {		
 		operationWith: "common", ///"sprite" операция с объектом или общей картинкой
 		commonProps: {		
@@ -434,10 +503,13 @@ var StateMap = {
 		}		
 	},	
 	eventEmiters: {		
-		["emiter-create-sprite"] : {prop: ""},		
+		["emiter-create-sprite"] : {prop: ""},
+		["emiter-create-save-sprite"] : {prop: ""},
+		["emiter-load-save-sprites"] : {prop: ""},
 	}	
 }
 window.onload= function(){	
-	var HM = new HTMLixState(StateMap);	
+	var HM = new HTMLixState(StateMap);
+	
 	console.log(HM);	
 }
