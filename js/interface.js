@@ -87,8 +87,9 @@ var StateMap = {
 				var area_1 = this.$props("commonProps").area_1;	
 				var area = scaleArea(area_1, coeff_x, coeff_y);			
 				var imgArr = getCutImg(ctx, area_1);
+				var imgBox_1 =  getBox(area_1);
 				var imgBox_2 =  getBox(area);
-				drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  imgBox_2[1][0] -  imgBox_2[0][0],  imgBox_2[1][1] -  imgBox_2[0][1]);				
+				drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  (imgBox_1[1][0] -  imgBox_1[0][0])*coeff_x,  (imgBox_1[1][1] -  imgBox_1[0][1])*coeff_y );				
 				this.$props("commonProps").area_1 = area.slice(0);
 				this.$props("commonProps").area_2 = area.slice(0);
 				this.$methods().renderAll();				
