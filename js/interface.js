@@ -342,16 +342,29 @@ var StateMap = {
 				for(var i=0; i < this.parent.data.length; i++){					
 					this.parent.data[i].props.class.removeProp("active");					
 				}				
-				this.parent.add({id: id, class: "active"}, 0);				
+				var container = this.parent.add({id: id, class: "active"}, 0);	
+                container.props.id.prop = id;				
 			}
 		},
 		container: "sprite",
-		props: [ ["id", "text", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
+		props: [ ["id", "inputvalue", "[name='id']"], ["change_id", "change", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],
 		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], 
 				   ["layer_up", "click", "[name='layer_up']"], ["stamp", "click", "[name='stamp']"], ["stamp_cursor", "click", "[name='stamp_cursor']"],
 				   ["save_sprite", "click", "[name='save_sprite']"],  ["copy_contur", "click", "[name='copy_contur']"],
 				  ],
 		methods : {
+			change_id: function(){
+				var id = this.props("id").getProp();
+				var old_id = this.parent.props.id.prop;
+				var sprite = this.$props().sprites[old_id];
+				sprite.id = id;
+				delete this.$props().sprites[old_id];
+				this.$props().sprites[id] = sprite;	
+				this.$props().operationWith = id;
+				this.parent.remove();					
+				var container = this.component().add({id: id, class: "active"}, 0);
+				container.props.id.prop = id;	
+			},
 			copy_contur: function(){
 				var id = this.props("id").getProp();
 				var sprite = this.$props().sprites[id];

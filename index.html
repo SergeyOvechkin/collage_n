@@ -81,6 +81,18 @@ canvas {
 	top: 0px;
 	visibility: hidden;
 }
+.panel_phone_ing_1 {
+	//background-color: #f5e2d2;
+	margin-bottom: 5px;
+	
+} 
+ .panel_phone_ing_1 .form-group{
+	margin-top: 5px;
+	margin: 0px;
+ }
+ .form-row .form-group{
+	margin-bottom: 3px;
+ }
 
 </style>
 
@@ -99,7 +111,7 @@ canvas {
 				</div>
 				<div class="col-4">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
-								<div class="form-row">
+								<div class="form-row panel_phone_ing_1">
 									<div class="form-group col-md-3">
 											
 											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="img url" title="Url картинки сервера разрешающего crossorigin запросы">
@@ -134,13 +146,13 @@ canvas {
 									
 									<div class="form-group col-md-3"> 
 										<div class="form-check">
-											<input type="checkbox" name="mirror_x"  class="form-check-input" id="exampleCheck1">
+											<input type="checkbox" name="mirror_x"  class="form-check-input" >
 											<label class="form-check-label" for="exampleCheck1">mirror_X</label>
 										</div>	
 									</div>	
 									<div class="form-group col-md-3"> 
 										<div class="form-check">
-											<input type="checkbox" name="mirror_y"  class="form-check-input" id="exampleCheck1">
+											<input type="checkbox" name="mirror_y"  class="form-check-input" >
 											<label class="form-check-label" for="exampleCheck1">mirror_Y</label>
 										</div>	
 									</div>	
@@ -190,7 +202,8 @@ canvas {
 							
 							<ul data-sprites="array" class="list-group" style="margin-top: 30px; margin-bottom: 30px; max-height: 300px; overflow: auto;">
 								<li data-sprite="template" class="list-group-item">
-									<span name="id"></span>
+									<!--<span name="id"></span>-->
+									<input name="id" type="text"  placeholder="" title="Изменить id спрайта">
 									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">Удалить</button>
 									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm">Скрыть</button>
 									<button type="button" name="layer_up" class="btn btn-info btn-sm" title="Поднять спрайт на верхний слой">Слой up</button>
@@ -205,17 +218,17 @@ canvas {
 							<form name="form_effects" onsubmit="return false" data-form_effects="container" style="margin-top: 10px;">
 								<div class="form-row">
 									<div class="form-group col-md-3">
-											<input type="text" name="color_r"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Red 0-255">	
+											<input type="text" name="color_r"  class="form-control form-control-sm"  placeholder="Red 0-255">	
 									</div>
 									<div class="form-group col-md-3">
-											<input type="text" name="color_g"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Green 0-255">	
+											<input type="text" name="color_g"  class="form-control form-control-sm"  placeholder="Green 0-255">	
 									</div>
 									
 									<div class="form-group col-md-3"> 										  
-											<input type="text" name="color_b" class="form-control form-control-sm" id="exampleCheck1" placeholder="Blue 0-255">																					
+											<input type="text" name="color_b" class="form-control form-control-sm"  placeholder="Blue 0-255">																					
 									</div>	
 									<div class="form-group col-md-3"> 
-											<input type="text" name="color_a"  class="form-control form-control-sm" id="exampleCheck1" placeholder="Opacity 0-255">
+											<input type="text" name="color_a"  class="form-control form-control-sm"  placeholder="Opacity 0-255">
 									</div>						
 								 </div> 
 								 <div class="form-row">
