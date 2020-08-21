@@ -355,6 +355,10 @@ var StateMap = {
 		methods : {
 			change_id: function(){
 				var id = this.props("id").getProp();
+				if(this.$props().sprites[id] != undefined){					
+					id = id + "_duble";
+					this.props("id").setProp(id);
+				}				
 				var old_id = this.parent.props.id.prop;
 				var sprite = this.$props().sprites[old_id];
 				sprite.id = id;
