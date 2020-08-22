@@ -1,9 +1,10 @@
 {
-  "name": "img_distoryion",
+  "name": "colage_n",
   "version": "1.0.0",
-  "description": "масштабирует и искажает выделенную область изображения",
+  "description": "приложение для создания коллажей и спрайтов",
   "main": "app.js",
   "author": "Maksaev Mihail",
+  "email": "ovechkin.sergey123@mail.ru",
   "license": "Apache License Version 2.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
