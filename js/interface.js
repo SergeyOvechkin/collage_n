@@ -8,6 +8,8 @@ var StateMap = {
 		         ["add_font", "click", "[name='add_font']"],
 				 ["font", "inputvalue", "[name='font']"],
 				 ["text_x", "inputvalue", "[name='text_x']"], ["text_y", "inputvalue", "[name='text_y']"], ["max_w", "inputvalue", "[name='max_w']"],
+				  ["color", "inputvalue", "[name='color']"], 
+				 
 				 ["text", "inputvalue", "[name='text']"], ["add_text", "click", "[name='add_text']"],	
 				 
 		],
@@ -15,10 +17,12 @@ var StateMap = {
 			add_text: function(){				
 				var props = this.parent.props;
 				var font_url = props.font_url.getProp(); var font = props.font.getProp();  var text = props.text.getProp();
-				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp();			
+				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp();
+				var color = props.color.getProp();
 				//if(font_url == "" || font_url == false){
 					ctx.drawImage(img, 0, 0, srcWidth, srcHeight);
 					ctx.save();
+					ctx.fillStyle = color;
 					ctx.font = font;
 					if(max_w == "" || max_w == false){
 						ctx.fillText(text, text_x, text_y);
