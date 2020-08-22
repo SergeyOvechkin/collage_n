@@ -37,8 +37,9 @@ function getCanvasPoint(e, canvas){
 
 //замыкает контур фигуры при клике на начальную точку
 function endArea(area, point){	
-		if(area.length > 3){		
-			if( Math.abs(point[0] - area[0][0]) <= halfPoitSize && Math.abs(point[1] - area[0][1]) <= halfPoitSize){			
+		if(area.length >= 3){
+           // console.log(Math.abs(point[0] - area[0][0]));			
+			if( Math.abs(point[0] - area[0][0]) <= halfPoitSize && Math.abs(point[1] - area[0][1]) <= halfPoitSize){				
 				point[0] = area[0][0];
 				point[1] = area[0][1];
                 return true;				

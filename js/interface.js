@@ -270,7 +270,7 @@ var StateMap = {
 					 this.$props().operationWith = id;
 					 var area = this.$props("commonProps").area_1;
 					 var img_data_arr =  getCutImg(ctx, area);
-					 var sprite = new CollageSprite(false,  area.slice(0), img_data_arr[1], id, img_data_arr[2]);
+					 var sprite = new CollageSprite(false,  area.slice(0), id);
 					 this.$methods().renderAll();
 					 this.$props("sprites")[id] = sprite;					 					 
 					 getImgToSprite(img_data_arr, sprite, true);
@@ -313,6 +313,7 @@ var StateMap = {
 			},
 			mousemove: function(){
 					var point = getCanvasPoint(event, canvas);
+					this.$$("emiter-change-control-points").set(point);
 					if(this.$props("operationWith") == "common"){
                         var indexPoint = this.$props("commonProps").isMovePoint;					
 						if(indexPoint !== false){							
@@ -351,6 +352,87 @@ var StateMap = {
 					}				
 			}			
 		}		
+	},
+	control_points: {
+		props: [["control_point_x", "inputvalue", "[name='control_point_x']"], 
+		        ["control_point_y", "inputvalue", "[name='control_point_y']"],
+				["point_x", "text", "[name='point_x']"], 
+		        ["point_y", "text", "[name='point_y']"],
+				["move_coner_to_point", "click", "[name='move_coner_to_point']"], 
+		        ["move_center_to_point", "click", "[name='move_center_to_point']"],
+				["listen_change_points", "emiter-change-control-points", ""],
+				["add_area_point", "click", "[name='add_area_point']"],
+				
+			 ],
+		methods: {
+			listen_change_points: function(){
+				var props = this.parent.props;
+				props.point_x.setProp(this.emiter.prop[0]);
+				props.point_y.setProp(this.emiter.prop[1]);				
+			},
+			move_coner_to_point: function(){
+				var x = this.parent.props.control_point_x.getProp(); var y = this.parent.props.control_point_y.getProp();
+				if(this.$props("operationWith") == "common"){ 
+					if(this.$props("commonProps").isEndArea_1 !== false){ 
+					    var area_1 = this.$props("commonProps").area_1;
+						var imgBox = getBox(area_1);						
+						area_1 = getCutSize(area_1, imgBox[0][0]-x, imgBox[0][1]-y);
+						this.$methods().renderAll();
+						this.$methods().setAreas(area_1);														
+						drawAreaPoints(area_1);							
+					}				
+				}else if(this.$props().sprites[this.$props("operationWith")]){
+						var sprite = this.$props().sprites[this.$props("operationWith")];
+						var area_1 = sprite.area_1;
+						var imgBox = getBox(area_1);						
+						area_1 = getCutSize(area_1, imgBox[0][0]-x, imgBox[0][1]-y);
+						sprite.setAreas(area_1);
+						this.$methods().renderAll();				
+				}				
+			},
+			move_center_to_point: function(){
+				var x = this.parent.props.control_point_x.getProp(); var y = this.parent.props.control_point_y.getProp();
+				if(this.$props("operationWith") == "common"){ 
+					if(this.$props("commonProps").isEndArea_1 !== false){ 						
+					    var area_1 = this.$props("commonProps").area_1;
+						var imgBox = getBox(area_1);						
+						area_1 = getCutSize(area_1, imgBox[0][0]-x+(imgBox[1][0]-imgBox[0][0])/2, imgBox[0][1]-y+(imgBox[1][1]-imgBox[0][1])/2 );
+						this.$methods().renderAll();
+						this.$methods().setAreas(area_1);														
+						drawAreaPoints(area_1);							
+					}				
+				}else if(this.$props().sprites[this.$props("operationWith")]){
+						var sprite = this.$props().sprites[this.$props("operationWith")];
+						var area_1 = sprite.area_1;
+						var imgBox = getBox(area_1);
+						area_1 = getCutSize(area_1, imgBox[0][0]-x+(imgBox[1][0]-imgBox[0][0])/2, imgBox[0][1]-y+(imgBox[1][1]-imgBox[0][1])/2 );
+						sprite.setAreas(area_1);
+						this.$methods().renderAll();				
+				}					
+			},
+			add_area_point: function(){
+				var x = parseInt(this.parent.props.control_point_x.getProp()); var y = parseInt(this.parent.props.control_point_y.getProp());
+				if(this.$props("operationWith") == "common"){ 
+					if(this.$props("commonProps").isEndArea_1 === false){ 
+						var area_1 = this.$props("commonProps").area_1;
+						var isEndArea_1 = endArea(area_1, [x, y]);
+							if(!isEndArea_1 ){
+								area_1.push([x, y]);
+							}else{
+								this.$props("commonProps").area_1 = area_1;
+								this.$props("commonProps").isEndArea_1 = true;
+								this.$methods().renderAll();
+								drawAreaPoints(area_1);	
+								return;
+							}
+						this.$props("commonProps").area_1 = area_1;	
+						//this.$methods().setAreas(area_1);	
+						this.$methods().renderAll();
+						drawAreaPoints(area_1, false);							
+					}
+				}
+			}
+		}
 	},
 	sprites: {
 		arrayProps: [["listen_create_sprite", "emiter-create-sprite", ""]],
@@ -493,7 +575,7 @@ var StateMap = {
 		},		
 		container: "save_sprite",
 		props: [ ["create_save_sprite", "click", "[name='create_save_sprite']"], ["id", "text", "[name='id']"],
-				 ["rm_save_sprite", "click", "[name='rm_save_sprite']"], 
+				 ["rm_save_sprite", "click", "[name='rm_save_sprite']"], ["to_beginning_coordinats", "checkbox", "[name='to_beginning_coordinats']"],
 		],
 		methods: {
 			create_save_sprite: function(){
@@ -504,7 +586,7 @@ var StateMap = {
 				}
 				 lineColor = colorSpritearea;
 				this.$props().operationWith = id;
-				var sprite = createFromPC(id, this);
+				var sprite = createFromPC(id, this, this.props("to_beginning_coordinats").getProp());
                 if(sprite)this.$$("emiter-create-sprite").set(id);				
 								
 			},
@@ -535,10 +617,15 @@ var StateMap = {
 				sprites[key].render(sprId_or_common, operationName, point_);
 				//console.log(sprites);
 			}		
+		},
+        setAreas: function(area){
+				this.stateProperties.commonProps.area_1 = area.slice(0);
+				this.stateProperties.commonProps.area_2 = area.slice(0);					
 		}		
 	},	
 	eventEmiters: {		
 		["emiter-create-sprite"] : {prop: ""},
+		["emiter-change-control-points"] : {prop: ""},
 		["emiter-create-save-sprite"] : {prop: ""},
 		["emiter-load-save-sprites"] : {prop: ""},
 	}	

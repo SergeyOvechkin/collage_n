@@ -1,0 +1,92 @@
+body, html { 
+	   position: relative; 
+       margin: 0; 
+       padding: 0;
+	   height: 100%;
+     }
+#canvas_container{
+	position: relative;	
+	
+	
+}
+.canvas-container{
+
+   position: relative;
+	width: 100%;	
+	height: 90vh;
+	overflow: hidden;
+} 
+canvas { 
+     
+     width: 100%;     
+	 height: 100%px; 
+	 margin: 0; 
+     padding: 0;
+	 border: none;
+	 
+
+   }
+ .list-group-item:hover{
+       cursor: pointer;
+ 
+ }
+.form-group {
+    margin-bottom: 0.7rem;
+}
+
+[data-sprites] { 
+
+	border: 1px solid black;
+	padding: 2px;
+
+}
+[data-save_sprites]{
+  margin-top: 10px; 
+  border: 1px solid black; 
+  margin-bottom: 10px; 
+  padding: 5px;
+ } 
+
+[data-sprite] {
+
+		background-color: #f5e2d2;
+		padding: .0rem .0rem !important;
+}
+[data-sprite] button, [data-save_sprite] button, [data-control_points] button{
+
+	padding: 0px;
+	padding-left: 2px;
+	padding-right: 2px;
+
+}
+.inp-file:hover{
+	cursor: pointer;
+}
+.inp-file{
+	background-color: green;
+	color: white;
+	padding: 2px;
+}
+[name="load_img"]{
+	position: absolute;
+	top: 0px;
+	visibility: hidden;
+}
+.panel_phone_ing_1 {
+	//background-color: #f5e2d2;
+	margin-bottom: 5px;
+	
+} 
+ .panel_phone_ing_1 .form-group{
+	margin-top: 5px;
+	margin: 0px;
+ }
+ .form-row .form-group{
+	margin-bottom: 3px;
+ }
+ [name="scale_x_area"], [name="scale_y_area"]{
+	position: relative;
+	top: 2px;
+	width: 60px;
+	margin-top: 0px;
+ }

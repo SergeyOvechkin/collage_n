@@ -1,10 +1,11 @@
 
-function CollageSprite(img, area, point, id, point2){
+function CollageSprite(img, area, id, rotate){
+	var imgBox = getBox(area);	
 	
 	this.id = id;
 	this.frame = img;
-	this.point = point;
-	this.point2 = point2;
+	this.point = imgBox[0];
+	this.point2 = imgBox[1];
 	this.area_1 = area;
 	this.area_2 = area.slice(0);
 	this.cursorOver = false;
@@ -13,8 +14,16 @@ function CollageSprite(img, area, point, id, point2){
 	this.moveStart = false; //начало движения "move" координаты
 	this.isMovePoint = false; //движение одной точки - ее индекс i	
 	this.rotate = 0;
+	if(rotate != undefined)this.rotate = rotate;
 	this.show = true;
 	this.stamp_cursor = false;
+}
+CollageSprite.prototype.setAreas = function(area){
+	this.area_1 = area.slice(0);
+	this.area_2 = area.slice(0);
+	var imgBox = getBox(area);	
+	this.point = imgBox[0];
+	this.point2 = imgBox[1];	
 }
 CollageSprite.prototype.rotateArea = function(){
 	
@@ -34,18 +43,16 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	
 	if(this.stamp_cursor == true && this.stamp_cursor_point){	
 		point = this.stamp_cursor_point ;
-	}
+	}	
 	
 	if(this.rotate !== 0 && option != "rotate_no"){
-		//this.rotateArea();
 		area = rotationArea(this.area_1, this.rotate);
 		if(operationName == "move_point" && this.id == sprite_id || operationName == "move" && this.id == sprite_id ){
 			area = rotationArea(this.area_2, this.rotate);
 		}
 		if(operationName == "move_point" && this.id == sprite_id){			
 			area = this.temporalArr.area_2;
-		}
-		
+		}		
 		    var halfW = (this.point2[0] - this.point[0])/2;
 			var halfH = (this.point2[1] - this.point[1])/2;			
 			var move = [this.point[0]+  halfW, this.point[1] + halfH];
@@ -64,14 +71,10 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 				ctx.drawImage(this.frame, -halfW, -halfH);
 			}
 			ctx.restore();
-			//ctx.rotate(-this.rotate);
-			//ctx.translate( -move[0],  -move[1]);
-			
 	}else{
 		
 		ctx.drawImage(this.frame, point[0], point[1]);
 	}
-
 	if(this.id == sprite_id && operationName != "scale" && this.stamp_cursor == false){	
 		drawAreaPoints(area)
 	}
@@ -148,37 +151,34 @@ CollageSprite.prototype.cursorOver_ = function(point){
 
 CollageSprite.prototype.saveOnPC = function(){ 
 
-				//var id = this.props("id").getProp();
-				//var sprite = this.$props().sprites[id];
+
 				var name = this.id;
-				var img = this.frame;
-				
-				var imgAsURL = getBase64Image(img);
-				//console.log(imgAsURL);
-                
+				var img = this.frame;				
+				var imgAsURL = getBase64Image(img);              
 				var area = this.area_1.slice(0);
-                var imgBox = getBox(area);				
-				var cut_area = getCutSize(area, imgBox[0][0], imgBox[0][1]);
-				
-                var state = get_from_storage("spritesState");
-				
-				if(state == null)state = {};
-			
+                var state = get_from_storage("spritesState");				
+				if(state == null)state = {};			
 				state[name] = {
-					cut_area: cut_area,
-					imgAsURL: imgAsURL,					
-				}
-				
+					area: area,
+					imgAsURL: imgAsURL,
+                    rotate: this.rotate,					
+				}			
 				save_in_storage (state, "spritesState");
 
 }
 
-function createFromPC(spr_id, context){
+function createFromPC(spr_id, context, to_beginning){
 	var sprite_ = get_from_storage ("spritesState", spr_id);
 	
-	var imgBox = getBox(sprite_.cut_area);
+	var area = sprite_.area;
+	if(!area)area = sprite_.cut_area;
+	if(to_beginning === true){
+		var imgBox_ = getBox(area);				
+	    area = getCutSize(area, imgBox_[0][0], imgBox_[0][1]);
+	}	
+	var imgBox = getBox(area);
     var img = new Image();
-	var sprite = new CollageSprite( img, sprite_.cut_area, imgBox[0], spr_id, imgBox[1]);
+	var sprite = new CollageSprite( img, area, spr_id, sprite_.rotate);
 	context.$props("sprites")[spr_id] = sprite;
 	var dataURL = 'data:image/png;base64,' + sprite_.imgAsURL;
 	img.src=dataURL;
@@ -189,10 +189,8 @@ function createFromPC(spr_id, context){
 }
 function removeFromPC(spr_id){
 	var sprites = get_from_storage ("spritesState");
-	delete sprites [spr_id];
-	
+	delete sprites [spr_id];	
 	save_in_storage (sprites, "spritesState");
-	
 }
 
 
