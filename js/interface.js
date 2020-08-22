@@ -248,6 +248,8 @@ var StateMap = {
 				     var index = parseInt(this.props("rm_index_point").getProp());
 					if( this.$props("operationWith") == "common" ){		  
 							rmPointFromArray(this.$props("commonProps").area_1, index );
+							this.$methods().renderAll();
+							drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);
 					};
 			},
 			reset_area: function(){ //сбросить область выделение
@@ -363,9 +365,7 @@ var StateMap = {
 				["listen_change_points", "emiter-change-control-points", ""],
 				["add_area_point", "click", "[name='add_area_point']"],
 				["move_area_point", "inputvalue", "[name='move_area_point']"],
-				["move_area_point_click", "click", "[name='move_area_point_click']"],
-				
-				
+				["move_area_point_click", "click", "[name='move_area_point_click']"],				
 			 ],
 		methods: {
 			listen_change_points: function(){
