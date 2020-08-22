@@ -199,12 +199,25 @@
 								<div class="form-row">
 									<div class="form-group col-md-8">
 										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
-										<textarea name="function_to_pixels" rows="10" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота, TMP - объект для хранения временных данных между итерациями цикла;
+										<textarea name="function_to_pixels" rows="5" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота, TMP - объект для хранения временных данных между итерациями цикла;
 										пример - покрасить черный в красный:        if(R+G+B < 70){   R=255; }
 										пример TMP:    if(TMP.num == undefined){ TMP.num = 0; } else {  TMP.num +=1;  if(TMP.num > 7000) R +=155; }"></textarea>
 									</div>	
 									<div class="form-group col-md-4">	
 										<button type="button"  style="margin-top: 5px;" name="function_to_pixels_click" class="btn btn-primary btn-sm">Применить формулу</button>
+									</div>	
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-8">
+										<label for="exampleFormControlInput1">Формула для создания контура</label>
+										<textarea name="function_to_contur" rows="5" cols="45" type="text" class="form-control form-control-sm" 
+											placeholder="Формула для создания контура: area - массив с точками в формате [ [x1,y1], [x2,y2],... ] 
+
+Пример - нарисовать контур в форме квадрата:
+area = [ [10,10], [10,200], [200, 200], [200, 10]]; "></textarea>
+									</div>	
+									<div class="form-group col-md-4">	
+										<button type="button"  style="margin-top: 5px;" name="function_to_contur_click" class="btn btn-primary btn-sm">Создать контур</button>
 									</div>	
 								</div>
 							</form>

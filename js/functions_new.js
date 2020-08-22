@@ -145,6 +145,12 @@ function addEffect_1(ctx, area, script){
 	}		
 }
 
+function createContur(script){
+	var area = [];
+	eval(script);	
+	return area;
+}
+
 function getImgToSprite(imgMapArr, sprite, isRender){
    Promise.all([
    

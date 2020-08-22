@@ -10,8 +10,25 @@ var StateMap = {
 				  
 				  ["rgba_effect", 'click', "[name='rgba_effect']"], ["color_r", 'inputvalue', "[name='color_r']"], ["color_g", 'inputvalue', "[name='color_g']"],
 				 ["color_b", 'inputvalue', "[name='color_b']"], ["color_a", 'inputvalue', "[name='color_a']"],
+				  ["function_to_contur", 'inputvalue', "[name='function_to_contur']"], ["function_to_contur_click", 'click', "[name='function_to_contur_click']"],
 				 ],
         methods: { 
+			function_to_contur_click: function(){
+				if(this.$props("operationWith") != "common"){					
+						alert("сперва нужно переключиться на фоновое изображение");
+						return;					
+				}
+				var script = this.props("function_to_contur").getProp();				
+				var contur = createContur(script);
+				if(contur.length > 1){
+					this.$props("commonProps").area_1 = contur;
+					if(contur.length > 2){
+						this.$props("commonProps").isEndArea_1 = true;
+					}
+					this.$methods().renderAll();
+					drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);
+				}				
+			},
 			function_to_pixels_click: function(){
 				if(this.$props("operationWith") != "common"){					
 						alert("сперва нужно переключиться на фоновое изображение");
@@ -25,7 +42,7 @@ var StateMap = {
 				}
 				
 				var area_1 = this.$props("commonProps").area_1;	
-				addEffect_1(ctx, area_1, script)
+				addEffect_1(ctx, area_1, script);
 			    saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			    this.$methods().renderAll();
 				drawAreaPoints(this.$props("commonProps").area_1);
