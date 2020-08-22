@@ -17,6 +17,7 @@ var StateMap = {
 				var font_url = props.font_url.getProp(); var font = props.font.getProp();  var text = props.text.getProp();
 				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp();			
 				//if(font_url == "" || font_url == false){
+					ctx.drawImage(img, 0, 0, srcWidth, srcHeight);
 					ctx.save();
 					ctx.font = font;
 					if(max_w == "" || max_w == false){
@@ -24,17 +25,11 @@ var StateMap = {
 					}else{
 						ctx.fillText(text, text_x, text_y, max_w);
 					}
+					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 					ctx.restore();	
 					this.$methods().renderAll();
-					drawAreaPoints(this.$props("commonProps").area_1);
-					ctx.save();
-					ctx.font = font;
-					if(max_w == "" || max_w == false){
-						ctx.fillText(text, text_x, text_y);
-					}else{
-						ctx.fillText(text, text_x, text_y, max_w);
-					}
-					ctx.restore();	
+					//drawAreaPoints(this.$props("commonProps").area_1);
+						
                     				
 				//}			
 			},
