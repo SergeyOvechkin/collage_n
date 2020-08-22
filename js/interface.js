@@ -168,7 +168,7 @@ var StateMap = {
 				if(sprite != undefined){
 					sprite.currentOperation = false; sprite.isMove = false; sprite.moveStart = false; sprite.isMovePoint = false; 
 				}
-				   lineColor = colorCommonarea;
+				   lineColor = colorCommonArea;
 					this.$props().operationWith = "common";
 					this.$methods().renderAll();
 					drawAreaPoints(this.$props("commonProps").area_1);					
@@ -266,7 +266,7 @@ var StateMap = {
 				}
 				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){ 
 				
-				      lineColor = colorSpritearea;
+				      lineColor = colorSpriteArea;
 
 					 var id = "sprite_"+Math.floor(Math.random()*10000); 
 					 this.$props().operationWith = id;
@@ -537,7 +537,7 @@ var StateMap = {
 				for(var i=0; i < this.component().data.length; i++){					
 					this.component().data[i].props.class.removeProp("active");					
 				}
-				 lineColor = colorSpritearea;
+				 lineColor = colorSpriteArea;
                 this.props("class").setProp("active");
 				this.$props().operationWith = id;
 				this.$methods().renderAll();				
@@ -599,7 +599,7 @@ var StateMap = {
 					alert("спрайт с таким именем уже загружен");
 					return;
 				}
-				 lineColor = colorSpritearea;
+				 lineColor = colorSpriteArea;
 				this.$props().operationWith = id;
 				var sprite = createFromPC(id, this, this.props("to_beginning_coordinats").getProp());
                 if(sprite)this.$$("emiter-create-sprite").set(id);				

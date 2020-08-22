@@ -3,15 +3,15 @@
 	var srcWidth, srcHeight; //высота и ширина области рисования
 	
 	
-	var colorSpritearea = "green";
-	var colorCommonarea = "red";
+	var colorSpriteArea = "green";
+	var colorCommonArea = "red";
 
 	 var img = new Image();
 	 img.src="./img/img.png";
 	 var saveImg = false; //предыдущее преобразование картинки
 	 var restoreImg = false;
 	 var halfPoitSize = 5; //размер половины квадрата точки на площади выделения контура
-	 var lineColor = colorCommonarea; //цвет линии выделения
+	 var lineColor = colorCommonArea; //цвет линии выделения
 	 var lineWidth = 3; //толщина линии выделения
 	 var mainImgScale_x = 0.7; //множитель размера картинки(масштаб)
      var mainImgScale_y = 0.7; //множитель размера картинки(масштаб)
