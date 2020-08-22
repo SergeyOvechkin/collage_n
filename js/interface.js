@@ -20,7 +20,7 @@ var StateMap = {
 				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp();
 				var color = props.color.getProp();
 				//if(font_url == "" || font_url == false){
-					ctx.drawImage(img, 0, 0, srcWidth, srcHeight);
+					ctx.putImageData(saveImg, 0, 0);
 					ctx.save();
 					ctx.fillStyle = color;
 					ctx.font = font;
