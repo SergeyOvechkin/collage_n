@@ -374,12 +374,16 @@ var StateMap = {
 				props.point_y.setProp(this.emiter.prop[1]);				
 			},
 			move_area_point_click: function(){
-				var x = this.parent.props.control_point_x.getProp(); var y = this.parent.props.control_point_y.getProp();
-				var index = this.parent.props.move_area_point.getProp();
+				var x = parseInt(this.parent.props.control_point_x.getProp()); var y = parseInt(this.parent.props.control_point_y.getProp());
+				var index = parseInt(this.parent.props.move_area_point.getProp());
+				if(isNaN(x) || isNaN(y) || isNaN(index)){					
+					alert("для начала нужно ввести координаты точки");
+					return;
+				}
 				if(this.$props("operationWith") == "common"){ 
 					 var area_1 = this.$props("commonProps").area_1;
 					if(area_1[index] !== undefined){
-						area_1[index] = [parseInt(x), parseInt(y)];	
+						area_1[index] = [x, y];	
 						this.$methods().setAreas(area_1);
 						this.$methods().renderAll();														
 						drawAreaPoints(area_1, this.$props("commonProps").isEndArea_1);							
@@ -428,6 +432,10 @@ var StateMap = {
 			},
 			add_area_point: function(){
 				var x = parseInt(this.parent.props.control_point_x.getProp()); var y = parseInt(this.parent.props.control_point_y.getProp());
+				if(isNaN(x) || isNaN(y)){					
+					alert("для начала нужно ввести координаты точки");
+					return;
+				}
 				if(this.$props("operationWith") == "common"){ 
 					if(this.$props("commonProps").isEndArea_1 === false){ 
 						var area_1 = this.$props("commonProps").area_1;
