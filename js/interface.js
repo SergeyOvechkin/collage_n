@@ -2,9 +2,50 @@
 
 var StateMap = {
 	
-	
+	form_text: {
+		container: "form_text",
+		props: [ ["font_url", "inputvalue", "[name='font_url']"], //["font_url_as", "inputvalue", "[name='font_url_as']"], 
+		         ["add_font", "click", "[name='add_font']"],
+				 ["font", "inputvalue", "[name='font']"],
+				 ["text_x", "inputvalue", "[name='text_x']"], ["text_y", "inputvalue", "[name='text_y']"], ["max_w", "inputvalue", "[name='max_w']"],
+				 ["text", "inputvalue", "[name='text']"], ["add_text", "click", "[name='add_text']"],	
+				 
+		],
+		methods: {
+			add_text: function(){				
+				var props = this.parent.props;
+				var font_url = props.font_url.getProp(); var font = props.font.getProp();  var text = props.text.getProp();
+				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp();			
+				//if(font_url == "" || font_url == false){
+					ctx.font = font;
+					if(max_w == "" || max_w == false){
+						ctx.fillText(text, text_x, text_y);
+					}else{
+						ctx.fillText(text, text_x, text_y, max_w);
+					}
+					this.$methods().renderAll();
+					drawAreaPoints(this.$props("commonProps").area_1);
+					if(max_w == "" || max_w == false){
+						ctx.fillText(text, text_x, text_y);
+					}else{
+						ctx.fillText(text, text_x, text_y, max_w);
+					}					
+				//}			
+			},
+			add_font: function(){
+				var props = this.parent.props;					
+			    var font_url = props.font_url.getProp(); // var font_url_as = "new_font";            
+				var link = document.createElement("link");
+				var head = document.head || document.getElementsByTagName('head')[0];
+				link.href = font_url;
+				link.rel = "stylesheet";
+				head.appendChild(link);	
+				console.log(link);
+			}
+		},
+	},
 	form_effects: {
-		container: "form_b",
+		container: "form_effects",
 		props: [ ["function_to_pixels", "inputvalue", "[name='function_to_pixels']"], 
 		          ["function_to_pixels_click", "click", "[name='function_to_pixels_click']"],
 				  
