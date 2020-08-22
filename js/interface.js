@@ -362,6 +362,9 @@ var StateMap = {
 		        ["move_center_to_point", "click", "[name='move_center_to_point']"],
 				["listen_change_points", "emiter-change-control-points", ""],
 				["add_area_point", "click", "[name='add_area_point']"],
+				["move_area_point", "inputvalue", "[name='move_area_point']"],
+				["move_area_point_click", "click", "[name='move_area_point_click']"],
+				
 				
 			 ],
 		methods: {
@@ -369,6 +372,19 @@ var StateMap = {
 				var props = this.parent.props;
 				props.point_x.setProp(this.emiter.prop[0]);
 				props.point_y.setProp(this.emiter.prop[1]);				
+			},
+			move_area_point_click: function(){
+				var x = this.parent.props.control_point_x.getProp(); var y = this.parent.props.control_point_y.getProp();
+				var index = this.parent.props.move_area_point.getProp();
+				if(this.$props("operationWith") == "common"){ 
+					 var area_1 = this.$props("commonProps").area_1;
+					if(area_1[index] !== undefined){
+						area_1[index] = [parseInt(x), parseInt(y)];	
+						this.$methods().setAreas(area_1);
+						this.$methods().renderAll();														
+						drawAreaPoints(area_1, this.$props("commonProps").isEndArea_1);							
+					}				
+				}				
 			},
 			move_coner_to_point: function(){
 				var x = this.parent.props.control_point_x.getProp(); var y = this.parent.props.control_point_y.getProp();
@@ -426,7 +442,6 @@ var StateMap = {
 								return;
 							}
 						this.$props("commonProps").area_1 = area_1;	
-						//this.$methods().setAreas(area_1);	
 						this.$methods().renderAll();
 						drawAreaPoints(area_1, false);							
 					}
