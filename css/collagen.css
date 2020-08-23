@@ -41,8 +41,7 @@ canvas {
 
 }
 [data-save_sprites]{
-  margin-top: 10px; 
-  border: 1px solid black; 
+  margin-top: 10px;  
   margin-bottom: 10px; 
   padding: 5px;
  } 
@@ -89,6 +88,24 @@ canvas {
 	top: 2px;
 	width: 60px;
 	margin-top: 0px;
+ }
+ .d-none{
+	 display: none;
+	 
+ }
+ .clicker{
+	// border: 1px solid #20c997;
+	 padding: 5px;
+	 border-radius: 5px;
+	 font: caption;
+ }
+ .clicker span{
+	 color: green; 
+	 font-size: 25px;
+ }
+ .clicker:hover{
+	 cursor: pointer;
+	 background-color: #20c997;	 
  }
  
  

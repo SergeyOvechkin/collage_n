@@ -4,26 +4,30 @@ var StateMap = {
 	
 	form_text: {
 		container: "form_text",
-		props: [ ["font_url", "inputvalue", "[name='font_url']"], //["font_url_as", "inputvalue", "[name='font_url_as']"], 
-		         ["add_font", "click", "[name='add_font']"],
-				 ["font", "inputvalue", "[name='font']"],
+		props: [ ["font_url", "inputvalue", "[name='font_url']"], ["add_font", "click", "[name='add_font']"], ["font", "inputvalue", "[name='font']"],
 				 ["text_x", "inputvalue", "[name='text_x']"], ["text_y", "inputvalue", "[name='text_y']"], ["max_w", "inputvalue", "[name='max_w']"],
-				  ["color", "inputvalue", "[name='color']"], 
-				 
-				 ["text", "inputvalue", "[name='text']"], ["add_text", "click", "[name='add_text']"],	
-				 
+				 ["color", "inputvalue", "[name='color']"], ["text", "inputvalue", "[name='text']"], ["add_text", "click", "[name='add_text']"],
+				 ["form_show", "click", "[name='form_show']"], ["form_style", "class", "div.d-none"],
 		],
 		methods: {
+			form_show: function(){
+				if(this.prop == null){				
+					this.prop = true;
+					this.props("form_style").removeProp("d-none");
+					this.htmlLink.querySelector("span").innerText="+";
+				}else{
+					this.prop = null;
+					this.props("form_style").setProp("d-none");
+					this.htmlLink.querySelector("span").innerText="-";
+				}				
+			},
 			add_text: function(){				
-				var props = this.parent.props;
-				var font_url = props.font_url.getProp(); var font = props.font.getProp();  var text = props.text.getProp();
-				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp();
-				var color = props.color.getProp();
-				//if(font_url == "" || font_url == false){
+				var props = this.parent.props; var font_url = props.font_url.getProp(); var font = props.font.getProp();  var text = props.text.getProp();
+				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp(); var color = props.color.getProp();
 					ctx.putImageData(saveImg, 0, 0);
 					ctx.save();
 					ctx.fillStyle = color;
-					ctx.font = font;
+					ctx.font = font;					
 					if(max_w == "" || max_w == false){
 						ctx.fillText(text, text_x, text_y);
 					}else{
@@ -31,11 +35,7 @@ var StateMap = {
 					}
 					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 					ctx.restore();	
-					this.$methods().renderAll();
-					//drawAreaPoints(this.$props("commonProps").area_1);
-						
-                    				
-				//}			
+					this.$methods().renderAll();		
 			},
 			add_font: function(){
 				var props = this.parent.props;					
@@ -45,7 +45,27 @@ var StateMap = {
 				link.href = font_url;
 				link.rel = "stylesheet";
 				head.appendChild(link);	
-				console.log(link);
+				ctx.save();
+				var re = /(family=)(\w+)(\+?)(\w*)/g;
+				var font = font_url.match(re);
+				var font1 = [];
+				var context = this;
+				for(var i=0; i<font.length; i++){					
+					var one = font[i].replace(/(family=)(\w+)(\+?)(\w*)/g, "$2 $4");
+					var two = one.replace(/(\w+)(\s)(?!(\w)+)/, "$1");					
+					ctx.font = "15px "+two;	
+					font1.push(two);					
+						var image = new Image;
+						image.src = font_url;
+						image.onerror = function() {
+						ctx.save();	
+						ctx.font = '15px '+two;
+						saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+						ctx.fillText('Hello!', 20, 10);
+						ctx.restore();
+						context.$methods().renderAll();
+					};
+				}
 			}
 		},
 	},
@@ -57,6 +77,7 @@ var StateMap = {
 				  ["rgba_effect", 'click', "[name='rgba_effect']"], ["color_r", 'inputvalue', "[name='color_r']"], ["color_g", 'inputvalue', "[name='color_g']"],
 				 ["color_b", 'inputvalue', "[name='color_b']"], ["color_a", 'inputvalue', "[name='color_a']"],
 				  ["function_to_contur", 'inputvalue', "[name='function_to_contur']"], ["function_to_contur_click", 'click', "[name='function_to_contur_click']"],
+				  ["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],
 				 ],
         methods: { 
 			function_to_contur_click: function(){
@@ -648,15 +669,23 @@ var StateMap = {
 		selector: "ul:first-of-type",
 		arrayProps: [ ["load_save_sprites", "click", "[name='load_save_sprites']",] ],
 		arrayMethods: {
-			load_save_sprites: function(){	
-                this.parent.removeAll();			
-				var sprites_ = get_from_storage("spritesState");
-				if(sprites_){					
-					for(var key in sprites_){						
-						this.parent.add({id: key});						
-					}				
-				}
-				delete sprites_;				
+			load_save_sprites: function(){
+               if(this.prop == null){				
+					this.parent.removeAll();			
+					var sprites_ = get_from_storage("spritesState");
+					if(sprites_){					
+						for(var key in sprites_){						
+							this.parent.add({id: key});						
+						}				
+					}
+					delete sprites_;
+					this.prop = true;
+					this.htmlLink.innerHTML = "Скрыть"
+			   }else{
+				   this.parent.removeAll();
+				   this.prop = null;
+				   this.htmlLink.innerHTML = "Показать сохраненные спрайты"
+			   }
 			}	
 		},		
 		container: "save_sprite",

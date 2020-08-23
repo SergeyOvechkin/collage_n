@@ -43,28 +43,20 @@
 							
 							</div>							
 						</div>
-						<p style="margin-top: 20px;">
-							Толщину линий обводки контура и цвет а также другие параметры, можно изменить открыв консоль броузера, далее ввести:					
-							<ul>
-								<li>Толщина обводки контура: lineWidth = 3;</li>
-								<li>Цвет обвоки спрайтов: colorSpriteArea = "green";</li>
-								<li>Цвет обводки фона:  colorCommonArea = "red";</li>
-								<li>Размер квадрата точки контура/2: halfPoitSize = 5;</li>
-							</ul>
-						</p>
-						<form name="form_text" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">
+						<form name="form_text" style="margin-top: 20px;" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">
+							<p name="form_show" class="clicker" >Написать текст  <span>-</span></p>
+							<div class="d-none">
+
 								<div class="form-group form-row">
 									<div class="form-group col-md-9">
 										<input type="text" name="font_url"  class="form-control form-control-sm"  placeholder="font url" value="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,700;1,400&family=Inconsolata&family=Josefin+Sans:wght@200&family=Srisakdi:wght@700&display=swap">	
 									</div>
-									<!--
 									<div class="form-group col-md-3">
-										<input type="text" name="font_url_as"  class="form-control form-control-sm"  placeholder="name">	
+										<button type="button" name="add_font" class="btn btn-info btn-sm">Добавить шрифт</button>
 									</div>
-									-->
-									<div class="form-group col-md-3">
-										<button type="button" name="add_font" class="btn btn-danger btn-sm">Добавить шрифт</button>
-									</div>
+								</div>
+								<div class="alert alert-warning" role="alert">
+										Загруженые cdn шрифты могут не сработать при первом клике!
 								</div>
 								<div class="form-group">
 									<input type="text" name="font"  class="form-control form-control-sm" value="30px Balsamiq Sans"  placeholder="font param (size_px font-family from font url)">	
@@ -86,7 +78,8 @@
 								<div class="form-group">
 									<textarea name="text" rows="2" cols="45" type="text"  class="form-control form-control-sm"  placeholder="text"></textarea>
 								</div>
-								<button type="button" name="add_text" class="btn btn-danger btn-sm">Добавить</button>
+								<button type="button" name="add_text" class="btn btn-info btn-sm">Добавить текст</button>
+							</div>
 						</form>
 				</div>
 				<div class="col-4">
@@ -112,7 +105,7 @@
 										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение">restart</button>
 									</div>
 								</div>
-								<div style="border: 1px solid black; ">
+								<div style="">
 								<div class="form-row">
 								
 								 
@@ -232,6 +225,8 @@
 										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm" title="Применить ко всем свойствам или к некоторым (оставить поля пустыми)">Применить к выделению</button>
 									</div>	
 								</div>
+							<p name="form_show" class="clicker" style="margin-top: 10px;">Применить формулу  <span>-</span></p>
+							<div class="d-none">
 								<div class="form-row">
 									<div class="form-group col-md-8">
 										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
@@ -256,6 +251,7 @@ area = [ [10,10], [10,200], [200, 200], [200, 10]]; "></textarea>
 										<button type="button"  style="margin-top: 5px;" name="function_to_contur_click" class="btn btn-primary btn-sm">Создать контур</button>
 									</div>	
 								</div>
+							</div>	
 							</form>							
 							<div data-save_sprites="array">
 								<button  type="button" name="load_save_sprites" class="btn btn-info btn-sm">Показать сохраненные спрайты</button>
