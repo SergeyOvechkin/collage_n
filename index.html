@@ -81,6 +81,21 @@
 								<button type="button" name="add_text" class="btn btn-info btn-sm">Добавить текст</button>
 							</div>
 						</form>
+						<form name="form_load_module" style="margin-top: 30px;" onsubmit="return false" data-form_load_module="container" style="margin-top: 10px;">
+                    						
+								<div class="form-group form-row">
+									<div class="form-group col-md-8">
+										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="./js/modules/drawStar.js">	
+									</div>
+									<div class="form-group col-md-4">
+										<button type="button" name="load_module" class="btn btn-info btn-sm">Загрузить модуль</button>
+									</div>
+								</div>
+								<p>
+									Функции модулей можно использовать для обработки пикселей либо создания контура. Пример выше - функция для создания контура в форме звезы: area = modules.drawStar(200,200, 4,70,30);
+								</p>
+						</form>
+
 				</div>
 				<div class="col-4">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
@@ -227,29 +242,40 @@
 								</div>
 							<p name="form_show" class="clicker" style="margin-top: 10px;">Применить формулу  <span>-</span></p>
 							<div class="d-none">
-								<div class="form-row">
-									<div class="form-group col-md-8">
+								<div class="form-row" style="margin-bottom: 10px;">
+								<!--	<div class="form-group col-md-8"> -->
 										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
 										<textarea name="function_to_pixels" rows="5" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота, TMP - объект для хранения временных данных между итерациями цикла;
 										пример - покрасить черный в красный:        if(R+G+B < 70){   R=255; }
 										пример TMP:    if(TMP.num == undefined){ TMP.num = 0; } else {  TMP.num +=1;  if(TMP.num > 7000) R +=155; }"></textarea>
-									</div>	
-									<div class="form-group col-md-4">	
+										<!--<label for="exampleFormControlInput1">Использовать функцию модуля</label>
+										<input type="text" name="module_name_color"  class="form-control form-control-sm"  placeholder="функция для пикселя">-->
+									<!--</div>								
+									<div class="form-group col-md-4">-->	
 										<button type="button"  style="margin-top: 5px;" name="function_to_pixels_click" class="btn btn-primary btn-sm">Применить формулу</button>
-									</div>	
+									<!--</div>	-->
 								</div>
-								<div class="form-row">
-									<div class="form-group col-md-8">
+								<div class="form-row" style="margin-bottom: 10px;">
+								<!--	<div class="form-group col-md-8"> -->
 										<label for="exampleFormControlInput1">Формула для создания контура</label>
 										<textarea name="function_to_contur" rows="5" cols="45" type="text" class="form-control form-control-sm" 
 											placeholder="Формула для создания контура: area - массив с точками в формате [ [x1,y1], [x2,y2],... ] 
 
 Пример - нарисовать контур в форме квадрата:
-area = [ [10,10], [10,200], [200, 200], [200, 10]]; "></textarea>
-									</div>	
-									<div class="form-group col-md-4">	
+area = [ [10,10], [10,200], [200, 200], [200, 10]];
+
+
+Пример использовать функцию модуля для рисования звезды:
+(сперва нужно загрузить модуль)
+
+area = modules.drawStar(200, 200, 4, 70, 30);
+"></textarea>
+										<!--<label for="exampleFormControlInput1">Использовать функцию модуля</label>
+										<input type="text" name="module_name_contur"  class="form-control form-control-sm"  placeholder="функция для контура">-->
+									<!--</div>	-->									
+									<!--<div class="form-group col-md-4">	-->
 										<button type="button"  style="margin-top: 5px;" name="function_to_contur_click" class="btn btn-primary btn-sm">Создать контур</button>
-									</div>	
+									<!-- </div>	-->
 								</div>
 							</div>	
 							</form>							
@@ -265,6 +291,7 @@ area = [ [10,10], [10,200], [200, 200], [200, 10]]; "></textarea>
 									</li>
 								</ul>						
 							</div>
+
 				</div>
 			</div>
 		</div>

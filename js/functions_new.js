@@ -116,10 +116,6 @@ function addEffect_1(ctx, area, script){
 	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]); 
 	var cutPathArea =  getPathArea(cutArea); 
 	ctx.putImageData(saveImg, 0, 0);
-	
-	//var script = eval(script1);
-	//console.log(eval(script));
-		
 	var H , W;	
 	H = cutHeight; W = cutWidth;
 		
@@ -132,6 +128,7 @@ function addEffect_1(ctx, area, script){
 					if(ctx.isPointInPath(cutPathArea, tmpX, tmpY)){							
 												
 						var arr_ = runEval(imgMap.data[ point], imgMap.data[ point+1], imgMap.data[ point+2], imgMap.data[ point+3], tmpX, tmpY, W, H, temporaryObj);
+
 						imgMap.data[ point] = arr_ [0]; imgMap.data[ point+1] = arr_ [1]; imgMap.data[ point+2] = arr_ [2]; imgMap.data[ point+3] = arr_ [3];
 						
 					}								
@@ -147,7 +144,8 @@ function addEffect_1(ctx, area, script){
 
 function createContur(script){
 	var area = [];
-	eval(script);	
+	eval(script);
+
 	return area;
 }
 
