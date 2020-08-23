@@ -246,8 +246,18 @@
 								<!--	<div class="form-group col-md-8"> -->
 										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
 										<textarea name="function_to_pixels" rows="5" cols="45" type="text" class="form-control form-control-sm"  placeholder="R - red, G - green, B - blue, A - opacity, X - индекс текущего пикселя по ширине, Y - индекс текущего пикселя по высоте, W - общая ширина, H - высота, TMP - объект для хранения временных данных между итерациями цикла;
-										пример - покрасить черный в красный:        if(R+G+B < 70){   R=255; }
-										пример TMP:    if(TMP.num == undefined){ TMP.num = 0; } else {  TMP.num +=1;  if(TMP.num > 7000) R +=155; }"></textarea>
+
+пример - покрасить черный в красный:        
+if(R+G+B < 70){   R=255; }
+
+пример TMP:    
+if(TMP.num == undefined){
+    TMP.num = 0; 
+ } else {  
+   TMP.num +=1;  
+   if(TMP.num > 7000) 
+   R +=155;
+}"></textarea>
 										<!--<label for="exampleFormControlInput1">Использовать функцию модуля</label>
 										<input type="text" name="module_name_color"  class="form-control form-control-sm"  placeholder="функция для пикселя">-->
 									<!--</div>								
