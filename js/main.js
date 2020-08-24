@@ -18,7 +18,8 @@
 	 var mirror_x = 1;
 	 var mirror_y = 1;
 	 var spritesStorage = window.localStorage;
-	 var modules = {};
+	 var modules = {}; //подключаемые cdn функции
+	 var HM; //htmlix state
 	 
 img.onload = function(){ 
 	startImg();

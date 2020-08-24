@@ -220,9 +220,9 @@ function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
 	ctx.translate( -move[0],  -move[1]);
 	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
 	callb();
-		
-    //drawArea(area, true);
-   // drawAllSquares(area, halfPoitSize);
+	
+	drawAreaPoints(area);	
+
 	
   });
 	

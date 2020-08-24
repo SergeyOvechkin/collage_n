@@ -102,6 +102,8 @@ canvas {
  .clicker span{
 	 color: green; 
 	 font-size: 25px;
+	 position: relative;
+	 top: 3px;
  }
  .clicker:hover{
 	 cursor: pointer;

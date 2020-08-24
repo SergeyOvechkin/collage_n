@@ -7,18 +7,14 @@ const server = http.createServer((req, res) => {
 
 	 var parsUrl  = path.parse(req.url);	
 
-  //отдаем представление index на локальном сервере
+
    if(req.url === '/' && req.method.toLowerCase() === 'get'){	  
 	  
             readFile(req, res, "./index.html");
-  }  ////отдаем статические файлы и файлы из базы данных на любом сервере
+  }  
   else if(parsUrl.dir.split("/")[1] == "img" ||  parsUrl.dir.split("/")[1] == "js" ||  parsUrl.dir.split("/")[1] == "css"){
 	  
-	  // console.log(`Запрошенный адрес: ${parsUrl.dir} / ${parsUrl.base}`);
-	  
-	  var dir = parsUrl.dir;
-	  
-	  
+	  var dir = parsUrl.dir;	  
 	  var nameFile = "."+dir+"/"+parsUrl.base;
 	  
 	  readFile(req, res, nameFile);
