@@ -27,20 +27,21 @@
 								<span name="point_y" type="text"  style="display: inline-block; width: 40px; padding: 0px;  font-size: 15px; color: red;" placeholder="y point" title="Координаты точки Y на canvas"></span>
 							</div>
 							<div class="col-md-1">
-								<input name="control_point_x" type="text"  style="width: 60px; padding: 0px; font-size: 15px;"  placeholder="x point" title="Координаты  X на canvas">
-								<input name="control_point_y" type="text"  style="width: 60px; padding: 0px;  font-size: 15px;" placeholder="y point" title="Координаты  Y на canvas">
+								<input name="control_point_x" type="text"  style="width: 60px; padding: 0px; font-size: 14px; margin-top: 2px;"  placeholder="x point" title="Координаты  X на canvas">
+								<input name="control_point_y" type="text"  style="width: 60px; padding: 0px;  font-size: 14px;" placeholder="y point" title="Координаты  Y на canvas">
+							</div>
+							<div class="col-md-3">
+								<button type="button" name="move_coner_to_point" style="width: 190px; " class="btn btn-outline-info btn-sm" title="Поместить верхний угол спрайта или контура в точку на координатах">Переместить в точку угол</button>
+								<button type="button" name="move_center_to_point" style="width: 190px; " class="btn btn-outline-info btn-sm" title="Поместить центр спрайта или контура в точку на координатах">Переместить в точку центр</button>							
 							</div>
 							<div class="col-md-4">
-								<button type="button" name="move_coner_to_point" style="width: 190px;" class="btn btn-outline-info btn-sm" title="Поместить верхний угол спрайта или контура в точку на координатах">Переместить в точку угол</button>
-								<button type="button" name="move_center_to_point" style="width: 190px;" class="btn btn-outline-info btn-sm" title="Поместить центр спрайта или контура в точку на координатах">Переместить в точку центр</button>							
-							</div>
-							<div class="col-md-4">
-								<button type="button" name="add_area_point" style="width: 190px;" class="btn btn-outline-info btn-sm" title="Добавить точку незаконченного контура к координатам">Добавить точку к контуру</button>
-								<input name="move_area_point" type="text"  style="width: 90px; padding: 0px; font-size: 13px; position: relative; top: 2px;"  placeholder="index point" title="Переместить точку - index контура в указанные координаты">
+								<button type="button" name="add_area_point" style="width: 190px; margin-left: 4px;" class="btn btn-outline-info btn-sm" title="Добавить точку незаконченного контура к координатам">Добавить точку к контуру</button>
+								<input name="move_area_point" type="text"  style="margin-left: 4px; width: 90px; padding: 0px; font-size: 13px; position: relative; top: 2px;"  placeholder="index point" title="Переместить точку - index контура в указанные координаты">
 								<button type="button" name="move_area_point_click" style="width: 90px;" class="btn btn-outline-info btn-sm" title="Переместить точку - index контура в указанные координаты">move</button>
 							</div>
-							<div class="col-md-2">
-							
+							<div class="col-md-3">
+							   <div>текущая операция:</div>
+							   <div  name="current_operation" style="background-color: green; color: white;">common</div>
 							</div>							
 						</div>
 						<form name="form_text" style="margin-top: 20px;" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">

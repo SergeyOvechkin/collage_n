@@ -468,9 +468,16 @@ var StateMap = {
 				["listen_change_points", "emiter-mousemove-canvas", ""],
 				["add_area_point", "click", "[name='add_area_point']"],
 				["move_area_point", "inputvalue", "[name='move_area_point']"],
-				["move_area_point_click", "click", "[name='move_area_point_click']"],				
+				["move_area_point_click", "click", "[name='move_area_point_click']"],
+				["current_operation", "text", "[name='current_operation']"],
+				["listen_current_operation", 'emiter-operation-with', ""],
+
+               				
 			 ],
 		methods: {
+			listen_current_operation: function(){
+				 			this.parent.props.current_operation.setProp(this.emiter.prop); 			
+			},
 			listen_change_points: function(){ //отображает координаты x,y при движении курсора мыши
 				var props = this.parent.props;
 				props.point_x.setProp(this.emiter.prop[0]);

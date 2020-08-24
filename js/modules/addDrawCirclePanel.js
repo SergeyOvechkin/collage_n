@@ -35,12 +35,9 @@
 	  ],
 	  methods: {
 		  draw_circle_btn: function(){
-			if(this.$$("emiter-operation-with").prop == "draw-circle"){
-				
-				  this.$$("emiter-operation-with").set("common");	  
-			  }else{
+
 				  this.$$("emiter-operation-with").set("draw-circle");
-			  }			  
+			 		  
 			  
 		  }	,
 		canvas_click: function(){
