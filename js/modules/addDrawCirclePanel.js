@@ -23,6 +23,7 @@
 									</div>
 								 </div>
   `;
+  
   var div = document.createElement("div");
   div.innerHTML = html;
   div = div.querySelector("div");

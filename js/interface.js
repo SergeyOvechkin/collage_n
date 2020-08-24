@@ -4,16 +4,41 @@ var StateMap = {
 	form_load_module: {
 		container: "form_load_module",
 		props: [ ["module_url", "inputvalue", "[name='module_url']"],  ["load_module", "click", "[name='load_module']"], 
+					["setting_name", "inputvalue", "[name='setting_name']"],  ["setting_module_url", "inputvalue", "[name='setting_module_url']"], 
+					["setting_add", "click", "[name='setting_add']"],  ["setting_remove", "click", "[name='setting_remove']"], 
 		],		 				
 		methods: {
 			load_module: function(){ //подключает загруженный скрипт, модуль
 				var module_url  = this.props("module_url").getProp();           
-				var module = document.createElement("script");
-				var head = document.head || document.getElementsByTagName('head')[0];
-				module.type = 'text/javascript';
-				module.src  = module_url;
-				head.appendChild(module);				
-			}			
+				loadModul(module_url);
+			},
+			setting_add: function(){
+				var setting_name = this.parent.props.setting_name.getProp(); var setting_module_url = this.parent.props.setting_module_url.getProp();
+				if(setting_name != "" && setting_name.length > 4 &&  setting_module_url !="" && setting_module_url.length > 4){
+					
+					var collagenSettings = get_from_storage("collagenSettings");
+					if(collagenSettings == null)collagenSettings = {};
+					collagenSettings[setting_name] = setting_module_url;
+			
+					save_in_storage(collagenSettings, "collagenSettings");
+					
+					alert("настройки "+setting_name+" сохранены");
+				}
+				
+			},
+			setting_remove: function(){
+				var setting_name = this.parent.props.setting_name.getProp();
+				
+					var collagenSettings = get_from_storage ("collagenSettings");
+					if(collagenSettings == null)collagenSettings = {};
+					if(collagenSettings[setting_name] == undefined){
+						alert("настроек с таким имененм не найдено");
+						return					
+					}
+					delete collagenSettings[setting_name];
+					save_in_storage (collagenSettings, "collagenSettings");
+					alert("настройки "+setting_name+" удалены");
+			}
 		}	
 	},
 	form_text: {
@@ -388,13 +413,12 @@ var StateMap = {
 		props: [["mousedown", "mousedown", ""], ["mousemove", "mousemove", ""], ["mouseup", "mouseup", ""],
 		         ],
 		methods: {		
-			mousedown: function(){			    
+			mousedown: function(){
+					var point = getCanvasPoint(event, this.parent.htmlLink);
+					this.$$("emiter-mousedown-canvas").set(point);			    
 				    if(event.which !== 1)return;
 				    var area_1 = this.$props("commonProps").area_1;
 					var isEndArea_1 = this.$props("commonProps").isEndArea_1;				
-					var point = getCanvasPoint(event, this.parent.htmlLink);
-					this.$$("emiter-mousedown-canvas").set(point);
-					
 					if(this.$props("operationWith") == "common"){						
 							if(isEndArea_1 === false){                           //добавляет точку к выделению либо замыкает контур								
 									isEndArea_1 = endArea(area_1, point);								
@@ -436,10 +460,10 @@ var StateMap = {
 						 sprite.mousemove(point, this, event);
 					}								
 			},
-			mouseup: function(){			    
-					if(event.which !== 1)return;	
-					var point = getCanvasPoint(event, canvas);
-					this.$$("emiter-mouseup-canvas").set(point);					
+			mouseup: function(){
+					var point = getCanvasPoint(event, canvas);	
+					this.$$("emiter-mouseup-canvas").set(point);			    
+					if(event.which !== 1)return;										
 					if(this.$props("operationWith") == "common"){						
 						if(this.$props("commonProps").isMovePoint !== false){						
 							if(this.$props("commonProps").scale_or_move == "scale"){
@@ -459,6 +483,7 @@ var StateMap = {
 		}		
 	},
 	control_points: {
+		container: "control_points",
 		props: [["control_point_x", "inputvalue", "[name='control_point_x']"], 
 		        ["control_point_y", "inputvalue", "[name='control_point_y']"],
 				["point_x", "text", "[name='point_x']"], 
@@ -767,15 +792,11 @@ var StateMap = {
 			prop: "common",
 			behavior: function(){				
 				this.$props().operationWith = this.prop;
-			}
-		
-		
+			}		
 		}, //событие операции с фоном или спрайтом
 
 	}	
 }
-window.onload= function(){	
-	 HM = new HTMLixState(StateMap);
+/*window.onload= function(){	
 	
-	console.log(HM);	
-}
+}*/

@@ -20,9 +20,21 @@
 	 var spritesStorage = window.localStorage;
 	 var modules = {}; //подключаемые cdn функции
 	 var HM; //htmlix state
+
 	 
 img.onload = function(){ 
 	startImg();
+	 HM = new HTMLixState(StateMap);
+	 
+	console.log(HM);
+
+	var collagenSettings = get_from_storage("collagenSettings");
+	//console.log(collagenSettings);
+	if(collagenSettings == null)return;
+					
+		for(var key in collagenSettings){
+			loadModul(collagenSettings[key], key);
+		}			
 }
 
 

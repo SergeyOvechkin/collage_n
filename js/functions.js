@@ -219,6 +219,21 @@ function get_from_storage (name, spr_id){
 			
 }
 
+function loadModul(url, name){			        
+				var module = document.createElement("script");
+				var head = document.head || document.getElementsByTagName('head')[0];
+				module.type = 'text/javascript';
+				module.src  = url;
+				head.appendChild(module);
+				
+	module.onload = function() {
+		console.log("модуль "+name+" загружен", url);  
+	};
+	module.onerror = function() {
+		alert("модуль "+name+" не найден "+url); 				
+	}
+}
+
 
 
 

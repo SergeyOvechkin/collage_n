@@ -163,7 +163,7 @@ CollageSprite.prototype.saveOnPC = function(){
 					imgAsURL: imgAsURL,
                     rotate: this.rotate,					
 				}			
-				save_in_storage (state, "spritesState");
+				save_in_storage(state, "spritesState");
 
 }
 

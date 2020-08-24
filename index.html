@@ -86,7 +86,7 @@
                     						
 								<div class="form-group form-row">
 									<div class="form-group col-md-8">
-										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="./js/modules/addDrawCirclePanel.js">	
+										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collagen_modules/addDrawCirclePanel.js">	
 									</div>
 									<div class="form-group col-md-4">
 										<button type="button" name="load_module" class="btn btn-info btn-sm">Загрузить модуль</button>
@@ -97,7 +97,23 @@
 								    <li>Модулями можно расширять стандартный набор функций приложения. В примере выше подключается модуль рисования окружностей кликом мыши.</li>
 									<li>Также функции модулей можно использовать для обработки пикселей либо создания контура.</li>
 									<li>"./js/modules/drawStar.js" - функция для создания контура в форме звезы: area = modules.drawStar(200,200, 4,70,30);</li>
+									<li>В настройках можно сохранить модуль для автоматичкской загрузки при старте приложения, для этого нужно ввести имя модуля и его url.</li>
+									<li>Удалить модуль из автозагрузки можно по его именни введенном при создании настройки, имена всех автозагружаемых модулей можно посмотреть в консоли.</li>
 								   </ul>
+								</div>
+							    <div class="form-group form-row">
+									<div class="form-group col-md-2">
+										<input type="text" name="setting_name"  class="form-control form-control-sm"  placeholder="module name" value="drawCircle">	
+									</div>
+									<div class="form-group col-md-4">
+										<input type="text" name="setting_module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collagen_modules/addDrawCirclePanel.js">	
+									</div>
+									<div class="form-group col-md-4">
+										<button type="button" name="setting_add" class="btn btn-info btn-sm">Добавить в автозагрузку</button>
+									</div>
+									<div class="form-group col-md-2">
+										<button type="button" name="setting_remove" class="btn btn-info btn-sm">Удалить</button>
+									</div>
 								</div>
 						</form>
 
