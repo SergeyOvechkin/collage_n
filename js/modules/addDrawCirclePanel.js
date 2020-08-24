@@ -37,8 +37,7 @@
 		  draw_circle_btn: function(){
 
 				  this.$$("emiter-operation-with").set("draw-circle");
-			 		  
-			  
+			 		  		  
 		  }	,
 		canvas_click: function(){
 			if(this.$$("emiter-operation-with").prop == "draw-circle"){

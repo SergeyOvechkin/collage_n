@@ -718,9 +718,11 @@ var StateMap = {
 					return;
 				}
 				 lineColor = colorSpriteArea;
-				this.$props().operationWith = id;
+				this.$$("emiter-operation-with").set(id);
+				//this.$props().operationWith = id;
 				var sprite = createFromPC(id, this, this.props("to_beginning_coordinats").getProp());
-                if(sprite)this.$$("emiter-create-sprite").set(id);				
+                if(sprite)this.$$("emiter-create-sprite").set(id);	
+                					
 								
 			},
 			rm_save_sprite: function(){
