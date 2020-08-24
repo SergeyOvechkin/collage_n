@@ -43,6 +43,9 @@
 				 // this.$props().operationWith = "common"; 
 				  this.$$("emiter-operation-with").set("common");
 					//this.htmlLink.innerText = "Рисовать";				  
+			  }else{
+				  alert("сперва нужно переключиться на фоновое изображение");
+				  
 			  }			  
 			  
 		  }	,
