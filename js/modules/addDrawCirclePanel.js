@@ -1,3 +1,9 @@
+/*
+Модуль  - добавляет панель рисования окружностей 
+В активном состоянии устанавливает свойство operationWith = "draw-circle"
+*/
+
+
 (function(){	
   var html = `
   								 <div data-draw_circle_panel="container"  class="form-group" name="draw_circle_panel">
@@ -29,9 +35,11 @@
   var draw_circle_panel = {
 	  
 	  container: "draw_circle_panel",
-	  props: [["draw_circle_btn", "click", "[name='draw_circle_btn']"], ["draw_sircle_radius", "inputvalue", "[name='draw_sircle_radius']"],
-	  ["draw_sircle_color", "inputvalue", "[name='draw_sircle_color']"],  ["draw_sircle_color", "inputvalue", "[name='draw_sircle_color']"],
-	  ["canvas_click", "emiter-mousedown-canvas", ""], 
+	  props: [
+		["draw_circle_btn", "click", "[name='draw_circle_btn']"], 
+		["draw_sircle_radius", "inputvalue", "[name='draw_sircle_radius']"],
+		["draw_sircle_color", "inputvalue", "[name='draw_sircle_color']"], 
+		["canvas_click", "emiter-mousedown-canvas", ""], 
 	  ],
 	  methods: {
 		  draw_circle_btn: function(){
@@ -39,7 +47,7 @@
 				  this.$$("emiter-operation-with").set("draw-circle");
 			 		  		  
 		  }	,
-		canvas_click: function(){
+		 canvas_click: function(){
 			if(this.$$("emiter-operation-with").prop == "draw-circle"){
 			  var props = this.parent.props;
 			  var radius = props.draw_sircle_radius.getProp();
