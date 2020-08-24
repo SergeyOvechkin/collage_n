@@ -35,17 +35,11 @@
 	  ],
 	  methods: {
 		  draw_circle_btn: function(){
-			  if(this.$$("emiter-operation-with").prop == "common"){
-                 // this.$props().operationWith = "draw-circle"; 				  
-				  this.$$("emiter-operation-with").set("draw-circle");
-				 // this.htmlLink.innerText = "Закончить рисование";
-			  }else if(this.$$("emiter-operation-with").prop == "draw-circle"){
-				 // this.$props().operationWith = "common"; 
-				  this.$$("emiter-operation-with").set("common");
-					//this.htmlLink.innerText = "Рисовать";				  
+			if(this.$$("emiter-operation-with").prop == "draw-circle"){
+				
+				  this.$$("emiter-operation-with").set("common");	  
 			  }else{
-				  alert("сперва нужно переключиться на фоновое изображение");
-				  
+				  this.$$("emiter-operation-with").set("draw-circle");
 			  }			  
 			  
 		  }	,
@@ -56,7 +50,7 @@
 			  var color = props.draw_sircle_color.getProp();
 			  var point = this.emiter.prop;				
 				ctx.save();
-	            ctx.putImageData(saveImg, srcWidth, srcHeight);
+	            ctx.putImageData(saveImg, 0, 0);
 				ctx.beginPath();
 				ctx.arc(point[0], point[1], radius, 0, 2*Math.PI, false);
 				ctx.fillStyle =  color;
