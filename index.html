@@ -8,13 +8,8 @@
 <link rel="stylesheet" href="./css/collagen.css">
 <style type="text/css"> 
 </style>
-
-
 </head>
 	<body>
-	
-
-		
 		<div class="container-fluid">
 			<div class="row">
 				<div  class="col-8" id="canvas_container">
@@ -45,9 +40,8 @@
 							</div>							
 						</div>
 						<form name="form_text" style="margin-top: 20px;" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">
-							<p name="form_show" class="clicker" >Написать текст  <span>-</span></p>
+							<p name="form_show" class="clicker" >Написать текст  <span>+</span></p>
 							<div class="d-none">
-
 								<div class="form-group form-row">
 									<div class="form-group col-md-9">
 										<input type="text" name="font_url"  class="form-control form-control-sm"  placeholder="font url" value="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,700;1,400&family=Inconsolata&family=Josefin+Sans:wght@200&family=Srisakdi:wght@700&display=swap">	
@@ -82,106 +76,67 @@
 								<button type="button" name="add_text" class="btn btn-info btn-sm">Добавить текст</button>
 							</div>
 						</form>
-						<form name="form_load_module" style="margin-top: 30px;" onsubmit="return false" data-form_load_module="container" style="margin-top: 10px;">
-                    						
-								<div class="form-group form-row">
-									<div class="form-group col-md-8">
-										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collagen_modules/addDrawCirclePanel.js">	
-									</div>
-									<div class="form-group col-md-4">
-										<button type="button" name="load_module" class="btn btn-info btn-sm">Загрузить модуль</button>
-									</div>
-								</div>
-								<div class="alert alert-info" role="alert">
-								   <ul>
-								    <li>Модулями можно расширять стандартный набор функций приложения. В примере выше подключается модуль рисования окружностей кликом мыши.</li>
-									<li>Также функции модулей можно использовать для обработки пикселей либо создания контура.</li>
-									<li>"./js/modules/drawStar.js" - функция для создания контура в форме звезы: area = modules.drawStar(200,200, 4,70,30);</li>
-									<li>В настройках можно сохранить модуль для автоматичкской загрузки при старте приложения, для этого нужно ввести имя модуля и его url.</li>
-									<li>Удалить модуль из автозагрузки можно по его именни введенном при создании настройки, имена всех автозагружаемых модулей можно посмотреть в консоли.</li>
-								   </ul>
-								</div>
-							    <div class="form-group form-row">
-									<div class="form-group col-md-2">
-										<input type="text" name="setting_name"  class="form-control form-control-sm"  placeholder="module name" value="drawCircle">	
-									</div>
-									<div class="form-group col-md-4">
-										<input type="text" name="setting_module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collagen_modules/addDrawCirclePanel.js">	
-									</div>
-									<div class="form-group col-md-4">
-										<button type="button" name="setting_add" class="btn btn-info btn-sm">Добавить в автозагрузку</button>
-									</div>
-									<div class="form-group col-md-2">
-										<button type="button" name="setting_remove" class="btn btn-info btn-sm">Удалить</button>
-									</div>
-								</div>
-						</form>
+
 
 				</div>
 				<div class="col-4">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
-								<div class="form-row panel_phone_ing_1">
-									<div class="form-group col-md-3">
+								<div class="form-row panel_phone_img_1">
+									<div class="form-group col-2">
 											
 											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="img url" title="Url картинки сервера разрешающего crossorigin запросы">
 									</div>
-								    <div class="form-group col-md-3">
+								    <div class="form-group col-3">
 										 <div class="form-group">
 											<label name="load_img_click" class="inp-file" for="exampleFormControlFile1" title="Загрузить картинку с компьютера">load img</label>
 											<input name="load_img" type="file" class="form-control-file form-control-sm"  id="exampleFormControlFile1">
 										</div>
 									</div>
-									<div class="form-group col-md-2">
+									<div class="form-group col-7 col-md-7">
+										<button type="button"  name="step_back" class="btn btn-success btn-sm" title="Шаг назад для преобразований фоновой картинки"><</button>
 										<button type="button"  name="save_img" class="btn btn-success btn-sm" title="Сделать снимок фонового изображения">save</button>
-									</div>
-									<div class="form-group col-md-2">
 										<button type="button"  name="restore_img" class="btn btn-warning btn-sm" title="Отобразить предыдущий снимок фонового изображения">restore</button>
-									</div>
-									<div class="form-group col-md-2">
-										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение">restart</button>
+										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-clockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.17 6.706a5 5 0 0 1 7.103-3.16.5.5 0 1 0 .454-.892A6 6 0 1 0 13.455 5.5a.5.5 0 0 0-.91.417 5 5 0 1 1-9.375.789z"/><path fill-rule="evenodd" d="M8.147.146a.5.5 0 0 1 .707 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 1 1-.707-.708L10.293 3 8.147.854a.5.5 0 0 1 0-.708z"/></svg></button>
 									</div>
 								</div>
-								<div style="">
-								<div class="form-row">
-								
-								 
-									<div class="form-group col-md-3">
-										
+								<div style="margin-top: 5px; margin-bottom: 5px; ">
+								<div class="form-row" style=";">
+									<div class="form-group col-12">
+										<label for="exampleFormControlInput1">Коэффициенты x,y масштабирования и отражение фона</label>
+									</div>	
+									<div class="form-group col-2">									
 											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X" value="0.7" title="Коэффициент масштабирования по вертикали"> 
 									</div>
-									<div class="form-group col-md-3">
-								
+									<div class="form-group col-2">								
 											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y" value="0.7" title="Коэффициент масштабирования по горизонтали">
 									</div>
 									
-									<div class="form-group col-md-3"> 
+									<div class="form-group col-2"> 
 										<div class="form-check">
 											<input type="checkbox" name="mirror_x"  class="form-check-input" >
-											<label class="form-check-label" for="exampleCheck1">mirror_X</label>
+											<label class="form-check-label" for="exampleCheck1">flip-x</label>
 										</div>	
 									</div>	
-									<div class="form-group col-md-3"> 
+									<div class="form-group col-2"> 
 										<div class="form-check">
 											<input type="checkbox" name="mirror_y"  class="form-check-input" >
-											<label class="form-check-label" for="exampleCheck1">mirror_Y</label>
+											<label class="form-check-label" for="exampleCheck1">flip-y</label>
 										</div>	
 									</div>	
-									
+									<div class="form-group col-4">	
+										<button type="button"  style="margin-top: 0px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">Применить</button>
+									</div>											
 								 </div> 
 								 <div class="form-row">
-									<div class="form-group col-md-8">
-										<label for="exampleFormControlInput1">Коэффициенты x,y масштабирования и отражение фона</label>
-									</div>	
-									<div class="form-group col-md-4">	
-										<button type="button"  style="margin-top: 5px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">Применить</button>
-									</div>	
+
+
 								</div>
 								</div>
 								<div class="form-group">
 										<label for="exampleFormControlInput1" style="font-size: 15px;">Вращать выделение, спрайт. Масштабировать выделение</label>
 										<div class="form-row">
 											<div class="form-group col-md-2">
-												<input name="rotate_area" type="text" class="form-control form-control-sm"  placeholder="градус вращения" title="Вращать спрайт или выделенную область">
+												<input name="rotate_area" type="text" class="form-control form-control-sm"  placeholder="градус" title="Вращать спрайт или выделенную область">
 											</div>	
 											<div class="form-group col-md-4"> 
 												<div class="form-check">
@@ -190,8 +145,8 @@
 												</div>	
 											</div>
 											<div class="form-group col-md-6" name="scale_area_class">
-												<input name="scale_x_area"  placeholder="scale x" type="text"    title="Масштабировать область выделения по оси X">
-												<input name="scale_y_area"   placeholder="scale y"  type="text"   title="Масштабировать область выделения по оси Y">
+												<input name="scale_x_area"  placeholder="x scale" type="text"    title="Масштабировать область выделения по оси X">
+												<input name="scale_y_area"   placeholder="y scale"  type="text"   title="Масштабировать область выделения по оси Y">
 												<button type="button"  name="scale_x_y" class="btn btn-success btn-sm">scale</button>
 											</div>	
 										</div>	
@@ -266,7 +221,7 @@
 										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm" title="Применить ко всем свойствам или к некоторым (оставить поля пустыми)">Применить к выделению</button>
 									</div>	
 								</div>
-							<p name="form_show" class="clicker" style="margin-top: 10px;">Применить формулу  <span>-</span></p>
+							<p name="form_show" class="clicker" style="margin-top: 10px;">Применить функцию  <span>+</span></p>
 							<div class="d-none">
 								<div class="form-row" style="margin-bottom: 10px;">
 										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
@@ -318,7 +273,38 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 							</div>
 
 				</div>
-			</div>
+				
+						<form class="col-12" name="form_load_module" style="margin-top: 0px;" onsubmit="return false" data-form_load_module="container" style="margin-top: 10px;">
+                    		
+							<p name="form_show" class="clicker" >Загрузить модуль <span>+</span></p>
+
+							<div class="d-none">
+							    <div class="form-group form-row ">
+									<div class="form-group col-2">
+										<input type="text" name="setting_name"  class="form-control form-control-sm"  placeholder="module name" value="drawCircle">	
+									</div>
+									<div class="form-group col-6">
+										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collagen_modules/addDrawCirclePanel.js">	
+									</div>
+									<div class="form-group col-4">
+										<button type="button" name="load_module" class="btn btn-info btn-sm">Загрузить модуль</button>										
+										<button type="button" name="setting_add" class="btn btn-info btn-sm">В автозагрузку</button>
+										<button type="button" name="setting_remove" class="btn btn-info btn-sm">Удалить</button>
+									</div>
+								</div>
+								<div class="alert alert-info" role="alert">
+								   <ul>
+								    <li>Модулями можно расширять стандартный набор функций приложения. В примере выше подключается модуль рисования окружностей кликом мыши.</li>
+									<li>Также функции модулей можно использовать для обработки пикселей либо создания контура.</li>
+									<li>"./js/modules/drawStar.js" - функция для создания контура в форме звезы: area = modules.drawStar(200,200, 4,70,30);</li>
+									<li>В настройках можно сохранить модуль для автоматичкской загрузки при старте приложения, для этого нужно ввести имя модуля и его url.</li>
+									<li>Удалить модуль из автозагрузки можно по его именни введенном при создании настройки, имена всех автозагружаемых модулей можно посмотреть в консоли.</li>
+								   </ul>
+								</div>
+							</div>
+							</p>	
+						</form>
+			</div><!--row-->
 		</div>
 		
 		
@@ -328,9 +314,9 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 	   <script src="./js/htmlix.js"></script>
 	   <script src="./js/sprites.js"></script>
 	   <script src="./js/functions.js"></script>
-	    <script src="./js/functions_new.js"></script>
-	   <script src="./js/main.js"></script>
+	    <script src="./js/functions_new.js"></script> 
 	   <script src="./js/interface.js"></script>
+	     <script src="./js/main.js"></script>
 
     </body>
 	

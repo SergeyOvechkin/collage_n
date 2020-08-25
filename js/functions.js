@@ -235,6 +235,14 @@ function loadModul(url, name){
 }
 
 
+function saveStep(saveImg, area){
+		
+	stepBack.push([saveImg, area.slice(0)]);
+	if(stepBack.length > backStepCounts)stepBack.shift();
+	
+}
+
+
 
 
 

@@ -71,7 +71,7 @@ canvas {
 	top: 0px;
 	visibility: hidden;
 }
-.panel_phone_ing_1 {
+.panel_phone_img_1 {
 	//background-color: #f5e2d2;
 	margin-bottom: 5px;
 	
@@ -86,9 +86,16 @@ canvas {
  [name="scale_x_area"], [name="scale_y_area"]{
 	position: relative;
 	top: 2px;
-	width: 60px;
+	width: 45px;
 	margin-top: 0px;
+	font-size: 16px;
  }
+ [name="img_main_scale_x"], [name="img_main_scale_y"]{
+	 width: 45px;
+	 
+	 
+ }
+ 
  .d-none{
 	 display: none;
 	 
@@ -96,14 +103,16 @@ canvas {
  .clicker{
 	// border: 1px solid #20c997;
 	 padding: 5px;
-	 border-radius: 5px;
+	 border-radius: 1px;
 	 font: caption;
+	 background-color: #f8f9fa;
  }
  .clicker span{
-	 color: green; 
+	 color: #efcb5c; 
 	 font-size: 25px;
 	 position: relative;
 	 top: 3px;
+	 
  }
  .clicker:hover{
 	 cursor: pointer;

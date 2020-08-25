@@ -10,6 +10,8 @@
 	 img.src="./img/img.png";
 	 var saveImg = false; //предыдущее преобразование картинки
 	 var restoreImg = false;
+	 var stepBack = []; //шаг назад для приобразований фоновой картинки
+	 var backStepCounts = 3; //максимальное количество шагов
 	 var halfPoitSize = 5; //размер половины квадрата точки на площади выделения контура
 	 var lineColor = colorCommonArea; //цвет линии выделения
 	 var lineWidth = 3; //толщина линии выделения
