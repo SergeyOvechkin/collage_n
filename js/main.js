@@ -26,6 +26,10 @@
 	 
 img.onload = function(){ 
 	startImg();
+			
+}
+window.onload = function(){ 
+	
 	 HM = new HTMLixState(StateMap);
 	 
 	console.log(HM);
