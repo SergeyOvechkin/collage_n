@@ -1,4 +1,5 @@
 
+<img  src="https://github.com/SergeyOvechkin/collagen/blob/master/collagen_2.ppg">
 
 Collage_n - приложение для создания коллажей из картинок:  масштабирует, вращает, искажает  и перемещает выделенную область изображения.
 
