@@ -204,7 +204,9 @@ CollageSprite.prototype.saveOnPC = function(){
 				state[name] = {
 					area: area,
 					imgAsURL: imgAsURL,
-                    rotate: this.rotate,					
+                    rotate: this.rotate,
+					scale_x: this.scale_x,
+					scale_y: this.scale_y,					
 				}			
 				save_in_storage(state, "spritesState");
 
@@ -222,6 +224,9 @@ function createFromPC(spr_id, context, to_beginning){
 	var imgBox = getBox(area);
     var img = new Image();
 	var sprite = new CollageSprite( img, area, spr_id, sprite_.rotate);
+	sprite.scale_x = sprite_.scale_x;
+	sprite.scale_y = sprite_.scale_y;
+	
 	context.$props("sprites")[spr_id] = sprite;
 	var dataURL = 'data:image/png;base64,' + sprite_.imgAsURL;
 	img.src=dataURL;
