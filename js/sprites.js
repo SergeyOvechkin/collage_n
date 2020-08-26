@@ -9,10 +9,10 @@ function CollageSprite(img, area, id, rotate){
 	this.area_1 = area;
 	this.area_2 = area.slice(0);
 	this.cursorOver = false;
-	this.currentOperation = false;  //"move" - движение всего спрайта 	"move_point" - искажение
+	this.currentOperation = false;  //"move" - движение всего спрайта 	
 	//this.isMove = false; //движение всего спрайта
 	this.moveStart = false; //начало движения "move" координаты
-	this.isMovePoint = false; //движение одной точки - ее индекс i	
+	//this.isMovePoint = false; //движение одной точки - ее индекс i	
 	this.rotate = 0; //вращение относительно начального при создании спрайта
 	if(rotate != undefined)this.rotate = rotate;
 	this.show = true;
@@ -20,6 +20,7 @@ function CollageSprite(img, area, id, rotate){
 	
 	this.scale_x = 1; //масштаб относительно изначального при создании спрайта
 	this.scale_y = 1;
+
 }
 
 
@@ -27,11 +28,14 @@ function CollageSprite(img, area, id, rotate){
 // затем поворот относительно центра уже отмасштабированого спрайта
 //поворот также считается относительно начального, при создании спрайта
 //масштабирование идет от центра в обоих направлениях
+//при отражении спрайта убирается вращение затем производится отражение, затем вращается сново уже отраженным 
 CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	
-	if(!this.show)return;
+
+	if(!this.show || this.id == sprite_id && option != undefined && option == "not-render")return;
+	
     var area = this.area_1;
-		if(operationName == "move_point" && this.id == sprite_id || operationName == "move" && this.id == sprite_id ){
+		if(/*operationName == "move_point" && this.id == sprite_id ||*/ operationName == "move" && this.id == sprite_id ){
 		area = this.area_2;
 	}	
 	var point = this.point;
@@ -43,14 +47,14 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		point = this.stamp_cursor_point ;
 	}	
 	
-	if(this.rotate !== 0 && option != "rotate_no"){
-		area = rotationArea(this.area_1, this.rotate);
-		if(operationName == "move_point" && this.id == sprite_id || operationName == "move" && this.id == sprite_id ){
-			area = rotationArea(this.area_2, this.rotate);
+	if(this.rotate !== 0 && option != "rotate_no" || option && option.flip != undefined){
+
+	    area = rotationArea(this.area_1, this.rotate);			
+		if(/*operationName == "move_point" && this.id == sprite_id || */operationName == "move" && this.id == sprite_id ){			
+
+			area = rotationArea(this.area_2, this.rotate);			
+						
 		}
-		if(operationName == "move_point" && this.id == sprite_id){			
-			area = this.temporalArr.area_2;
-		}		
 		    var halfW = (this.point2[0] - this.point[0])/2;
 			var halfH = (this.point2[1] - this.point[1])/2;			
 			var move = [this.point[0]+  halfW, this.point[1] + halfH];
@@ -60,16 +64,18 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 			}
 			ctx.save();
 			ctx.translate(move[0],   move[1]);
-			ctx.rotate(this.rotate);
-            				
+			if(option != undefined){
+				if(option.flip == "x")ctx.scale( -1, 1);
+				if(option.flip == "y")ctx.scale( 1, -1);
+			}	
+			ctx.rotate(this.rotate);           				
 			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
-
 			ctx.restore();
 	}else{
 		
 		ctx.drawImage(this.frame, point[0], point[1], width, height);
 	}
-	if(this.id == sprite_id && operationName != "scale" && this.stamp_cursor == false){	
+	if(this.id == sprite_id && /* operationName != "scale" &&*/ this.stamp_cursor == false){	
 		drawAreaPoints(area)
 	}
 }
@@ -100,10 +106,28 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	this.scale_y = coeff_y;
 		
 }
+CollageSprite.prototype.flip = function(x, y, context){
+	ctx.clearRect(0, 0, srcWidth , srcHeight);
+	
+	var saveRotate = this.rotate;
+	this.rotate = 0;
+	if(x)this.render(false, false, {flip: "x"});
+	if(y)this.render(false, false, {flip: "y"});
+	this.rotate = saveRotate;
+		
+	var area = mirror_x_area(this.area_1, x, y);
+	this.area_1 = area.slice(0);
+	this.area_2 = area.slice(0);
+
+	var imgMapArr = getCutImg(ctx, area, false);
+	context.$methods().renderAll(false, "not-render");
+	getImgToSprite(imgMapArr, this);
+
+}
 
 CollageSprite.prototype.mousedown = function(point, e, context){	
 	if(this.cursorOver){     //move движение всего спрайта							
-		if(this.moveStart === false && this.isMovePoint === false && this.currentOperation === false){
+		if(this.moveStart === false /*&& this.isMovePoint === false*/&& this.currentOperation === false){
 			this.moveStart = point;
 			this.currentOperation = "move";
 			this.savePoints = {point: this.point.slice(0), point2: this.point2.slice(0),}

@@ -263,6 +263,7 @@ function scaleArea(area, coeff_x, coeff_y){
 	}
 	return newArr;	
 }
+//отражение контура по x ,y осям
 function mirror_x_area(area, x, y){
 	var imgBox = getBox(area);
 	var width = imgBox[1][0] - imgBox[0][0];

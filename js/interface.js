@@ -354,11 +354,15 @@ var StateMap = {
 				if( this.$props("operationWith") == "common")drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);
 			},		
 			 mirror_x_area: function(){
-				if(!this.$props("commonProps").isEndArea_1 || this.$props("operationWith") != "common"){					
+				/*if(!this.$props("commonProps").isEndArea_1 || this.$props("operationWith") != "common"){					
 						alert("сперва нужно переключиться на фоновое изображение и закончить выделение");
 						return;					
-				}
-				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){					
+				}*/
+				if( this.$props("operationWith") == "common" ){
+                        if(!this.$props("commonProps").isEndArea_1){					
+							alert("сперва нужно закончить выделение");
+							return;					
+						}					
 						var area_1 = this.$props("commonProps").area_1;
 						saveStep(saveImg, this.$props().commonProps.area_1);
 						var img_data_arr =  getCutImg(ctx, area_1);
@@ -366,14 +370,19 @@ var StateMap = {
 						this.$props("commonProps").area_1 = area_1;
 						ctx.putImageData(saveImg, 0, 0);
 						drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, true, false);
+						
+				}else if( this.$props().sprites[this.$props("operationWith")] ){					
+					var sprite = this.$props().sprites[this.$props("operationWith")];
+					sprite.flip(true, false, this);
+
 				}
 			 },
 			 mirror_y_area: function(){
-				 if(!this.$props("commonProps").isEndArea_1 || this.$props("operationWith") != "common"){					
-						alert("сперва нужно переключиться на фоновое изображение и закончить выделение");
-						return;					
-				}
-				if( this.$props("operationWith") == "common" && this.$props("commonProps").isEndArea_1 ){
+				if( this.$props("operationWith") == "common" ){
+					    if(!this.$props("commonProps").isEndArea_1){					
+							alert("сперва нужно закончить выделение");
+							return;					
+						}
 				 var area_1 = this.$props("commonProps").area_1;
 				 saveStep(saveImg, this.$props().commonProps.area_1);
 				 var img_data_arr =  getCutImg(ctx, area_1);
@@ -381,6 +390,10 @@ var StateMap = {
 				 this.$props("commonProps").area_1 = area_1;
 				 ctx.putImageData(saveImg, 0, 0);
 				 drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, false, true);
+				 
+				}else if( this.$props().sprites[this.$props("operationWith")] ){					
+					var sprite = this.$props().sprites[this.$props("operationWith")];
+					sprite.flip(false, true, this);
 				}				 
 			 },
 			add_index_point_click: function(){		//добавить точку после индекса
@@ -806,12 +819,12 @@ var StateMap = {
 		sprites: {},	//спрайты	
 	},
 	stateMethods: {		
-		renderAll: function(operationName, point_){	//отображает на экране все спрайты и фоновую картинку		
+		renderAll: function(operationName, option){	//отображает на экране все спрайты и фоновую картинку		
 			ctx.putImageData(saveImg, 0, 0);
 			var sprId_or_common = this.stateProperties.operationWith;
 			var sprites = this.stateProperties.sprites;		
 			for (var key in sprites){				
-				sprites[key].render(sprId_or_common, operationName, point_);
+				sprites[key].render(sprId_or_common, operationName, option);
 				//console.log(sprites);
 			}		
 		},
