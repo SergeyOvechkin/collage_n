@@ -643,7 +643,14 @@ var StateMap = {
 		}
 	},
 	sprites: {
-		arrayProps: [["listen_create_sprite", "emiter-create-sprite", ""]],
+		selector: "div.sprites",
+		arrayProps: [
+			["listen_create_sprite", "emiter-create-sprite", ""],
+			["show_box_click", "click",  "[name='show_box']"], 
+			["show_box", "checkbox",  "[name='show_box']"],
+			["show_points_click", "click",  "[name='show_points']"], 
+			["show_points", "checkbox",  "[name='show_points']"],
+		],
 		arrayMethods: {			
 			listen_create_sprite: function(){			
 				var id = this.emiter.prop;				
@@ -652,7 +659,18 @@ var StateMap = {
 				}				
 				var container = this.parent.add({id: id, class: "active"}, 0);	
                 container.props.id.prop = id;				
-			}
+			},
+			show_box_click: function(){
+				showBox = this.parent.props.show_box.getProp();	
+				this.$methods().renderAll();
+				if( this.$props("operationWith") == "common")drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);			
+			},
+			show_points_click: function(){
+				showPoints = this.parent.props.show_points.getProp();
+				this.$methods().renderAll();
+				if( this.$props("operationWith") == "common")drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);				
+			},
+			
 		},
 		container: "sprite",
 		props: [ ["id", "inputvalue", "[name='id']"], ["change_id", "change", "[name='id']"], ["class", "class", ""], ["click", "click", ""], ["rm_sprite", "click", "[name='rm_sprite']"],

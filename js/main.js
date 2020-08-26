@@ -3,7 +3,7 @@
 	var srcWidth, srcHeight; //высота и ширина области рисования
 	
 	
-	var colorSpriteArea = "green";
+	var colorSpriteArea = "#0fec42";
 	var colorCommonArea = "red";
 
 	 var img = new Image();
@@ -19,6 +19,10 @@
      var mainImgScale_y = 0.7; //множитель размера картинки(масштаб)
 	 var mirror_x = 1;
 	 var mirror_y = 1;
+	 
+	var showBox = true; //показывать квадрат в который вписан спрайт
+	var showPoints = false; //контрольные точки выделения спрайтов
+	 
 	 var spritesStorage = window.localStorage;
 	 var modules = {}; //подключаемые cdn функции
 	 var HM; //htmlix state

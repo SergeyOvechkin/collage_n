@@ -17,6 +17,7 @@ function CollageSprite(img, area, id, rotate){
 	if(rotate != undefined)this.rotate = rotate;
 	this.show = true;
 	this.stamp_cursor = false;//рисование спрайтом
+
 	
 	this.scale_x = 1; //масштаб относительно изначального при создании спрайта
 	this.scale_y = 1;
@@ -75,9 +76,26 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		
 		ctx.drawImage(this.frame, point[0], point[1], width, height);
 	}
-	if(this.id == sprite_id && /* operationName != "scale" &&*/ this.stamp_cursor == false){	
-		drawAreaPoints(area)
+	if(this.id == sprite_id && /* operationName != "scale" &&*/ this.stamp_cursor == false){
+		
+		if(showPoints == true){
+			drawAreaPoints(area);
+		}else{
+			drawArea(area, true);
+		}		
+		if(showBox == true)this.drawBox();
+		
 	}
+}
+CollageSprite.prototype.drawBox = function(){
+	       
+			
+			drawLine([this.point[0], this.point[1]], [this.point2[0], this.point[1]], "yellow", 1 );
+			drawLine([this.point[0], this.point[1]], [this.point[0], this.point2[1]], "yellow", 1 );
+			drawLine([this.point[0], this.point2[1]],  [this.point2[0], this.point2[1]], "yellow", 1);
+			drawLine([this.point2[0], this.point2[1]], [this.point2[0], this.point[1]], "yellow", 1);
+			
+		
 }
 CollageSprite.prototype.setAreas = function(area){
 	this.area_1 = area.slice(0);

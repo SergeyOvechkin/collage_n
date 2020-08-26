@@ -58,13 +58,24 @@ function drawArea(area, isEnd){
 	}	
 }
 //рисует линию на канвас
-function drawLine(point1, point2){	
-	ctx.strokeStyle = lineColor;
+function drawLine(point1, point2, color, lineW){	
+    if(color != undefined){
+		ctx.strokeStyle = color;
+	}else{
+		ctx.strokeStyle = lineColor;
+	}
+	
 	ctx.beginPath();       // Начинает новый путь
 
 		ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
 	    ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
-		ctx.lineWidth = lineWidth;
+		if(lineW != undefined){
+			ctx.lineWidth = lineW;
+		}else{
+			
+			ctx.lineWidth = lineWidth;
+		}
+		
 		ctx.stroke();
 }
 //рисует контрольные точки многоугольника

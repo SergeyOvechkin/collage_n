@@ -181,6 +181,13 @@
 								  <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm d-none">Работать с фоновым изображением</button> 		
 							</form>	
 							<ul data-sprites="array" class="list-group" style="margin-top: 10px; margin-bottom: 10px; max-height: 300px; overflow: auto;">
+							<div  class="sprites-settings">
+								<input type="checkbox" name="show_box" checked  title="Показать граници спрайта">
+								<label class="form-check-label"  for="exampleCheck1" >show box</label>	
+							    <input type="checkbox" name="show_points"  title="Показать точки контура">
+								<label class="form-check-label" for="exampleCheck1" >show points</label>
+							</div>
+							<div class="sprites">	
 								<li data-sprite="template" class="list-group-item">
 									<!--<span name="id"></span>-->
 									<input name="id" type="text"  placeholder="" title="Изменить id спрайта">
@@ -193,6 +200,7 @@
 									<button type="button" name="save_sprite" class="btn  btn-success btn-sm" title="Сохранить спрайт на компьютере в локальном хранилище">Save on PC</button>
 									
 								</li>
+							</div>	
 							</ul>
 							
 							<form name="form_effects" onsubmit="return false" data-form_effects="container" style="margin-top: 10px;">
