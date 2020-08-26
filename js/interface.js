@@ -203,7 +203,7 @@ var StateMap = {
 				if(this.emiter.prop == "common"){
 					//console.log(props);
 					props.add_rm_index_point.removeProp("d-none");
-					props.scale_area_class.removeProp("d-none");
+					//props.scale_area_class.removeProp("d-none");
 					props.common_btns_class.removeProp("d-none");
 					//props.form_effects_class.removeProp("d-none");
 					

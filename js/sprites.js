@@ -21,36 +21,11 @@ function CollageSprite(img, area, id, rotate){
 	this.scale_x = 1; //масштаб относительно изначального при создании спрайта
 	this.scale_y = 1;
 }
-CollageSprite.prototype.setAreas = function(area){
-	this.area_1 = area.slice(0);
-	this.area_2 = area.slice(0);
-	var imgBox = getBox(area);	
-	this.point = imgBox[0];
-	this.point2 = imgBox[1];	
-}
-CollageSprite.prototype.rotateArea = function(){
-	
-	var area = rotationArea(this.area_1, this.rotate);
-	this.area_1 = area.slice(0);
-	this.area_2 = area.slice(0);
-}
-CollageSprite.prototype.scale = function(coeff_x, coeff_y){
-	if(coeff_x == this.scale_x && coeff_y == this.scale_y)return;
-	
-	var current_scale_x = coeff_x/this.scale_x; var current_scale_y = coeff_y/this.scale_y;
-	area = scaleArea(this.area_1, current_scale_x, current_scale_y);
-	this.area_1 = area.slice(0);
-	this.area_2 = area.slice(0);
-	var imgBox = getBox(area);
-	this.point = imgBox[0];
-	this.point2 = imgBox[1];
-	this.scale_x = coeff_x;
-	this.scale_y = coeff_y;
-		
-}
+
 
 //при масштабировании и вращении спрайта, сначала считается масштабирование относительно начального размера,
 // затем поворот относительно центра уже отмасштабированого спрайта
+//поворот также считается относительно начального, при создании спрайта
 //масштабирование идет от центра в обоих направлениях
 CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	
@@ -97,6 +72,33 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	if(this.id == sprite_id && operationName != "scale" && this.stamp_cursor == false){	
 		drawAreaPoints(area)
 	}
+}
+CollageSprite.prototype.setAreas = function(area){
+	this.area_1 = area.slice(0);
+	this.area_2 = area.slice(0);
+	var imgBox = getBox(area);	
+	this.point = imgBox[0];
+	this.point2 = imgBox[1];	
+}
+CollageSprite.prototype.rotateArea = function(){
+	
+	var area = rotationArea(this.area_1, this.rotate);
+	this.area_1 = area.slice(0);
+	this.area_2 = area.slice(0);
+}
+CollageSprite.prototype.scale = function(coeff_x, coeff_y){
+	if(coeff_x == this.scale_x && coeff_y == this.scale_y)return;
+	
+	var current_scale_x = coeff_x/this.scale_x; var current_scale_y = coeff_y/this.scale_y;
+	var area = scaleArea(this.area_1, current_scale_x, current_scale_y);
+	this.area_1 = area.slice(0);
+	this.area_2 = area.slice(0);
+	var imgBox = getBox(area);
+	this.point = imgBox[0];
+	this.point2 = imgBox[1];
+	this.scale_x = coeff_x;
+	this.scale_y = coeff_y;
+		
 }
 
 CollageSprite.prototype.mousedown = function(point, e, context){	
@@ -165,8 +167,6 @@ CollageSprite.prototype.cursorOver_ = function(point){
 		this.cursorOver = false;
 	}	
 }
-
-
 
 CollageSprite.prototype.saveOnPC = function(){ 
 
