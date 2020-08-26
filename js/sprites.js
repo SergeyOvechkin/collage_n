@@ -13,10 +13,13 @@ function CollageSprite(img, area, id, rotate){
 	//this.isMove = false; //движение всего спрайта
 	this.moveStart = false; //начало движения "move" координаты
 	this.isMovePoint = false; //движение одной точки - ее индекс i	
-	this.rotate = 0;
+	this.rotate = 0; //вращение относительно начального при создании спрайта
 	if(rotate != undefined)this.rotate = rotate;
 	this.show = true;
-	this.stamp_cursor = false;
+	this.stamp_cursor = false;//рисование спрайтом
+	
+	this.scale_x = 1; //масштаб относительно изначального при создании спрайта
+	this.scale_y = 1;
 }
 CollageSprite.prototype.setAreas = function(area){
 	this.area_1 = area.slice(0);
@@ -31,7 +34,24 @@ CollageSprite.prototype.rotateArea = function(){
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
 }
+CollageSprite.prototype.scale = function(coeff_x, coeff_y){
+	if(coeff_x == this.scale_x && coeff_y == this.scale_y)return;
+	
+	var current_scale_x = coeff_x/this.scale_x; var current_scale_y = coeff_y/this.scale_y;
+	area = scaleArea(this.area_1, current_scale_x, current_scale_y);
+	this.area_1 = area.slice(0);
+	this.area_2 = area.slice(0);
+	var imgBox = getBox(area);
+	this.point = imgBox[0];
+	this.point2 = imgBox[1];
+	this.scale_x = coeff_x;
+	this.scale_y = coeff_y;
+		
+}
 
+//при масштабировании и вращении спрайта, сначала считается масштабирование относительно начального размера,
+// затем поворот относительно центра уже отмасштабированого спрайта
+//масштабирование идет от центра в обоих направлениях
 CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	
 	if(!this.show)return;
@@ -40,6 +60,9 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		area = this.area_2;
 	}	
 	var point = this.point;
+	var width = this.point2[0] - this.point[0];
+	var height = this.point2[1] - this.point[1];
+	//console.log(width);
 	
 	if(this.stamp_cursor == true && this.stamp_cursor_point){	
 		point = this.stamp_cursor_point ;
@@ -63,17 +86,13 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 			ctx.save();
 			ctx.translate(move[0],   move[1]);
 			ctx.rotate(this.rotate);
-			if(this.stamp_cursor == true){
-				
-				ctx.drawImage(this.frame, -halfW, -halfH);
-			}else{
-				
-				ctx.drawImage(this.frame, -halfW, -halfH);
-			}
+            				
+			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
+
 			ctx.restore();
 	}else{
 		
-		ctx.drawImage(this.frame, point[0], point[1]);
+		ctx.drawImage(this.frame, point[0], point[1], width, height);
 	}
 	if(this.id == sprite_id && operationName != "scale" && this.stamp_cursor == false){	
 		drawAreaPoints(area)

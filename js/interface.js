@@ -192,7 +192,8 @@ var StateMap = {
 				 ["scale_x_area", 'inputvalue', "[name='scale_x_area']"], ["scale_y_area", 'inputvalue', "[name='scale_y_area']"], ["scale_x_y", 'click', "[name='scale_x_y']"], 
 				
 				["add_rm_classes_on_change_operationWith", 'emiter-operation-with', ""], ["add_rm_index_point", 'class', "[name='add_rm_index_point']"],
-				 ["scale_area_class", 'class', "[name='scale_area_class']"],  ["common_btns_class", 'class', "[name='common_btns_class']"],
+				 //["scale_area_class", 'class', "[name='scale_area_class']"],  
+				 ["common_btns_class", 'class', "[name='common_btns_class']"],
                  ["to_phone_img_class", 'class', "[name='operation_with']"],  
 				 
 		],			
@@ -209,7 +210,7 @@ var StateMap = {
 					props.to_phone_img_class.setProp("d-none");
 				}else{
 					props.add_rm_index_point.setProp("d-none");
-					props.scale_area_class.setProp("d-none");
+					//props.scale_area_class.setProp("d-none");
 					props.common_btns_class.setProp("d-none");
 					//props.form_effects_class.setProp("d-none");
 					
@@ -227,21 +228,29 @@ var StateMap = {
 				}	
 			},
 			scale_x_y: function(){	//масштабирует выделенную область
-				if(this.$props("operationWith") != "common" || !this.$props("commonProps").isEndArea_1){					
-						alert("сперва нужно переключиться на фоновое изображение и закончить выделение контура");
-						return;					
-				}			
+			
 				var coeff_x = this.props("scale_x_area").getProp(); var coeff_y = this.props("scale_y_area").getProp();
 				if(coeff_y == "" || coeff_y == false)coeff_y = 1;  if(coeff_x == "" || coeff_x == false)coeff_x = 1;
-				var area_1 = this.$props("commonProps").area_1;
-				saveStep(saveImg, this.$props().commonProps.area_1);
-				var area = scaleArea(area_1, coeff_x, coeff_y);			
-				var imgArr = getCutImg(ctx, area_1);
-				var imgBox_1 =  getBox(area_1);
-				var imgBox_2 =  getBox(area);
-				drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  (imgBox_1[1][0] -  imgBox_1[0][0])*coeff_x,  (imgBox_1[1][1] -  imgBox_1[0][1])*coeff_y );				
-				this.$methods().setAreas(area);
-				this.$methods().renderAll();				
+				
+				if(this.$props("operationWith") == "common" ){
+						if(!this.$props("commonProps").isEndArea_1){					
+										alert("сперва нужно  закончить выделение контура");
+											return;					
+						}
+					var area_1 = this.$props("commonProps").area_1;
+					saveStep(saveImg, this.$props().commonProps.area_1);
+					var area = scaleArea(area_1, coeff_x, coeff_y);			
+					var imgArr = getCutImg(ctx, area_1);
+					var imgBox_1 =  getBox(area_1);
+					var imgBox_2 =  getBox(area);
+					drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  (imgBox_1[1][0] -  imgBox_1[0][0])*coeff_x,  (imgBox_1[1][1] -  imgBox_1[0][1])*coeff_y );				
+					this.$methods().setAreas(area);
+					this.$methods().renderAll();
+				}else if( this.$props().sprites[this.$props("operationWith")] ){					
+					var sprite = this.$props().sprites[this.$props("operationWith")];
+					sprite.scale(coeff_x, coeff_y);
+					this.$methods().renderAll();
+				}				
 			},
 			load_img_click: function(event){ //загружает картинку с компьютера		
 				var img_ = this.parent.props.load_img.htmlLink.files[0];

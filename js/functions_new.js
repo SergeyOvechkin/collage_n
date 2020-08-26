@@ -222,10 +222,7 @@ function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
 	callb();
 	
 	drawAreaPoints(area);	
-
-	
-  });
-	
+  });	
 }
 function rotationArea(area, fi){
 	
@@ -264,8 +261,7 @@ function scaleArea(area, coeff_x, coeff_y){
 		}else{Y = cutArea[i][1]}
 		newArr.push( [   Math.round(X+imgBox[0][0]+width/2) ,  Math.round(Y+imgBox[0][1]+height/2) ] );
 	}
-	return newArr;
-	
+	return newArr;	
 }
 function mirror_x_area(area, x, y){
 	var imgBox = getBox(area);
