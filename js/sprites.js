@@ -224,8 +224,8 @@ function createFromPC(spr_id, context, to_beginning){
 	var imgBox = getBox(area);
     var img = new Image();
 	var sprite = new CollageSprite( img, area, spr_id, sprite_.rotate);
-	sprite.scale_x = sprite_.scale_x;
-	sprite.scale_y = sprite_.scale_y;
+	if(sprite_.scale_x == undefined){sprite.scale_x = 1;}else{sprite.scale_x = sprite_.scale_x;}
+	if(sprite_.scale_y == undefined){sprite.scale_y = 1;}else{sprite.scale_y = sprite_.scale_y;}
 	
 	context.$props("sprites")[spr_id] = sprite;
 	var dataURL = 'data:image/png;base64,' + sprite_.imgAsURL;
