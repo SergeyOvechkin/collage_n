@@ -643,7 +643,7 @@ var StateMap = {
 		}
 	},
 	sprites: {
-		selector: "div.sprites",
+		selector: ".sprites",
 		arrayProps: [
 			["listen_create_sprite", "emiter-create-sprite", ""],
 			["show_box_click", "click",  "[name='show_box']"], 
