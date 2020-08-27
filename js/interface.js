@@ -698,7 +698,12 @@ var StateMap = {
 			copy_contur: function(){
 				var id = this.props("id").getProp();
 				var sprite = this.$props().sprites[id];
-				this.$methods().setAreas(sprite.area_1);
+				if(sprite.rotate !== 0){	
+                     var area = rotationArea(sprite.area_1, sprite.rotate);				
+					this.$methods().setAreas( area  );				
+				}else{					
+					this.$methods().setAreas(sprite.area_1);
+				}
 				this.$props("commonProps").isEndArea_1 = true;								
 			},
 			save_sprite: function(){
