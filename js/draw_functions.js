@@ -1,15 +1,14 @@
 
+//возвращает вырезаные пиксели из контура, area, верхнюю левую и правую нижнюю точку изображения
+//isDrawSaveImg - false  - отменить обновление фона перед вырезанием пикселей
 function getCutImg(ctx, area, isDrawSaveImg){
 	
     ///прямогугольники в которые вписана данная область	
-	var imgBox = getBox(area); 
-	
+	var imgBox = getBox(area); 	
 	//ширина и высота прямоугольников
-	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];
-	
+	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];	
 	//точки площади с вычетом рассояния до прямоугольника
 	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]); 
-
 	//обект области фигуры
 	var cutPathArea =  getPathArea(cutArea); 
 	
@@ -19,14 +18,10 @@ function getCutImg(ctx, area, isDrawSaveImg){
 		}else{
 			ctx.putImageData(saveImg, 0, 0);
 		}
-	}
+	}	
+	var H , W;	H = cutHeight; W = cutWidth;	
 	
-	var H , W;
-	
-	H = cutHeight; W = cutWidth;
-		
 		var imgMap = ctx.getImageData(imgBox[0][0], imgBox[0][1], cutWidth , cutHeight);  	
-	
 			for(var tmpX = 0; tmpX <  W; tmpX++) {
 				for(var tmpY = 0;  tmpY < H; tmpY++) {
 					
@@ -41,8 +36,10 @@ function getCutImg(ctx, area, isDrawSaveImg){
 				}
 			}
 		 return [imgMap, [imgBox[0][0],  imgBox[0][1]],  [imgBox[1][0],  imgBox[1][1]] ]; 
-
 }
+//функция для рисования либо изменения цвета пикселей выделенной области
+//area - точки контура
+//rgbaArr -массив с RGBA - заначениями либо формула +=n, -=n, /=n, *=n
 function addEffect(ctx, area, rgbaArr){
 	
 	var imgBox = getBox(area); 	
@@ -109,6 +106,8 @@ function addEffect(ctx, area, rgbaArr){
 			}
 			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
 }
+//добавляет PGBA -эффект с помощью функции - script
+//area - массив с точками выделения
 function addEffect_1(ctx, area, script){
 	var temporaryObj = {};
 	var imgBox = getBox(area); 	
@@ -141,14 +140,14 @@ function addEffect_1(ctx, area, script){
 		return [R,G,B,A];
 	}		
 }
-
+//создание контура из скрипта
 function createContur(script){
 	var area = [];
 	eval(script);
-
 	return area;
 }
-
+//асинхронно добовляет картинку в спрайт
+//imgMapArr - массив с вырезаными пикселями и угловыми точками выделения 
 function getImgToSprite(imgMapArr, sprite, isRender){
    Promise.all([
    
@@ -162,6 +161,8 @@ function getImgToSprite(imgMapArr, sprite, isRender){
   });
 	
 }
+///асинхронно рисует вырезанные пиксели по верх фонового изображения
+//imgMap - пиксели, point-координаты, area-контур, mirror_x -true or flase, mirror_y -true or flase, width ширина , heigh высота 
 function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height){
 	
    Promise.all([
@@ -201,6 +202,7 @@ function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height
   });
 	
 }
+//асинхронно рисует повернутые на какой либо градус вырезанные пиксели по верх фона
 function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
 	
 	var move = [point[0]+(point2[0] - point[0])/2, point[1]+(point2[1] - point[1])/2];
@@ -224,6 +226,7 @@ function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
 	drawAreaPoints(area);	
   });	
 }
+//вращает масив контура вокруг своего центра
 function rotationArea(area, fi){
 	
 	var imgBox = getBox(area);
@@ -241,6 +244,7 @@ function rotationArea(area, fi){
 	}
 	return newArr;	
 }
+//масштабирует конттур относительно центра
 function scaleArea(area, coeff_x, coeff_y){
 	var imgBox = getBox(area);
 	var width = imgBox[1][0] - imgBox[0][0];
@@ -277,11 +281,8 @@ function mirror_x_area(area, x, y){
 		newArr.push( [   Math.round(X+imgBox[0][0]) ,  Math.round(Y+imgBox[0][1]) ] );
 	}
 	return newArr;	
-	
 }
-
-
-///возвращает сторону квадрата 
+///возвращает сторону квадрата для операции искажения по точкам
 function getSquareSide(area, indexPoint){
 	
 	var imgBox = getBox(area);	
@@ -315,8 +316,7 @@ function getSquareSide(area, indexPoint){
 		//side = 1;
 	}
 	//console.log(side, indexPoint);
-	return side;
-		
+	return side;		
 }
 ///возвращает прямоугольник с координатами в который вписана данная область
 function getBox(area){	
@@ -345,7 +345,6 @@ function getCutSize(area, startX, startY){
 		return [pos[0]-startX, pos[1]-startY];
 	})
 }
-
 //получает массив с двумя imgData объектами для последующей трансформации
 function getImgData(typeOperation,  imgBox, imgBox2, cutWidth, cutWidth2, cutHeight, cutHeight2, ctx){	
 	var imgMap, imgMap2;	
@@ -608,6 +607,156 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 	    //ctx.fillRect(0, 0, srcWidth, srcHeight);
 		//ctx.putImageData(imgMap, imgBox2[0][0], imgBox2[0][1]-diff);
 		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+}
+
+//возвращает расстояние между точками x и y
+function getDistance(point_1, point_2){
+	
+	return[ point_1[0]-point_2[0], point_1[1]-point_2[1] ];
+}
+
+
+//вырезает и искажает часть изображения 
+//area_1, area_2, - контур до и после искажения
+//move_point - index - искажаемой точки
+//transparent - true or false  -делать или нет прозрачной область вокруг выделения
+//isSaveImg - false - отменить сохранение вырезанной области
+function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg){
+	var side = getSquareSide(area_2, area_2[move_point]);
+	var imgDataArr;
+	if(isSaveImg == undefined || isSaveImg != false)ctx.putImageData(saveImg, 0, 0);
+		if(side == 0){			
+			imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, false, transparent, );			
+		}else if(side == 2){			
+			imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, true, transparent, );
+		}else if(side == 1){			
+			imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, false, transparent, );
+		}else if(side == 3){			
+			imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, true, transparent, );
+		}
+	if(isSaveImg == undefined || isSaveImg != false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+	return imgDataArr;
+}
+
+//рисует контур и точки выделения области 
+function drawAreaPoints(area, isEnd){
+	    if(isEnd == undefined)isEnd = true;
+		drawArea(area, isEnd);
+		drawAllSquares(area, halfPoitSize);
+}
+
+///возвращает координаты токчи при клике на канвас
+function getCanvasPoint(e, canvas){
+	
+	var bbox = canvas.getBoundingClientRect();	
+	return [e.clientX - bbox.left * (canvas.width / bbox.width), e.clientY - bbox.top * (canvas.height / bbox.height)];
+}
+
+//замыкает контур фигуры при клике на начальную точку
+function endArea(area, point){	
+		if(area.length >= 3){
+           // console.log(Math.abs(point[0] - area[0][0]));			
+			if( Math.abs(point[0] - area[0][0]) <= halfPoitSize && Math.abs(point[1] - area[0][1]) <= halfPoitSize){				
+				point[0] = area[0][0];
+				point[1] = area[0][1];
+                return true;				
+			}		
+		}
+        return false;		
+}
+
+//рисует многоугольник из точек если передать isEnd = true замыкает его на нулевой точке
+function drawArea(area, isEnd){	
+	if(area.length > 1){
+		for(var i=1; i<area.length; i++){			
+			drawLine(area[i-1], area[i]);
+		}
+        if(isEnd)drawLine(area[area.length-1], area[0]);		
+	}	
+}
+//рисует линию на канвас
+function drawLine(point1, point2, color, lineW){	
+    if(color != undefined){
+		ctx.strokeStyle = color;
+	}else{
+		ctx.strokeStyle = lineColor;
+	}	
+	ctx.beginPath();       // Начинает новый путь
+
+		ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
+	    ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
+		if(lineW != undefined){
+			ctx.lineWidth = lineW;
+		}else{
+			
+			ctx.lineWidth = lineWidth;
+		}		
+		ctx.stroke();
+}
+//рисует контрольные точки многоугольника
+function drawAllSquares(points, halfPoitSize){	
+	for (var i=0; i<points.length; i++){		
+		mouseSquare(points[i], halfPoitSize, i);
+	}
+}
+
+///рисует квадрат для точки контура выделения
+function mouseSquare(point, halfPoitSize, number){	
+	ctx.fillStyle = "yellow";
+	ctx.fillRect(point[0]-halfPoitSize, point[1]-halfPoitSize, halfPoitSize*2, halfPoitSize*2);
+	if(number != undefined){
+		ctx.fillStyle = "black";
+		ctx.fillText(number, point[0]-halfPoitSize, point[1]+halfPoitSize/2, halfPoitSize*2);
+	}
+}
+//проверяет клик по угловой точке на многоугольнике
+function isClickOnPoint(area ,point){
+	for(var i=0; i<area.length; i++){	
+		if( Math.abs(point[0] - area[i][0]) <= halfPoitSize*1.5 && Math.abs(point[1] - area[i][1]) <= halfPoitSize*1.5){
+           // console.log(i);			
+			return i;			
+		}		
+	}
+    return false;	
+}
+//добавляет точку в массив области выделения
+function addPointTooArray(area, index ){
+		 
+         if(area.length <= index)return false;
+			 
+		    var index2 = index+1;
+		   
+		   if(area.length-1 == index)index2 = 0;
+
+            var point = [(area[index2][0] - area[index][0])/2+area[index][0],  (area[index2][1] - area[index][1])/2+area[index][1] ];		   
+	   
+			area.splice(index+1, 0, point);
+			drawArea(area, true);
+			drawAllSquares(area, halfPoitSize);
+			
+           return index+1;
+}
+//удаляет точку контура
+function rmPointFromArray(area, index){
+	
+	        if(area.length-1 < index)return false;
+		   	   
+			area.splice(index, 1);
+			ctx.putImageData(saveImg, 0, 0);
+			drawArea(area, true);
+			drawAllSquares(area, halfPoitSize);
+			
+           return index;	
+}
+///возвращает объект области фигуры 
+function getPathArea(area){	
+	let path = new Path2D();	
+	path.moveTo(area[0][0], area[0][1]);	
+	for(var i=1; i<area.length; i++){		
+		path.lineTo(area[i][0], area[i][1]);	
+	}
+	path.closePath();	
+	return path;
 }
 
 

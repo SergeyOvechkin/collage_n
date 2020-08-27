@@ -31,12 +31,11 @@ function CollageSprite(img, area, id, rotate){
 //масштабирование идет от центра в обоих направлениях
 //при отражении спрайта убирается вращение затем производится отражение, затем вращается сново уже отраженным 
 CollageSprite.prototype.render = function(sprite_id , operationName, option){
-	
-
-	if(!this.show || this.id == sprite_id && option != undefined && option == "not-render")return;
+	if(option == undefined)option = {};
+	if(!this.show || this.id == sprite_id  &&   option.not_render == true)return;
 	
     var area = this.area_1;
-		if(/*operationName == "move_point" && this.id == sprite_id ||*/ operationName == "move" && this.id == sprite_id ){
+		if(operationName == "move" && this.id == sprite_id ){
 		area = this.area_2;
 	}	
 	var point = this.point;
@@ -46,29 +45,21 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	
 	if(this.stamp_cursor == true && this.stamp_cursor_point){	
 		point = this.stamp_cursor_point ;
-	}	
-	
-	if(this.rotate !== 0 && option != "rotate_no" || option && option.flip != undefined){
-
+	}		
+	if(this.rotate !== 0){
 	    area = rotationArea(this.area_1, this.rotate);			
-		if(/*operationName == "move_point" && this.id == sprite_id || */operationName == "move" && this.id == sprite_id ){			
-
-			area = rotationArea(this.area_2, this.rotate);			
-						
+		if(operationName == "move" && this.id == sprite_id ){			
+			area = rotationArea(this.area_2, this.rotate);									
 		}
-		    var halfW = (this.point2[0] - this.point[0])/2;
-			var halfH = (this.point2[1] - this.point[1])/2;			
+		    var halfW = width/2;
+			var halfH = height/2;	
 			var move = [this.point[0]+  halfW, this.point[1] + halfH];
             if(this.stamp_cursor == true){
 				
 				move = [point[0]+  halfW , point[1] + halfH ];
 			}
 			ctx.save();
-			ctx.translate(move[0],   move[1]);
-			if(option != undefined){
-				if(option.flip == "x")ctx.scale( -1, 1);
-				if(option.flip == "y")ctx.scale( 1, -1);
-			}	
+			ctx.translate(move[0],   move[1]);				
 			ctx.rotate(this.rotate);           				
 			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
 			ctx.restore();
@@ -76,26 +67,25 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		
 		ctx.drawImage(this.frame, point[0], point[1], width, height);
 	}
-	if(this.id == sprite_id && /* operationName != "scale" &&*/ this.stamp_cursor == false){
+	if(this.id == sprite_id && this.stamp_cursor == false){
 		
-		if(showPoints == true){
+		if(option.showPoints == true){
 			drawAreaPoints(area);
 		}else{
 			drawArea(area, true);
 		}		
-		if(showBox == true)this.drawBox();
-		
+		if( option.showBox == true){
+			this.drawBox(this.point, this.point2);
+		}	
 	}
 }
-CollageSprite.prototype.drawBox = function(){
-	       
-			
-			drawLine([this.point[0], this.point[1]], [this.point2[0], this.point[1]], "yellow", 1 );
-			drawLine([this.point[0], this.point[1]], [this.point[0], this.point2[1]], "yellow", 1 );
-			drawLine([this.point[0], this.point2[1]],  [this.point2[0], this.point2[1]], "yellow", 1);
-			drawLine([this.point2[0], this.point2[1]], [this.point2[0], this.point[1]], "yellow", 1);
-			
-		
+CollageSprite.prototype.drawBox = function(point, point2){
+	       			
+			drawLine([point[0], point[1]], [point2[0], point[1]], "yellow", 1 );
+			drawLine([point[0], point[1]], [point[0], point2[1]], "yellow", 1 );
+			drawLine([point[0], point2[1]],  [point2[0], point2[1]], "yellow", 1);
+			drawLine([point2[0], point2[1]], [point2[0], point[1]], "yellow", 1);
+					
 }
 CollageSprite.prototype.setAreas = function(area){
 	this.area_1 = area.slice(0);
@@ -126,21 +116,35 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 }
 CollageSprite.prototype.flip = function(x, y, context){
 	ctx.clearRect(0, 0, srcWidth , srcHeight);
+
+			var width = this.point2[0] - this.point[0];
+			var height = this.point2[1] - this.point[1];
+			var halfW = width/2;
+			var halfH = height/2;	
+			var move = [this.point[0]+  halfW, this.point[1] + halfH];
+			ctx.save();
+			ctx.translate(move[0],   move[1]);
+       			
+				if(x)ctx.scale( -1, 1);
+				if(y)ctx.scale( 1, -1);
+            			           				
+			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
+			ctx.restore();
 	
-	var saveRotate = this.rotate;
-	this.rotate = 0;
-	if(x)this.render(false, false, {flip: "x"});
-	if(y)this.render(false, false, {flip: "y"});
-	this.rotate = saveRotate;
-		
 	var area = mirror_x_area(this.area_1, x, y);
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
 
 	var imgMapArr = getCutImg(ctx, area, false);
-	context.$methods().renderAll(false, "not-render");
+	context.$methods().renderAll(false, {not_render: true});
 	getImgToSprite(imgMapArr, this);
 
+}
+CollageSprite.prototype.getHalfW = function(){
+	return 	(this.point2[0]-this.point[0])/2;
+}
+CollageSprite.prototype.getHalfH = function(){
+	return 	(this.point2[1]-this.point[1])/2;
 }
 
 CollageSprite.prototype.mousedown = function(point, e, context){	
@@ -154,7 +158,7 @@ CollageSprite.prototype.mousedown = function(point, e, context){
 	}
     if(this.stamp_cursor === true){
 		var point = getCanvasPoint(e, canvas, context);
-		this.stamp_cursor_point = [ point[0] - (this.point2[0]-this.point[0])/2,   point[1] - (this.point2[1]-this.point[1])/2,];
+		this.stamp_cursor_point = [ point[0] - this.getHalfW(),   point[1] - this.getHalfH(),];
 		ctx.putImageData(saveImg, 0, 0);
 		this.render();
 		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
@@ -172,7 +176,7 @@ CollageSprite.prototype.mousemove  = function(point, context, e){
 	}
 	if(this.stamp_cursor === true){
 		var point = getCanvasPoint(e, canvas, context);
-		this.stamp_cursor_point = [ point[0] - (this.point2[0]-this.point[0])/2,   point[1] - (this.point2[1]-this.point[1])/2,];
+		this.stamp_cursor_point = [ point[0] - this.getHalfW(),   point[1] - this.getHalfH(),];
 		//ctx.putImageData(saveImg, 0, 0);
 		//this.render();
 		//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);

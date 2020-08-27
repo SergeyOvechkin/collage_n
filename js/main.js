@@ -8,8 +8,8 @@
 
 	 var img = new Image();
 	 img.src="./img/img.png";
-	 var saveImg = false; //предыдущее преобразование картинки
-	 var restoreImg = false;
+	 var saveImg = false; //предыдущее преобразование картинки фона
+	 var restoreImg = false; //сохраненная картинка
 	 var stepBack = []; //шаг назад для приобразований фоновой картинки
 	 var backStepCounts = 3; //максимальное количество шагов
 	 var halfPoitSize = 5; //размер половины квадрата точки на площади выделения контура
@@ -17,13 +17,10 @@
 	 var lineWidth = 3; //толщина линии выделения
 	 var mainImgScale_x = 0.7; //множитель размера картинки(масштаб)
      var mainImgScale_y = 0.7; //множитель размера картинки(масштаб)
-	 var mirror_x = 1;
+	 var mirror_x = 1; //отражение фона
 	 var mirror_y = 1;
 	 
-	var showBox = true; //показывать квадрат в который вписан спрайт
-	var showPoints = false; //контрольные точки выделения спрайтов
-	 
-	 var spritesStorage = window.localStorage;
+	 //var spritesStorage = window.localStorage;
 	 var modules = {}; //подключаемые cdn функции
 	 var HM; //htmlix state
 

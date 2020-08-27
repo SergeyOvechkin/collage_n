@@ -661,12 +661,12 @@ var StateMap = {
                 container.props.id.prop = id;				
 			},
 			show_box_click: function(){
-				showBox = this.parent.props.show_box.getProp();	
+				this.$props().showBox = this.parent.props.show_box.getProp();	
 				this.$methods().renderAll();
 				if( this.$props("operationWith") == "common")drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);			
 			},
 			show_points_click: function(){
-				showPoints = this.parent.props.show_points.getProp();
+				this.$props().showPoints = this.parent.props.show_points.getProp();
 				this.$methods().renderAll();
 				if( this.$props("operationWith") == "common")drawAreaPoints(this.$props("commonProps").area_1, this.$props("commonProps").isEndArea_1);				
 			},
@@ -834,10 +834,22 @@ var StateMap = {
 			isMovePoint : false, //индекс перемещаемой точки контура
 			scale_or_move: "move", // масштаб по точкам либо перемещение точки контура
 		},
-		sprites: {},	//спрайты	
+		sprites: {},	//спрайты
+	    showBox: true, //показывать квадрат в который вписан спрайт
+	    showPoints: false, //контрольные точки выделения спрайтов		
 	},
 	stateMethods: {		
-		renderAll: function(operationName, option){	//отображает на экране все спрайты и фоновую картинку		
+		renderAll: function(operationName, option){	//отображает на экране все спрайты и фоновую картинку
+
+			if(option == undefined){
+				option = {
+					showBox: this.stateProperties.showBox,
+					showPoints:  this.stateProperties.showPoints,			
+				}
+			}else{
+				option.showBox = this.stateProperties.showBox;
+				option.showPoints = this.stateProperties.showPoints;			
+			}		
 			ctx.putImageData(saveImg, 0, 0);
 			var sprId_or_common = this.stateProperties.operationWith;
 			var sprites = this.stateProperties.sprites;		
@@ -861,7 +873,7 @@ var StateMap = {
 			behavior: function(){				
 				this.$props().operationWith = this.prop;
 			}		
-		}, //событие операции с фоном или спрайтом
+		}, //событие смены операции (фоном, спрайтом)
 
 	}	
 }
