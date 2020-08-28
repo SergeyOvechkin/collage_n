@@ -94,9 +94,13 @@ canvas {
 	margin-top: 0px;
 	font-size: 16px;
  }
- [name="img_main_scale_x"], [name="img_main_scale_y"]{
+ [name="img_main_scale_x"], [name="img_main_scale_y"], [name="control_sprite_point_x"], [name="control_sprite_point_y"] {
 	 width: 45px;
+		 
+ }
+ [name="control_sprite_point_x"], [name="control_sprite_point_y"]{
 	 
+	 font-size: 14px;
 	 
  }
  

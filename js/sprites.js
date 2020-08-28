@@ -6,6 +6,7 @@ function CollageSprite(img, area, id, rotate){
 	this.frame = img;
 	this.point = imgBox[0];
 	this.point2 = imgBox[1];
+	this.controlPoint = false; //контрольная точка размещения центра спрайта на канвас
 	this.area_1 = area;
 	this.area_2 = area.slice(0);
 	this.cursorOver = false;
@@ -165,6 +166,20 @@ CollageSprite.prototype.mousedown = function(point, e, context){
 		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 		context.$methods().renderAll();		
 	}
+}
+CollageSprite.prototype.moveCenterTo  = function(point){
+	    var h_w = this.getHalfW();
+		var h_h = this.getHalfH();
+			
+		this.area_1 = getCutSize(this.area_1, this.point[0], this.point[1]);
+		this.area_1 = getCutSize(this.area_1, -point[0]+h_w, -point[1]+h_h);
+		this.area_2 = this.area_1.slice(0);
+		var imgBox = getBox(this.area_1);
+		
+		this.point = imgBox[0];
+		this.point2 = imgBox[1];
+
+       // console.log(this.point);		
 }
 CollageSprite.prototype.mousemove  = function(point, context, e){
 	

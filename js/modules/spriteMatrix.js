@@ -39,6 +39,12 @@ function download(filename, text) {
 													Спрайты на основе прямоугольников
 												</label>
 											</div>
+											<div class="form-check">
+												<input  class="form-check-input" type="checkbox" chacked name="is_save_control_points" id="exampleRadios3" value="contur">
+												<label class="form-check-label" for="exampleRadios3">
+													Сохранить контрольные точки
+												</label>
+											</div>
 										</div>
 
 										<div class="form-group col-4">						
@@ -52,9 +58,18 @@ function download(filename, text) {
 										<div class="alert alert-primary col-12" role="alert">
 											Для создания спрайтов из сохраненного спрайт листа, нужно загрузить картинку спрайтов, убедиться что ее масштаб равен 1:1. Далее скрыть все уже созданные спрайты и выделения.
 											Затем нажать на кнопку "Загрузить json лист" и загрузить json файл с описанием данной картинки. После чего модуль создаст все спрайты из описания.
+										</div>
+										<div class="form-group col-10">
+											<div class="form-check">
+												<input  class="form-check-input" type="checkbox" chacked name="move_to_control_points" id="exampleRadios3" title="Отобразить спрайты на контрольных точках (при их наличии)">
+												<label class="form-check-label" for="exampleRadios3">
+													Отобразить на контрольных точках
+												</label>
+											</div>
 										</div>	
+											
 										
-								    <div class="form-group col-12">
+								    <div class="form-group col-10">
 										 <div class="form-group">
 											<label name="load_matrix_click" class="inp-file" for="matrix_json" title="Загрузить спрайт лист (.json) с компьютера">Загрузить json лист</label>
 											<input name="load_matrix" type="file" class="form-control-file form-control-sm"  style="position: absolute; top: 0px; visibility: hidden;" id="matrix_json">
@@ -83,13 +98,16 @@ function download(filename, text) {
 	     ["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],
 		 
 		["create_matrix_btn", "click", "[name='create_matrix_btn']"], ["matrix_name", "inputvalue", "[name='matrix_name']"], 
-		"type_matrix_contur", "type_matrix_square",
+		"type_matrix_contur", "type_matrix_square", 
+		 ["is_save_control_points", "checkbox", "[name='is_save_control_points']"],
+			    ["move_to_control_points", "checkbox", "[name='move_to_control_points']"],
 		
 		["load_matrix_click", 'change', "[name='load_matrix']"], ["load_matrix", "inputvalue", "[name='load_matrix']"], 
              		
 	  ],
 	  methods: {
 		  load_matrix_click: function(){
+			    var move_to_control_points = this.props("move_to_control_points").getProp();
 			  	var json_ = this.parent.props.load_matrix.htmlLink.files[0];
 				var context = this;
 				handleFiles(json_); 
@@ -108,19 +126,25 @@ function download(filename, text) {
 								}								
 									var img_data_arr =  getCutImg(ctx, area);
 									var sprite = new CollageSprite(false,  area.slice(0), key);
+									if(spiteList[key].controlPoint != undefined){
+										sprite.controlPoint = spiteList[key].controlPoint;
+										if(move_to_control_points){
+											sprite.moveCenterTo(sprite.controlPoint);
+											img_data_arr[1]=sprite.point; img_data_arr[2]=sprite.point2; 
+										}
+									}									
 									context.$props("sprites")[key] = sprite;					 					 
 									getImgToSprite(img_data_arr, sprite, true);
 									context.$$("emiter-create-sprite").set(key);
 							}
-							//context.$methods().renderAll();
-							
+							//context.$methods().renderAll();							
 						}; })(json);						
 						reader.readAsText(file);					
 				}
 			  
 		  },		  
 		  create_matrix_btn: function(){
-			  
+			  var is_save_control_points = this.props("is_save_control_points").getProp();
 			  var matrix_name = this.props("matrix_name").getProp();			  
 			  var type_matrix_contur = this.props("type_matrix_contur").getProp();
 			  var type_matrix_square = this.props("type_matrix_square").getProp();
@@ -154,6 +178,7 @@ function download(filename, text) {
 					  spriteMatrix[key].width = point2[0] - point[0];
 					  spriteMatrix[key].height = point2[1] - point[1];
 				  }
+				  if(is_save_control_points)spriteMatrix[key].controlPoint = sprites[key].controlPoint;
 				  sprites[key].render();
 			  }
 			  

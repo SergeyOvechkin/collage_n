@@ -649,9 +649,31 @@ var StateMap = {
 			["show_box_click", "click",  "[name='show_box']"], 
 			["show_box", "checkbox",  "[name='show_box']"],
 			["show_points_click", "click",  "[name='show_points']"], 
-			["show_points", "checkbox",  "[name='show_points']"],
+			["show_points", "checkbox",  "[name='show_points']"], 
+			["add_control_sprite_point", "click",  "[name='add_control_sprite_point']"],
+			["all_to_control_points", "click",  "[name='all_to_control_points']"],
+			
 		],
-		arrayMethods: {			
+		arrayMethods: {
+			all_to_control_points: function(){
+				
+				var it = 0;
+				for(var key in this.$props().sprites){
+					var sprite = this.$props().sprites[key];
+					if(sprite.controlPoint)sprite.moveCenterTo(sprite.controlPoint);					
+					it++;
+				}
+				if(it>0)this.$methods().renderAll();
+				
+			},
+			add_control_sprite_point: function(){			
+					var sprite = this.$props().sprites[this.$props("operationWith")];
+					if( sprite != undefined ){					
+						var x = sprite.point[0]+sprite.getHalfW();
+						var y = sprite.point[1]+sprite.getHalfH();
+						sprite.controlPoint = [x, y];						
+					}												
+			},
 			listen_create_sprite: function(){			
 				var id = this.emiter.prop;				
 				for(var i=0; i < this.parent.data.length; i++){					
@@ -677,8 +699,18 @@ var StateMap = {
 		          ["show_sprite_click", "click", "[name='show_sprite']"], ["show_sprite", "text", "[name='show_sprite']"], 
 				   ["layer_up", "click", "[name='layer_up']"], ["stamp", "click", "[name='stamp']"], ["stamp_cursor", "click", "[name='stamp_cursor']"],
 				   ["save_sprite", "click", "[name='save_sprite']"],  ["copy_contur", "click", "[name='copy_contur']"],
+				    ["to_control_point", "click", "[name='to_control_point']"],
 				  ],
 		methods : {
+			to_control_point: function(){
+				var id = this.props("id").getProp();
+				var sprite = this.$props().sprites[id];
+				//console.log(sprite);
+				if(sprite && sprite.controlPoint){					
+					sprite.moveCenterTo(sprite.controlPoint);
+					this.$methods().renderAll();
+				}				
+			},
 			change_id: function(){
 				var id = this.props("id").getProp();
 				if(this.$props().sprites[id] != undefined){					
