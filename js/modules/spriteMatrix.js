@@ -22,7 +22,7 @@ function download(filename, text) {
 									<div class="form-row d-none">
 										<div class="alert alert-primary col-12" role="alert">
                                             Для создания спрайт листа необходимо расположить все спрайты на экране чтобы они не перекрывали контур друг друга.
-											Для спрайтов на основе прямоугольников - чтобы их граници не перекрывали друг друга. Скрытые из видимости спрайты не попадут в спрайт лист.
+											Для спрайтов на основе прямоугольников - чтобы их границы не перекрывали друг друга. Скрытые из видимости спрайты не попадут в спрайт лист.
 											Далее ввести имя спрайта для json файла и нажать на кнопку создать. Модуль создаст .json файл с именами и координатами спрайтов. Картинку спрайтов также нужно скопировать
 											на компъютер. 
 										</div>							
@@ -51,12 +51,12 @@ function download(filename, text) {
 
 										<div class="alert alert-primary col-12" role="alert">
 											Для создания спрайтов из сохраненного спрайт листа, нужно загрузить картинку спрайтов, убедиться что ее масштаб равен 1:1. Далее скрыть все уже созданные спрайты и выделения.
-											Затем нажать на кнопку "load matrix.json" и загрузить json файл с описанием данной картинки. После чего модуль создаст все спрайты из описания.
+											Затем нажать на кнопку "Загрузить json лист" и загрузить json файл с описанием данной картинки. После чего модуль создаст все спрайты из описания.
 										</div>	
 										
 								    <div class="form-group col-12">
 										 <div class="form-group">
-											<label name="load_matrix_click" class="inp-file" for="matrix_json" title="Загрузить спрайт лист.json с компьютера">load matrix.json</label>
+											<label name="load_matrix_click" class="inp-file" for="matrix_json" title="Загрузить спрайт лист (.json) с компьютера">Загрузить json лист</label>
 											<input name="load_matrix" type="file" class="form-control-file form-control-sm"  style="position: absolute; top: 0px; visibility: hidden;" id="matrix_json">
 										</div>
 									</div>
@@ -160,7 +160,7 @@ function download(filename, text) {
 			
 			  
 			var json = JSON.stringify(spriteMatrix);
-			console.log(json);
+			//console.log(json);
 			  download(matrix_name+".json", json);
 			 		  		  
 		  }	,	  
