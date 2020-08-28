@@ -53,7 +53,8 @@
 			  var props = this.parent.props;
 			  var radius = props.draw_sircle_radius.getProp();
 			  var color = props.draw_sircle_color.getProp();
-			  var point = this.emiter.prop;				
+			  var point = this.emiter.prop;	
+			  saveStep(saveImg, this.$props().commonProps.area_1);
 				ctx.save();
 	            ctx.putImageData(saveImg, 0, 0);
 				ctx.beginPath();

@@ -160,6 +160,7 @@ CollageSprite.prototype.mousedown = function(point, e, context){
 		var point = getCanvasPoint(e, canvas, context);
 		this.stamp_cursor_point = [ point[0] - this.getHalfW(),   point[1] - this.getHalfH(),];
 		ctx.putImageData(saveImg, 0, 0);
+		saveStep(saveImg, context.$props().commonProps.area_1);
 		this.render();
 		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 		context.$methods().renderAll();		
