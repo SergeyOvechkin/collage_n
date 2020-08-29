@@ -128,7 +128,7 @@ function download(filename, text) {
 									var sprite = new CollageSprite(false,  area.slice(0), key);
 									if(spiteList[key].controlPoint != undefined){
 										sprite.controlPoint = spiteList[key].controlPoint;
-										if(move_to_control_points){
+										if(move_to_control_points === true){
 											sprite.moveCenterTo(sprite.controlPoint);
 											img_data_arr[1]=sprite.point; img_data_arr[2]=sprite.point2; 
 										}

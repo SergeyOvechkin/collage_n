@@ -108,7 +108,7 @@ function addEffect(ctx, area, rgbaArr){
 }
 //добавляет PGBA -эффект с помощью функции - script
 //area - массив с точками выделения
-function addEffect_1(ctx, area, script){
+function addEffectEval(ctx, area, script){
 	var temporaryObj = {};
 	var imgBox = getBox(area); 	
 	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];
@@ -134,12 +134,49 @@ function addEffect_1(ctx, area, script){
 				}
 			}
 			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
-			
+		function runEval(R,G,B,A,X,Y,W,H,TMP){	
+			eval(script);	
+			return [R,G,B,A];
+		}			
+}
+
+//добавляет PGBA -эффект с помощью функции - script
+//area - массив с точками выделения
+function addEffectEvalToBorder(ctx, area,  script, coeff_x, coeff_y){
+	var temporaryObj = {};
+	var imgBox = getBox(area); 	
+	var cutWidth = imgBox[1][0] - imgBox[0][0]; var cutHeight = imgBox[1][1] - imgBox[0][1];
+	var cutArea = getCutSize(area, imgBox[0][0], imgBox[0][1]); 
+	var cutArea2 = scaleArea(cutArea, coeff_x, coeff_y);	
+	var cutPathArea =  getPathArea(cutArea);
+	var cutPathArea2 =  getPathArea(cutArea2); 
+	
+	ctx.putImageData(saveImg, 0, 0);
+	var H , W;	
+	H = cutHeight; W = cutWidth;		
+	var imgMap = ctx.getImageData(imgBox[0][0], imgBox[0][1], cutWidth , cutHeight);  	
+	
+			for(var tmpX = 0; tmpX <  W; tmpX++) {
+				for(var tmpY = 0;  tmpY < H; tmpY++) {
+					
+					var point = (tmpY*W+tmpX)*4; 								
+					if(ctx.isPointInPath(cutPathArea, tmpX, tmpY) && !ctx.isPointInPath(cutPathArea2, tmpX, tmpY)){							
+												
+						var arr_ = runEval(imgMap.data[ point], imgMap.data[ point+1], imgMap.data[ point+2], imgMap.data[ point+3], tmpX, tmpY, W, H, temporaryObj);
+
+						imgMap.data[ point] = arr_ [0]; imgMap.data[ point+1] = arr_ [1]; imgMap.data[ point+2] = arr_ [2]; imgMap.data[ point+3] = arr_ [3];
+						
+					}								
+				}
+			}
+			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
+
 	function runEval(R,G,B,A,X,Y,W,H,TMP){	
 		eval(script);	
 		return [R,G,B,A];
-	}		
+	}			
 }
+
 //создание контура из скрипта
 function createContur(script){
 	var area = [];

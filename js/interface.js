@@ -117,6 +117,7 @@ var StateMap = {
 				 ["color_b", 'inputvalue', "[name='color_b']"], ["color_a", 'inputvalue', "[name='color_a']"], ["function_to_contur", 'inputvalue', "[name='function_to_contur']"],
 				 ["function_to_contur_click", 'click', "[name='function_to_contur_click']"], ["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],
 				 ["form_effects_class", 'class', ""], ["add_rm_classes_on_change_operationWith", 'emiter-operation-with', ""],
+				 ["border_with_coeff_x", "inputvalue",  "[name='border_with_coeff_x']"], ["border_with_coeff_y", "inputvalue",  "[name='border_with_coeff_y']"], ["function_to_border_click", "click",  "[name='function_to_border_click']"],
 				 ],
         methods: {
 			add_rm_classes_on_change_operationWith: function(){
@@ -148,14 +149,42 @@ var StateMap = {
 				if(this.$props("operationWith") != "common" || !this.$props("commonProps").isEndArea_1){					
 						alert("сперва нужно переключиться на фоновое изображение и закончить выделение контура");
 						return;					
-				}				
+				}
+               
+ 				
 				var script = this.props("function_to_pixels").getProp();			
 				var area_1 = this.$props("commonProps").area_1;	
 				saveStep(saveImg, this.$props().commonProps.area_1);
-				addEffect_1(ctx, area_1, script);
+				addEffectEval(ctx, area_1, script);
 			    saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 			    this.$methods().renderAll();
 				drawAreaPoints(area_1);				
+			},
+			function_to_border_click: function(){
+				var border_with_coeff_x = parseFloat(this.props("border_with_coeff_x").getProp());
+				var border_with_coeff_y = parseFloat(this.props("border_with_coeff_y").getProp());
+				
+			    if(this.$props("operationWith") != "common" || !this.$props("commonProps").isEndArea_1){					
+						alert("сперва нужно переключиться на фоновое изображение и закончить выделение контура");
+						return;					
+				}
+				if(isNaN(border_with_coeff_x) || isNaN(border_with_coeff_y)){
+					alert("некорректно заданы коэффициенты ширины граници");
+					return;
+				}
+				 var coeff_x = 1-border_with_coeff_x;
+				 var coeff_y = 1-border_with_coeff_y;
+
+				var script = this.props("function_to_pixels").getProp();			
+				var area_1 = this.$props("commonProps").area_1;
+				saveStep(saveImg, this.$props().commonProps.area_1);
+				//var area_2 = scaleArea(area_1, coeff_x, coeff_y);
+				
+				
+				addEffectEvalToBorder(ctx, area_1, script, coeff_x, coeff_y);
+			    saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+			    this.$methods().renderAll();
+				drawAreaPoints(area_1);					
 			},
 			rgba_effect: function (){ //формула или значение для цвета пикселя
 				if(this.$props("operationWith") != "common" || !this.$props("commonProps").isEndArea_1){					
