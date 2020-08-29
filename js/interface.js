@@ -223,26 +223,35 @@ var StateMap = {
 				["add_rm_classes_on_change_operationWith", 'emiter-operation-with', ""], ["add_rm_index_point", 'class', "[name='add_rm_index_point']"],
 				 //["scale_area_class", 'class', "[name='scale_area_class']"],  
 				 ["common_btns_class", 'class', "[name='common_btns_class']"],
-                 ["to_phone_img_class", 'class', "[name='operation_with']"],  
+                 ["to_phone_img_class", 'class', "[name='operation_with']"], 
+				 ["scale_rotate_area_sprite", 'class', "[name='scale_rotate_area_sprite']"], 
+				 ["mirror_x_area", 'class', "[name='mirror_x_area']"], ["mirror_y_area", 'class', "[name='mirror_y_area']"],
+				 
 				 
 		],			
 		methods: {
-			add_rm_classes_on_change_operationWith: function(){
+			add_rm_classes_on_change_operationWith: function(){ //скрывает кнопки при операции со спрайтами и фоновой картинкой
 				var props = this.parent.props; 			
-				if(this.emiter.prop == "common"){
-					//console.log(props);
+				if(this.emiter.prop == "common"){ //видимые кнопки при операциях с фоном
+					props.mirror_x_area.removeProp("d-none");
+					props.mirror_y_area.removeProp("d-none");
 					props.add_rm_index_point.removeProp("d-none");
-					//props.scale_area_class.removeProp("d-none");
 					props.common_btns_class.removeProp("d-none");
-					//props.form_effects_class.removeProp("d-none");
-					
+					props.scale_rotate_area_sprite.removeProp("d-none");
 					props.to_phone_img_class.setProp("d-none");
-				}else{
+				}else if(this.$props().sprites[this.$props("operationWith")]){ //со спрайтами
+					props.mirror_x_area.removeProp("d-none");
+					props.mirror_y_area.removeProp("d-none");
 					props.add_rm_index_point.setProp("d-none");
-					//props.scale_area_class.setProp("d-none");
 					props.common_btns_class.setProp("d-none");
-					//props.form_effects_class.setProp("d-none");
-					
+					props.scale_rotate_area_sprite.removeProp("d-none");					
+					props.to_phone_img_class.removeProp("d-none");
+				}else{ //другими операциями
+					props.mirror_x_area.setProp("d-none");
+					props.mirror_y_area.setProp("d-none");					
+					props.scale_rotate_area_sprite.setProp("d-none");
+					props.add_rm_index_point.setProp("d-none");
+					props.common_btns_class.setProp("d-none");
 					props.to_phone_img_class.removeProp("d-none");
 				}
 				
