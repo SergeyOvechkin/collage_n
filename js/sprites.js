@@ -7,6 +7,7 @@ function CollageSprite(img, area, id, rotate){
 	this.point = imgBox[0];
 	this.point2 = imgBox[1];
 	this.controlPoint = false; //контрольная точка размещения центра спрайта на канвас
+	this.controlSpritePoint = false; //контрольная точка в спрайт листе
 	this.area_1 = area;
 	this.area_2 = area.slice(0);
 	this.cursorOver = false;

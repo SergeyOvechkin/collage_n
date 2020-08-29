@@ -42,7 +42,7 @@ function download(filename, text) {
 											<div class="form-check">
 												<input  class="form-check-input" type="checkbox" chacked name="is_save_control_points" id="exampleRadios3" value="contur">
 												<label class="form-check-label" for="exampleRadios3">
-													Сохранить контрольные точки
+													Сохранить контрольные точки спрайтов
 												</label>
 											</div>
 										</div>
@@ -126,6 +126,9 @@ function download(filename, text) {
 								}								
 									var img_data_arr =  getCutImg(ctx, area);
 									var sprite = new CollageSprite(false,  area.slice(0), key);
+									if(spiteList[key].controlSpritePoint != undefined){
+										sprite.controlSpritePoint = spiteList[key].controlSpritePoint;										
+									}
 									if(spiteList[key].controlPoint != undefined){
 										sprite.controlPoint = spiteList[key].controlPoint;
 										if(move_to_control_points === true){
@@ -178,7 +181,10 @@ function download(filename, text) {
 					  spriteMatrix[key].width = point2[0] - point[0];
 					  spriteMatrix[key].height = point2[1] - point[1];
 				  }
-				  if(is_save_control_points)spriteMatrix[key].controlPoint = sprites[key].controlPoint;
+				  if(is_save_control_points){
+					  spriteMatrix[key].controlPoint = sprites[key].controlPoint;
+					  spriteMatrix[key].controlSpritePoint = sprites[key].controlSpritePoint;
+				  }
 				  sprites[key].render();
 			  }
 			  

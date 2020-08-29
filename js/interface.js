@@ -679,23 +679,41 @@ var StateMap = {
 			["show_box", "checkbox",  "[name='show_box']"],
 			["show_points_click", "click",  "[name='show_points']"], 
 			["show_points", "checkbox",  "[name='show_points']"], 
-			["add_control_sprite_point", "click",  "[name='add_control_sprite_point']"],
+			["add_control_point", "click",  "[name='add_control_point']"], //контрольные точки-координаты центра спрайта на канвас
 			["all_to_control_points", "click",  "[name='all_to_control_points']"],
+			
+			["add_control_sprite_point", "click",  "[name='add_control_sprite_point']"], //контрольные точки спрайтов на спрайт листах
+			["all_to_control_sprite_points", "click",  "[name='all_to_control_sprite_points']"],
 			
 		],
 		arrayMethods: {
-			all_to_control_points: function(){
-				
+			all_to_control_sprite_points: function(){				
+				var it = 0;
+				for(var key in this.$props().sprites){
+					var sprite = this.$props().sprites[key];
+					if(sprite.controlSpritePoint)sprite.moveCenterTo(sprite.controlSpritePoint);					
+					it++;
+				}
+				if(it>0)this.$methods().renderAll();			
+			},
+			add_control_sprite_point: function(){			
+					var sprite = this.$props().sprites[this.$props("operationWith")];
+					if( sprite != undefined ){					
+						var x = sprite.point[0]+sprite.getHalfW();
+						var y = sprite.point[1]+sprite.getHalfH();
+						sprite.controlSpritePoint = [x, y];						
+					}												
+			},
+			all_to_control_points: function(){			
 				var it = 0;
 				for(var key in this.$props().sprites){
 					var sprite = this.$props().sprites[key];
 					if(sprite.controlPoint)sprite.moveCenterTo(sprite.controlPoint);					
 					it++;
 				}
-				if(it>0)this.$methods().renderAll();
-				
+				if(it>0)this.$methods().renderAll();				
 			},
-			add_control_sprite_point: function(){			
+			add_control_point: function(){			
 					var sprite = this.$props().sprites[this.$props("operationWith")];
 					if( sprite != undefined ){					
 						var x = sprite.point[0]+sprite.getHalfW();

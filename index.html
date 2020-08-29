@@ -180,17 +180,17 @@
 								  <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm" title="Установить прозрачность фона = 0">Очистить фон</button>
 								  <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm d-none">Работать с фоновым изображением</button> 		
 							</form>	
-							<ul data-sprites="array" class="list-group" style="margin-top: 10px; margin-bottom: 10px; max-height: 300px; overflow: auto;">
+						<ul data-sprites="array" class="list-group" style="margin-top: 10px; margin-bottom: 10px; max-height: 300px; overflow: auto;">
 							<div  class="sprites-settings">
 							  <div class="form-row">
-							      <div class="form-group col-md-6" >
+							      <div class="form-group col-6" >
 									<input type="checkbox" name="show_box" checked  title="Показать граници спрайта">
 									<label class="form-check-label" style="font-size: 14px;"  for="exampleCheck1" title="Показать границы спрайта">show box</label>	
 									<input type="checkbox" name="show_points"  title="Показать точки контура">
 									<label class="form-check-label" style="font-size: 14px;" for="exampleCheck1" title="Показать точки контура">show points</label>
 								</div>	
-								<div class="form-group col-md-6">
-									<button type="button" style="padding: 0px; padding-top: 2px; padding-bottom: 2px;"  name="add_control_sprite_point" class="btn btn-success btn-sm" title="Добавить контрольную точку восстановления центра спрайта">add ctrl point</button>
+								<div class="form-group col-6">
+									<button type="button" style="padding: 0px; padding-top: 2px; padding-bottom: 2px;"  name="add_control_point" class="btn btn-success btn-sm" title="Добавить контрольную точку восстановления центра спрайта">add ctrl point</button>
 									<button type="button" style="padding: 0px; padding-top: 2px; padding-bottom: 2px;"  name="all_to_control_points" class="btn btn-warning btn-sm" title="Вернуть все спрайты на контрольные точки">All back to ctrl</button>
 								</div>	
 							   </div>	
@@ -208,8 +208,14 @@
 									<button type="button" name="save_sprite" class="btn  btn-success btn-sm" title="Сохранить спрайт на компьютере в локальном хранилище">Save</button>
 									<button type="button" name="to_control_point" class="btn btn-warning btn-sm" title="Переместить спрайт на контрольную точку">To ctrl point</button>
 								</li>
-							</div>	
-							</ul>
+							</div>
+							  <div class="form-row" style="margin-top: 3px;">	
+								<div class="form-group col-12">
+									<button type="button" style="padding: 0px; padding-top: 2px; padding-bottom: 2px;"  name="add_control_sprite_point" class="btn btn-dark btn-sm" title="Добавить контрольную точку восстановления центра спрайта на спрайт листе">ctrl sprite point</button>
+									<button type="button" style="padding: 0px; padding-top: 2px; padding-bottom: 2px;"  name="all_to_control_sprite_points" class="btn btn-secondary btn-sm" title="Вернуть все спрайты на контрольные точки спрайт листа">All to sprite ctrl</button>
+								</div>	
+							   </div>								
+						</ul>
 							
 							<form name="form_effects" onsubmit="return false" data-form_effects="container" style="margin-top: 10px;">
 								<div class="form-row">
