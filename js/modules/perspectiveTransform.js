@@ -108,7 +108,7 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
 											<input name="direction" type="text" class="form-control form-control-sm"  placeholder="направление x,y" title="ввести ось преобразований x или y" value="x">
 										</div>
 										<div class="form-group col-md-2">							
-											<input name="coeff" type="text" class="form-control form-control-sm"  placeholder="коэффициент в долях" title="Коэффициент увеличения или уменьшения стороны" value="1.2">
+											<input name="coeff" type="text" class="form-control form-control-sm"  placeholder="коэффициент в долях" title="Коэффициент увеличения или уменьшения стороны" value="1.6">
 										</div>
 										<div class="form-group col-md-3">								
 											<button type="button"  style="" name="start_deformation" class="btn btn-success btn-sm">Apply</button>
