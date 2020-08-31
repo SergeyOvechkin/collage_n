@@ -77,17 +77,9 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 			drawArea(area, true);
 		}		
 		if( option.showBox == true){
-			this.drawBox(this.point, this.point2);
+			drawBox(this.point, this.point2, "yellow", 1);
 		}	
 	}
-}
-CollageSprite.prototype.drawBox = function(point, point2){
-	       			
-			drawLine([point[0], point[1]], [point2[0], point[1]], "yellow", 1 );
-			drawLine([point[0], point[1]], [point[0], point2[1]], "yellow", 1 );
-			drawLine([point[0], point2[1]],  [point2[0], point2[1]], "yellow", 1);
-			drawLine([point2[0], point2[1]], [point2[0], point[1]], "yellow", 1);
-					
 }
 CollageSprite.prototype.setAreas = function(area){
 	this.area_1 = area.slice(0);

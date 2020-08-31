@@ -281,7 +281,12 @@ var StateMap = {
 					var imgArr = getCutImg(ctx, area_1);
 					var imgBox_1 =  getBox(area_1);
 					var imgBox_2 =  getBox(area);
-					drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  (imgBox_1[1][0] -  imgBox_1[0][0])*coeff_x,  (imgBox_1[1][1] -  imgBox_1[0][1])*coeff_y );				
+					var context = this;
+					drawImgData(ctx, imgArr[0], imgBox_2[0], area, false, false,  (imgBox_1[1][0] -  imgBox_1[0][0])*coeff_x,  (imgBox_1[1][1] -  imgBox_1[0][1])*coeff_y, true, function(){
+							
+							drawAreaPoints(context.$props("commonProps").area_1, context.$props("commonProps").isEndArea_1);
+							
+						});				
 					this.$methods().setAreas(area);
 					this.$methods().renderAll();
 				}else if( this.$props().sprites[this.$props("operationWith")] ){					
@@ -315,7 +320,11 @@ var StateMap = {
 				    area_1 = rotationArea(area_1, fi);
 					this.$methods().setAreas(area_1);				
 					ctx.putImageData(saveImg, 0, 0);
-					rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2], area_1, fi, this.$methods().renderAll.bind(this.rootLink));					
+					var context = this;
+					rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2], fi, function(){
+						 context.$methods().renderAll();
+						 drawAreaPoints(area_1);	
+					});					
 				}else if(this.$props().sprites[this.$props("operationWith")]){
 					var sprite = this.$props().sprites[this.$props("operationWith")];
 					sprite.rotate = fi;
@@ -407,7 +416,12 @@ var StateMap = {
 						 area_1 = mirror_x_area(area_1, true, false);
 						this.$props("commonProps").area_1 = area_1;
 						ctx.putImageData(saveImg, 0, 0);
-						drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, true, false);
+						var context = this;
+						drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, true, false, false, false, true, function(){
+							
+							drawAreaPoints(context.$props("commonProps").area_1, context.$props("commonProps").isEndArea_1);
+							
+						});
 						
 				}else if( this.$props().sprites[this.$props("operationWith")] ){					
 					var sprite = this.$props().sprites[this.$props("operationWith")];
@@ -427,7 +441,12 @@ var StateMap = {
 				 area_1 = mirror_x_area(area_1, false, true);
 				 this.$props("commonProps").area_1 = area_1;
 				 ctx.putImageData(saveImg, 0, 0);
-				 drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, false, true);
+				 var context = this;
+				 drawImgData(ctx,  img_data_arr[0], img_data_arr[1], area_1, false, true, false, false, true, function(){
+							
+							drawAreaPoints(context.$props("commonProps").area_1, context.$props("commonProps").isEndArea_1);
+							
+				});
 				 
 				}else if( this.$props().sprites[this.$props("operationWith")] ){					
 					var sprite = this.$props().sprites[this.$props("operationWith")];

@@ -1,4 +1,21 @@
 
+//рисует прямоугольник из линий на канвас
+function drawBox(point, point2, color, with_){
+	       			
+			drawLine([point[0], point[1]], [point2[0], point[1]], color, with_);
+			drawLine([point[0], point[1]], [point[0], point2[1]], color, with_);
+			drawLine([point[0], point2[1]],  [point2[0], point2[1]], color, with_);
+			drawLine([point2[0], point2[1]], [point2[0], point[1]], color, with_);
+					
+}
+//возвращает прямоугольный контур из двух точек
+function getSquareFromTwo(point, point2){
+	
+	var area = [ point, [point2[0], point[1]], point2, [point[0], point2[1]] ];
+	return area;
+}
+
+
 //возвращает вырезаные пиксели из контура, area, верхнюю левую и правую нижнюю точку изображения
 //isDrawSaveImg - false  - отменить обновление фона перед вырезанием пикселей
 function getCutImg(ctx, area, isDrawSaveImg){
@@ -12,7 +29,7 @@ function getCutImg(ctx, area, isDrawSaveImg){
 	//обект области фигуры
 	var cutPathArea =  getPathArea(cutArea); 
 	
-	if(isDrawSaveImg != false){
+	if(isDrawSaveImg !== false){
 		if(!saveImg){
 			ctx.drawImage(img, 0, 0);
 		}else{
@@ -183,6 +200,9 @@ function createContur(script){
 	eval(script);
 	return area;
 }
+
+
+
 //асинхронно добовляет картинку в спрайт
 //imgMapArr - массив с вырезаными пикселями и угловыми точками выделения 
 function getImgToSprite(imgMapArr, sprite, isRender){
@@ -200,7 +220,7 @@ function getImgToSprite(imgMapArr, sprite, isRender){
 }
 ///асинхронно рисует вырезанные пиксели по верх фонового изображения
 //imgMap - пиксели, point-координаты, area-контур, mirror_x -true or flase, mirror_y -true or flase, width ширина , heigh высота 
-function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height){
+function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height, isSaveImg, callb){
 	
    Promise.all([
    
@@ -229,18 +249,19 @@ function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height
 		 ctx.drawImage(sprites[0], point[0], point[1]);
 	 }
     
-	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+	if(isSaveImg !== false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 	
-	ctx.restore();
+	ctx.restore();	
+	callb();
 	
-    drawArea(area, true);
-    drawAllSquares(area, halfPoitSize);
+  //  drawArea(area, true);
+  //  drawAllSquares(area, halfPoitSize);
 	
   });
 	
 }
 //асинхронно рисует повернутые на какой либо градус вырезанные пиксели по верх фона
-function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
+function rotateImgData(ctx, imgMap, point, point2,  fi, callb, isSaveImg){
 	
 	var move = [point[0]+(point2[0] - point[0])/2, point[1]+(point2[1] - point[1])/2];
 	
@@ -257,10 +278,10 @@ function rotateImgData(ctx, imgMap, point, point2, area, fi, callb){
 	
 	ctx.rotate(-fi);
 	ctx.translate( -move[0],  -move[1]);
-	saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
+	if(isSaveImg !== false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
 	callb();
 	
-	drawAreaPoints(area);	
+	//drawAreaPoints(area);	
   });	
 }
 //вращает масив контура вокруг своего центра
@@ -376,6 +397,17 @@ function getBox(area){
 	}
 	return [start, end];	
 }
+//округляет значения метода выше
+function getBoxRound(area){
+
+     var area_1 = getBox(area);
+	area_1[0][0] = Math.round(area_1[0][0]);
+	area_1[0][1] = Math.round(area_1[0][1]);
+	area_1[1][0] = Math.round(area_1[1][0]);
+	area_1[1][1] = Math.round(area_1[1][1]);
+
+	return area_1;	
+}
 ///возвращает координаты области относительно прамоугольника в который она вписана
 function getCutSize(area, startX, startY){	
 	return area.map(function(pos){		
@@ -399,7 +431,7 @@ function getImgData(typeOperation,  imgBox, imgBox2, cutWidth, cutWidth2, cutHei
 //movePoint - индекс точки из массивов area_1 и area_2 
 //flip - true -масштабирует левую часть области изображения, false правую
 //area_1, area_2, - массивы с точками выделенной области до масштабирования и после, точка - также массив в формате [x, y];
-// transparent - делает прозрачной область вокруг выделения (пока не работает)
+// transparent - делает прозрачной область вокруг выделения 
 function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgData_){	
    
 	//определяем смещение точек
