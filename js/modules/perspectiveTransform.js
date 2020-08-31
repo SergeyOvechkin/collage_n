@@ -115,7 +115,7 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
 										</div>
 									</div>
 									<div class="alert alert-info" role="alert">
-										<p> Необходимо нажать кнопку "select", выделить область, ввести параметры, затем нажать "apply".</p>                                    
+										<p> Для начала работы необходимо нажать кнопку "select", затем выделить область, ввести параметры и нажать "apply".</p>                                    
 										<p> Углы квадрата выделения: ABCD.</p>
 										<p>A-верхний правый угол, счет по часовой стрелке.</p>
 										<p>x,y - оси искажения</p>	
