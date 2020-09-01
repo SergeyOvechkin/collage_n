@@ -1,22 +1,18 @@
 
+
 //рисует прямоугольник из линий на канвас
-function drawBox(point, point2, color, with_){
-	       			
+function drawBox(point, point2, color, with_){	       			
 			drawLine([point[0], point[1]], [point2[0], point[1]], color, with_);
 			drawLine([point[0], point[1]], [point[0], point2[1]], color, with_);
 			drawLine([point[0], point2[1]],  [point2[0], point2[1]], color, with_);
-			drawLine([point2[0], point2[1]], [point2[0], point[1]], color, with_);
-					
+			drawLine([point2[0], point2[1]], [point2[0], point[1]], color, with_);					
 }
 //возвращает прямоугольный контур из двух точек
-function getSquareFromTwo(point, point2){
-	
+function getSquareFromTwo(point, point2){	
 	var area = [ point, [point2[0], point[1]], point2, [point[0], point2[1]] ];
 	return area;
 }
-
-
-//возвращает вырезаные пиксели из контура, area, верхнюю левую и правую нижнюю точку изображения
+//возвращает вырезаные пиксели из контура area, верхнюю левую и правую нижнюю точку изображения
 //isDrawSaveImg - false  - отменить обновление фона перед вырезанием пикселей
 function getCutImg(ctx, area, isDrawSaveImg){
 	
@@ -193,16 +189,12 @@ function addEffectEvalToBorder(ctx, area,  script, coeff_x, coeff_y){
 		return [R,G,B,A];
 	}			
 }
-
 //создание контура из скрипта
 function createContur(script){
 	var area = [];
 	eval(script);
 	return area;
 }
-
-
-
 //асинхронно добовляет картинку в спрайт
 //imgMapArr - массив с вырезаными пикселями и угловыми точками выделения 
 function getImgToSprite(imgMapArr, sprite, isRender){
@@ -326,7 +318,7 @@ function scaleArea(area, coeff_x, coeff_y){
 	return newArr;	
 }
 //отражение контура по x ,y осям
-function mirror_x_area(area, x, y){
+function flipArea(area, x, y){
 	var imgBox = getBox(area);
 	var width = imgBox[1][0] - imgBox[0][0];
 	var height = imgBox[1][1] - imgBox[0][1];

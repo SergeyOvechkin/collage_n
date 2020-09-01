@@ -413,7 +413,7 @@ var StateMap = {
 						var area_1 = this.$props("commonProps").area_1;
 						saveStep(saveImg, this.$props().commonProps.area_1);
 						var img_data_arr =  getCutImg(ctx, area_1);
-						 area_1 = mirror_x_area(area_1, true, false);
+						 area_1 = flipArea(area_1, true, false);
 						this.$props("commonProps").area_1 = area_1;
 						ctx.putImageData(saveImg, 0, 0);
 						var context = this;
@@ -438,7 +438,7 @@ var StateMap = {
 				 var area_1 = this.$props("commonProps").area_1;
 				 saveStep(saveImg, this.$props().commonProps.area_1);
 				 var img_data_arr =  getCutImg(ctx, area_1);
-				 area_1 = mirror_x_area(area_1, false, true);
+				 area_1 = flipArea(area_1, false, true);
 				 this.$props("commonProps").area_1 = area_1;
 				 ctx.putImageData(saveImg, 0, 0);
 				 var context = this;

@@ -125,7 +125,7 @@ CollageSprite.prototype.flip = function(x, y, context){
 			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
 			ctx.restore();
 	
-	var area = mirror_x_area(this.area_1, x, y);
+	var area = flipArea(this.area_1, x, y);
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
 
