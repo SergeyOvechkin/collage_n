@@ -436,7 +436,6 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 	var moveDistance = area_2[movePoint][0] - area_1[movePoint][0];
 	if(flip)moveDistance = moveDistance * (-1);
 	var typeOperation = "big"; if(moveDistance < 0)typeOperation = "little";
-
 	
     ///прямогугольники в которые вписана данная область	
 	var imgBox = getBox(area_1); var imgBox2 = getBox(area_2);
@@ -450,19 +449,13 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 	
 	//обект области фигуры
 	var cutPathArea_1 =  getPathArea(cutArea); var cutPathArea_2 =  getPathArea(cutArea2);
-
 	
 	//вырезаный обект с пикселями для редактирования
 	var diff = 0;
 	if(typeOperation == "little" && flip){
 		 diff = cutWidth - cutWidth2;
 	}
-	if(!saveImg){
-		//ctx.drawImage(img, 0, 0);
-	}else{
-		//ctx.putImageData(saveImg, 0, 0);
-	}
-	//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+
 	var H , W;
 	if(typeOperation == "big" ){
 		 H = cutHeight2; W = cutWidth2;		 
@@ -474,11 +467,8 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 		var imgMap = imgData_[0], imgData = imgMap.data, imgMap2  = imgData_[1], imgData2 = imgMap2.data;
 	}else{
 			var imgMapArr = getImgData(typeOperation, imgBox, imgBox2, cutWidth, cutWidth2, cutHeight, cutHeight2, ctx);
-			var imgMap = imgMapArr[0], imgData = imgMap.data, imgMap2  = imgMapArr[1], imgData2 = imgMap2.data;
-		
-	}	
-
-	 
+			var imgMap = imgMapArr[0], imgData = imgMap.data, imgMap2  = imgMapArr[1], imgData2 = imgMap2.data;	
+	}		 
 	        var currentY_st = cutArea2[startIndex][1]; var currentX_st = cutArea2[startIndex][0];
 			var currentY_end = cutArea2[movePoint][1]; var currentX_end = cutArea2[movePoint][0];
 			var middleX = cutArea2[movePoint][0];
@@ -571,20 +561,13 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 
 	//обект области фигуры
 	var cutPathArea_1 =  getPathArea(cutArea); var cutPathArea_2 =  getPathArea(cutArea2);
-
 	
 	var counter_ =0;
 	var diff = 0;
 	if(typeOperation == "little" && flip){
 		 diff = cutHeight - cutHeight2;
 	}
-	//вырезаный обект с пикселями для редактирования
-	if(!saveImg){
-		//ctx.drawImage(img, 0, 0);
-	}else{
-		//ctx.putImageData(saveImg, 0, 0);
-	}
-	//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+	
 	var H , W;
 	if(typeOperation == "big" ){
 		 H = cutHeight2; W = cutWidth2;		 
@@ -736,7 +719,8 @@ function drawArea(area, isEnd){
 	}	
 }
 //рисует линию на канвас
-function drawLine(point1, point2, color, lineW){	
+function drawLine(point1, point2, color, lineW){	 
+	
     if(color != undefined){
 		ctx.strokeStyle = color;
 	}else{
@@ -792,8 +776,8 @@ function addPointTooArray(area, index ){
             var point = [(area[index2][0] - area[index][0])/2+area[index][0],  (area[index2][1] - area[index][1])/2+area[index][1] ];		   
 	   
 			area.splice(index+1, 0, point);
-			drawArea(area, true);
-			drawAllSquares(area, halfPoitSize);
+			//drawArea(area, true);
+		//	drawAllSquares(area, halfPoitSize);
 			
            return index+1;
 }
