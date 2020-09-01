@@ -787,9 +787,9 @@ function rmPointFromArray(area, index){
 	        if(area.length-1 < index)return false;
 		   	   
 			area.splice(index, 1);
-			ctx.putImageData(saveImg, 0, 0);
-			drawArea(area, true);
-			drawAllSquares(area, halfPoitSize);
+			//ctx.putImageData(saveImg, 0, 0);
+			//drawArea(area, true);
+			//drawAllSquares(area, halfPoitSize);
 			
            return index;	
 }
