@@ -751,6 +751,7 @@ function mouseSquare(point, halfPoitSize, number){
 	ctx.fillRect(point[0]-halfPoitSize, point[1]-halfPoitSize, halfPoitSize*2, halfPoitSize*2);
 	if(number != undefined){
 		ctx.fillStyle = "black";
+		ctx.font = (halfPoitSize*2)+"px sans-serif";		
 		ctx.fillText(number, point[0]-halfPoitSize, point[1]+halfPoitSize/2, halfPoitSize*2);
 	}
 }
