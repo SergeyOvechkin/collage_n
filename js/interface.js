@@ -81,7 +81,6 @@ var StateMap = {
 				link.href = font_url;
 				link.rel = "stylesheet";
 				head.appendChild(link);	
-				ctx.save();
 				var re = /(family=)(\w+)(\+?)(\w*)/g;
 				var font = font_url.match(re);
 				var font1 = [];
@@ -94,9 +93,10 @@ var StateMap = {
 						var image = new Image;
 						image.src = font_url;
 						image.onerror = function() {
+						//ctx.putImageData(saveImg, 0, 0);
 						ctx.save();	
 						ctx.font = '15px '+two;
-						saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+						//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 						ctx.fillText('Hello!', 20, 10);
 						ctx.restore();
 						context.$methods().renderAll();
