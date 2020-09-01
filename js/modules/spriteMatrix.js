@@ -56,7 +56,7 @@ function download(filename, text) {
 										</div>
 
 										<div class="alert alert-primary col-12" role="alert">
-											Для создания спрайтов из сохраненного спрайт листа, нужно загрузить картинку спрайтов, убедиться что ее масштаб равен 1:1. Далее скрыть все уже созданные спрайты и выделения.
+											Для создания спрайтов из сохраненного спрайт листа, нужно загрузить картинку спрайтов, убедиться что ее масштаб равен 1:1.
 											Затем нажать на кнопку "Загрузить json лист" и загрузить json файл с описанием данной картинки. После чего модуль создаст все спрайты из описания.
 										</div>
 										<div class="form-group col-10">
@@ -117,7 +117,9 @@ function download(filename, text) {
 						var reader = new FileReader();					
 						reader.onload = (function(aJson) { return function(e) { 
 							aJson = e.target.result;							
-							var spiteList = JSON.parse(aJson);							
+							var spiteList = JSON.parse(aJson);
+							ctx.clearRect(0, 0, srcWidth , srcHeight);
+							ctx.putImageData(saveImg, 0, 0);
 							for(var key in spiteList){								
 								var area = spiteList[key].area;
 								if(area == undefined){									

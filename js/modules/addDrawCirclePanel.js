@@ -74,5 +74,5 @@
   HM.description.draw_circle_panel  = draw_circle_panel;
   HM.containerInit(div , HM.description, "draw_circle_panel");
    
-	console.log(HM);	
+	//console.log(HM);	
 })()

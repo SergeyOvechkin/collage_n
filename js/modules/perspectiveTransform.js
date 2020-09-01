@@ -236,5 +236,5 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
   HM.description.perspective_transform  = perspective_transform;
   HM.containerInit(div , HM.description, "perspective_transform");
    
-	console.log(HM);	
+//	console.log(HM);	
 })()
