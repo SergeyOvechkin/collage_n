@@ -120,7 +120,9 @@ function download(filename, text) {
 							var spiteList = JSON.parse(aJson);
 							ctx.clearRect(0, 0, srcWidth , srcHeight);
 							ctx.putImageData(saveImg, 0, 0);
-							for(var key in spiteList){								
+
+							for(var key in spiteList){
+							    								
 								var area = spiteList[key].area;
 								if(area == undefined){									
 									var point = spiteList[key].point; var width = spiteList[key].width; var height = spiteList[key].height;									
@@ -190,8 +192,7 @@ function download(filename, text) {
 				  sprites[key].render();
 			  }
 			  
-			
-			  
+
 			var json = JSON.stringify(spriteMatrix);
 			//console.log(json);
 			  download(matrix_name+".json", json);
