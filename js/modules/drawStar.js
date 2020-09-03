@@ -13,7 +13,7 @@
       var x=cx;
       var y=cy;
       var step=Math.PI/spikes;
-      area.push([cx,cy-outerRadius]);
+   //   area.push([cx,cy-outerRadius]);
       for(i=0;i<spikes;i++){
         x=cx+Math.cos(rot)*outerRadius;
         y=cy+Math.sin(rot)*outerRadius;
@@ -24,8 +24,8 @@
         area.push([x,y])
         rot+=step
       }
-      area.push([cx,cy-outerRadius]);
+    //  area.push([cx,cy-outerRadius]);
 	  return area//[[10,10],[20,20],[30,50],[90,300]];
     }
-	console.log(modules)	
+	//console.log(modules)	
 })()
