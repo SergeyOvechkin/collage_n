@@ -15,17 +15,18 @@
       var step=Math.PI/spikes;
    //   area.push([cx,cy-outerRadius]);
       for(i=0;i<spikes;i++){
-        x=cx+Math.cos(rot)*outerRadius;
-        y=cy+Math.sin(rot)*outerRadius;
+        x=Math.round(cx+Math.cos(rot)*outerRadius);
+        y=Math.round(cy+Math.sin(rot)*outerRadius);
         area.push([x,y])
         rot+=step
-        x=cx+Math.cos(rot)*innerRadius;
-        y=cy+Math.sin(rot)*innerRadius;
+        x=Math.round(cx+Math.cos(rot)*innerRadius);
+        y=Math.round(cy+Math.sin(rot)*innerRadius);
         area.push([x,y])
         rot+=step
       }
+	  //console.log(area);
     //  area.push([cx,cy-outerRadius]);
 	  return area//[[10,10],[20,20],[30,50],[90,300]];
     }
-	//console.log(modules)	
+		
 })()
