@@ -85,20 +85,22 @@ var StateMap = {
 				var font = font_url.match(re);
 				var font1 = [];
 				var context = this;
+				var i_ = 0;
+				if(!Array.isArray(font)){					
+					return;				
+				}
 				for(var i=0; i<font.length; i++){					
 					var one = font[i].replace(/(family=)(\w+)(\+?)(\w*)/g, "$2 $4");
 					var two = one.replace(/(\w+)(\s)(?!(\w)+)/, "$1");					
-					ctx.font = "15px "+two;	
-					font1.push(two);					
+					font1.push(two);	
+
+					
 						var image = new Image;
 						image.src = font_url;
-						image.onerror = function() {
-						//ctx.putImageData(saveImg, 0, 0);
-						ctx.save();	
-						ctx.font = '15px '+two;
-						//saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+						image.onerror = function() {	
+						ctx.font = '15px '+font1[i_];
+						i_++;
 						ctx.fillText('Hello!', 20, 10);
-						ctx.restore();
 						context.$methods().renderAll();
 					};
 				}
