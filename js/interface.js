@@ -526,7 +526,7 @@ var StateMap = {
                                 var area_1 = this.$props("commonProps").area_1; var area_2 = this.$props("commonProps").area_2;	var move_point = this.$props("commonProps").isMovePoint;							
 								saveStep(saveImg, this.$props().commonProps.area_1);
 								var asix = this.$props("commonProps").scale_asix
-								var imgDataArr = cutAndScale_asix(area_1, area_2, move_point, false, true, asix);
+								var imgDataArr = cutAndScale(area_1, area_2, move_point, false, true, asix);
 								this.$props("commonProps").area_1 = area_2.slice(0);
 								this.$methods().renderAll();																						
 								//drawAreaPoints(area_2);							

@@ -672,7 +672,7 @@ function getDistance(point_1, point_2){
 //transparent - true or false  -делать или нет прозрачной область вокруг выделения
 //isSaveImg - false - отменить сохранение вырезанной области
 //asix ось искажения x,y
-function cutAndScale_asix(area_1, area_2, move_point, transparent, isSaveImg, asix){
+function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg, asix){
 	var imgBox = getBox(area_1);
 	var indexPoint = area_1[move_point];
 	var halfW = (imgBox[1][0] - imgBox[0][0])/2;
@@ -700,7 +700,7 @@ function cutAndScale_asix(area_1, area_2, move_point, transparent, isSaveImg, as
 	return imgDataArr;
 }
 //old fn
-function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg){
+function cutAndScale_(area_1, area_2, move_point, transparent, isSaveImg){
 	var side = getSquareSide(area_2, area_2[move_point]);
 	var imgDataArr;
 	if(isSaveImg == undefined || isSaveImg != false)ctx.putImageData(saveImg, 0, 0);
