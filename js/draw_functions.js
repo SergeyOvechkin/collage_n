@@ -693,7 +693,7 @@ function drawAreaPoints(area, isEnd){
 function getCanvasPoint(e, canvas){
 	
 	var bbox = canvas.getBoundingClientRect();	
-	return [e.clientX - bbox.left * (canvas.width / bbox.width), e.clientY - bbox.top * (canvas.height / bbox.height)];
+	return [Math.round(e.clientX - bbox.left * (canvas.width / bbox.width)), Math.round(e.clientY - bbox.top * (canvas.height / bbox.height))];
 }
 
 //замыкает контур фигуры при клике на начальную точку
