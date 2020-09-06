@@ -80,7 +80,11 @@ var StateMap = {
 				var head = document.head || document.getElementsByTagName('head')[0];
 				link.href = font_url;
 				link.rel = "stylesheet";
+				link.onerror = function(){					
+					alert("ошибка подкдючения шрифтов: "+font_url+"  убедитесь в правильности url");
+				}
 				head.appendChild(link);	
+				
 				var re = /(family=)(\w+)(\+?)(\w*)/g;
 				var font = font_url.match(re);
 				var font1 = [];
@@ -92,9 +96,7 @@ var StateMap = {
 				for(var i=0; i<font.length; i++){					
 					var one = font[i].replace(/(family=)(\w+)(\+?)(\w*)/g, "$2 $4");
 					var two = one.replace(/(\w+)(\s)(?!(\w)+)/, "$1");					
-					font1.push(two);	
-
-					
+					font1.push(two);						
 						var image = new Image;
 						image.src = font_url;
 						image.onerror = function() {	
