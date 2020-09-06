@@ -473,6 +473,7 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 	        var currentY_st = cutArea2[startIndex][1]; var currentX_st = cutArea2[startIndex][0];
 			var currentY_end = cutArea2[movePoint][1]; var currentX_end = cutArea2[movePoint][0];
 			var middleX = cutArea2[movePoint][0];
+			var middleX_ = cutArea[movePoint][0];
 			var segmentH = currentY_end - currentY_st;
 			var segmentDole = 0.0001;
 			var count  = 1; //текущий отрезок высоты
@@ -509,7 +510,8 @@ function cutAndScale_X(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 						}						
 						if(isMove){
 							if(!flip){
-								point2  = point2  + Math.round( (tmpX/((moveDistance*segmentDole/( middleX-startSegmentX-(moveDistance*segmentDole)) )+1)) )*4; 
+								if(typeOperation == "big")point2  = point2  + Math.round( (tmpX/((moveDistance*segmentDole/( middleX-startSegmentX-(moveDistance*segmentDole)) )+1)) )*4; 
+								if(typeOperation == "little")point2 = point2  + Math.round( (tmpX/(((middleX_-startSegmentX)/( middleX_-startSegmentX-(moveDistance*segmentDole)) ))) )*4; 
 							}else{
 								point2  = point2  +  Math.round( tmpX+moveDistance*segmentDole*(1-(tmpX/( W*(startSegmentX_/W) )))  )*4;
 							}	
@@ -588,6 +590,7 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 	        var currentY_st = cutArea2[startIndex][1]; var currentX_st = cutArea2[startIndex][0];
 			var currentY_end = cutArea2[movePoint][1]; var currentX_end = cutArea2[movePoint][0];
 			var middleY = cutArea2[movePoint][1];
+			var middleY_ = cutArea[movePoint][1];
 			var segmentW = currentX_end - currentX_st;
 			var segmentDole = 0.0001;
 			var count  = 1; //текущий отрезок длинны
@@ -628,7 +631,9 @@ function cutAndScale_Y(ctx, area_1, area_2, movePoint, flip, transparent, imgDat
 							 if(flip){
 								 tmpY_ = Math.round( tmpY+moveDistance*segmentDole*(1-(tmpY/( H*(startSegmentY_/H) )))  );
 							 }else{
-								 tmpY_ = Math.round( (tmpY/((moveDistance*segmentDole/( middleY-startSegmentY-(moveDistance*segmentDole)) )+1)) );							 
+								if(typeOperation == "big") tmpY_ = Math.round( (tmpY/((moveDistance*segmentDole/( middleY-startSegmentY-(moveDistance*segmentDole)) )+1)) );
+								if(typeOperation == "little")tmpY_ = Math.round( (tmpY/(((middleY_-startSegmentY)/( middleY_-startSegmentY-(moveDistance*segmentDole)) ))) ); 
+						
 							 }	 						 
                              point2 = ((tmpY_+diff)*W+tmpX)*4;                             							 
 						}else{							
@@ -667,7 +672,7 @@ function getDistance(point_1, point_2){
 //transparent - true or false  -делать или нет прозрачной область вокруг выделения
 //isSaveImg - false - отменить сохранение вырезанной области
 //asix ось искажения x,y
-function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg, asix){
+function cutAndScale_asix(area_1, area_2, move_point, transparent, isSaveImg, asix){
 	var imgBox = getBox(area_1);
 	var indexPoint = area_1[move_point];
 	var halfW = (imgBox[1][0] - imgBox[0][0])/2;
@@ -691,6 +696,23 @@ function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg, asix){
 			 imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, false, transparent, );
 		   }
 		}		
+	if(isSaveImg == undefined || isSaveImg != false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+	return imgDataArr;
+}
+//old fn
+function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg){
+	var side = getSquareSide(area_2, area_2[move_point]);
+	var imgDataArr;
+	if(isSaveImg == undefined || isSaveImg != false)ctx.putImageData(saveImg, 0, 0);
+		if(side == 0){			
+			imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, false, transparent, );			
+		}else if(side == 2){			
+			imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, true, transparent, );
+		}else if(side == 1){			
+			imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, false, transparent, );
+		}else if(side == 3){			
+			imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, true, transparent, );
+		}
 	if(isSaveImg == undefined || isSaveImg != false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 	return imgDataArr;
 }
