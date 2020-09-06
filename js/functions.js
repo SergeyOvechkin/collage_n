@@ -110,7 +110,7 @@ function loadStyles(url){
 				link.href = url;
 				link.rel = "stylesheet";
 				link.onerror = function(){					
-					alert("ошибка подкдючения шрифтов: "+url+"  убедитесь в правильности url");
+					alert("ошибка подкдючения стилей: "+url+"  убедитесь в правильности url");
 				}
 				head.appendChild(link);	
 }
