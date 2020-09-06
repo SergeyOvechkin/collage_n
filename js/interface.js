@@ -90,7 +90,8 @@ var StateMap = {
 				var font1 = [];
 				var context = this;
 				var i_ = 0;
-				if(!Array.isArray(font)){					
+				if(!Array.isArray(font)){
+                    					
 					return;				
 				}
 				for(var i=0; i<font.length; i++){					
@@ -223,10 +224,14 @@ var StateMap = {
                  ["to_phone_img_class", 'class', "[name='operation_with']"], 
 				 ["scale_rotate_area_sprite", 'class', "[name='scale_rotate_area_sprite']"], 
 				 ["mirror_x_area", 'class', "[name='mirror_x_area']"], ["mirror_y_area", 'class', "[name='mirror_y_area']"],
+				 ["asix_xy", 'select', "[name='asix_xy']"], ["asix_xy_change", 'change', "[name='asix_xy']"], ["asix_xy_class", 'class', "[name='asix_xy']"],
 				 
 				 
 		],			
 		methods: {
+			asix_xy_change: function(){				
+				this.$props("commonProps").scale_asix = this.props("asix_xy").getProp();				
+			},
 			add_rm_classes_on_change_operationWith: function(){ //скрывает кнопки при операции со спрайтами и фоновой картинкой
 				var props = this.parent.props; 			
 				if(this.emiter.prop == "common"){ //видимые кнопки при операциях с фоном
@@ -344,10 +349,12 @@ var StateMap = {
 				var current = this.$props("commonProps").scale_or_move;				
 				if(current == "move"){
 					this.$props("commonProps").scale_or_move = "scale";
-					this.props("scale_or_move_point").setProp("Перемещать точку");					
+					this.props("scale_or_move_point").setProp("Перемещать точку");
+					this.props("asix_xy_class").removeProp("d-none");
 				}else{
 					this.$props("commonProps").scale_or_move = "move";
-					this.props("scale_or_move_point").setProp("Искажать");					
+					this.props("scale_or_move_point").setProp("Искажать");
+					this.props("asix_xy_class").setProp("d-none");					
 				}				
 			},
 			clear_phone: function(){ ///делает фон прозрачным
@@ -547,10 +554,11 @@ var StateMap = {
 							if(this.$props("commonProps").scale_or_move == "scale"){
                                 var area_1 = this.$props("commonProps").area_1; var area_2 = this.$props("commonProps").area_2;	var move_point = this.$props("commonProps").isMovePoint;							
 								saveStep(saveImg, this.$props().commonProps.area_1);
-								var imgDataArr = cutAndScale(area_1, area_2, move_point, false, true);
-								this.$methods().renderAll(false, {drawAreaPoints: false});
-								this.$props("commonProps").area_1 = area_2.slice(0);															
-								drawAreaPoints(area_2);							
+								var asix = this.$props("commonProps").scale_asix
+								var imgDataArr = cutAndScale(area_1, area_2, move_point, false, true, asix);
+								this.$props("commonProps").area_1 = area_2.slice(0);
+								this.$methods().renderAll();																						
+								//drawAreaPoints(area_2);							
 							}
 							this.$props("commonProps").isMovePoint = false;							
 						}						
@@ -916,8 +924,9 @@ var StateMap = {
 			area_1: [], //область выделения до смещения
 			area_2: [], //область выделения после смещения
 			isEndArea_1: false, //флаг показывает - закончено ли выделение первой области (замкнут контур выделения)
-			isMovePoint : false, //индекс перемещаемой точки контура
-			scale_or_move: "move", // масштаб по точкам либо перемещение точки контура
+			isMovePoint : false, //индекс перемещаемой/искажаемой точки контура
+			scale_or_move: "move", // scale масштаб(искажение) по точкам либо перемещение точки контура 
+			scale_asix: "x", //ось искажения
 		},
 		sprites: {},	//спрайты
 	    showBox: true, //показывать квадрат в который вписан спрайт

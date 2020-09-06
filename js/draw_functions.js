@@ -332,7 +332,7 @@ function flipArea(area, x, y){
 	}
 	return newArr;	
 }
-///возвращает сторону квадрата для операции искажения по точкам
+///возвращает сторону квадрата на которой изменились координаты точки
 function getSquareSide(area, indexPoint){
 	
 	var imgBox = getBox(area);	
@@ -368,6 +368,7 @@ function getSquareSide(area, indexPoint){
 	//console.log(side, indexPoint);
 	return side;		
 }
+
 ///возвращает прямоугольник с координатами в который вписана данная область
 function getBox(area){	
 	var start = [null, null];
@@ -665,19 +666,31 @@ function getDistance(point_1, point_2){
 //move_point - index - искажаемой точки
 //transparent - true or false  -делать или нет прозрачной область вокруг выделения
 //isSaveImg - false - отменить сохранение вырезанной области
-function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg){
-	var side = getSquareSide(area_2, area_2[move_point]);
+//asix ось искажения x,y
+function cutAndScale(area_1, area_2, move_point, transparent, isSaveImg, asix){
+	var imgBox = getBox(area_1);
+	var indexPoint = area_1[move_point];
+	var halfW = (imgBox[1][0] - imgBox[0][0])/2;
+	var halfH = (imgBox[1][1] - imgBox[0][1])/2;
+	
+	//var side = getSquareSide(area_2, area_2[move_point]);
 	var imgDataArr;
 	if(isSaveImg == undefined || isSaveImg != false)ctx.putImageData(saveImg, 0, 0);
-		if(side == 0){			
-			imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, false, transparent, );			
-		}else if(side == 2){			
-			imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, true, transparent, );
-		}else if(side == 1){			
-			imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, false, transparent, );
-		}else if(side == 3){			
-			imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, true, transparent, );
-		}
+		if(asix == "x"){
+
+			if(indexPoint[0] < imgBox[0][0] + halfW){
+				imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, true, transparent, );		
+			}else{
+				imgDataArr = cutAndScale_X(ctx, area_1, area_2, move_point, false, transparent, );
+			}						
+		}	
+	    if(asix == "y"){
+           if(indexPoint[1] < imgBox[0][1] + halfH){			
+			 imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, true, transparent, );
+		   }else{
+			 imgDataArr = cutAndScale_Y(ctx, area_1, area_2, move_point, false, transparent, );
+		   }
+		}		
 	if(isSaveImg == undefined || isSaveImg != false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
 	return imgDataArr;
 }
