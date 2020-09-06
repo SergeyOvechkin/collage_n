@@ -102,6 +102,53 @@ function loadModul(url, name){
 	}
 }
 
+//создает тег link и загружает стили 
+function loadStyles(url){
+	
+			    var link = document.createElement("link");
+				var head = document.head || document.getElementsByTagName('head')[0];
+				link.href = url;
+				link.rel = "stylesheet";
+				link.onerror = function(){					
+					alert("ошибка подкдючения шрифтов: "+url+"  убедитесь в правильности url");
+				}
+				head.appendChild(link);	
+}
+//предварительная загрузка шрифтов из подключенных стилей
+function preloadFonts(font_url, ctx){	           
+	            if(!ctx){
+	                var canvas = document.createElement("canvas");
+					canvas.width = 50;
+					canvas.height = 50;
+					ctx = canvas.getContext("2d");
+				}
+			    var re = /(family=)(\w+)(\+?)(\w*)/g;
+				var font = font_url.match(re);
+				var font1 = [];
+				var context = this;
+				var i_ = 0;
+				if(!Array.isArray(font)){
+                    					
+					return;				
+				}
+				for(var i=0; i<font.length; i++){					
+					var one = font[i].replace(/(family=)(\w+)(\+?)(\w*)/g, "$2 $4");
+					var two = one.replace(/(\w+)(\s)(?!(\w)+)/, "$1");					
+					font1.push(two);						
+						var image = new Image;
+						image.src = font_url;
+						image.onerror = function(){	
+						ctx.font = '15px '+font1[i_];
+						i_++;
+						ctx.fillText('Hello!', 20, 10);
+						//context.$methods().renderAll();
+					};
+				}
+	
+}
+
+
+
 //сохраняет шаги для редактирования фона
 function saveStep(saveImg, area){
 		

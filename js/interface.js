@@ -75,38 +75,9 @@ var StateMap = {
 			},
 			add_font: function(){ //загрузить cdn шрифт
 				var props = this.parent.props;					
-			    var font_url = props.font_url.getProp(); // var font_url_as = "new_font";            
-				var link = document.createElement("link");
-				var head = document.head || document.getElementsByTagName('head')[0];
-				link.href = font_url;
-				link.rel = "stylesheet";
-				link.onerror = function(){					
-					alert("ошибка подкдючения шрифтов: "+font_url+"  убедитесь в правильности url");
-				}
-				head.appendChild(link);	
-				
-				var re = /(family=)(\w+)(\+?)(\w*)/g;
-				var font = font_url.match(re);
-				var font1 = [];
-				var context = this;
-				var i_ = 0;
-				if(!Array.isArray(font)){
-                    					
-					return;				
-				}
-				for(var i=0; i<font.length; i++){					
-					var one = font[i].replace(/(family=)(\w+)(\+?)(\w*)/g, "$2 $4");
-					var two = one.replace(/(\w+)(\s)(?!(\w)+)/, "$1");					
-					font1.push(two);						
-						var image = new Image;
-						image.src = font_url;
-						image.onerror = function() {	
-						ctx.font = '15px '+font1[i_];
-						i_++;
-						ctx.fillText('Hello!', 20, 10);
-						context.$methods().renderAll();
-					};
-				}
+			    var font_url = props.font_url.getProp(); 			
+                loadStyles(font_url);
+				preloadFonts(font_url);
 			}
 		},
 	},
