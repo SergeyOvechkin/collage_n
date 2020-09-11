@@ -247,7 +247,7 @@ function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height
 	callb();
 	
   //  drawArea(area, true);
-  //  drawAllSquares(area, halfPoitSize);
+  //  drawAllSquares(area, halfPointSize);
 	
   });
 	
@@ -721,7 +721,7 @@ function cutAndScale_(area_1, area_2, move_point, transparent, isSaveImg){
 function drawAreaPoints(area, isEnd){
 	    if(isEnd == undefined)isEnd = true;
 		drawArea(area, isEnd);
-		drawAllSquares(area, halfPoitSize);
+		drawAllSquares(area, halfPointSize);
 }
 
 ///возвращает координаты токчи при клике на канвас
@@ -735,7 +735,7 @@ function getCanvasPoint(e, canvas){
 function endArea(area, point){	
 		if(area.length >= 3){
            // console.log(Math.abs(point[0] - area[0][0]));			
-			if( Math.abs(point[0] - area[0][0]) <= halfPoitSize && Math.abs(point[1] - area[0][1]) <= halfPoitSize){				
+			if( Math.abs(point[0] - area[0][0]) <= halfPointSize && Math.abs(point[1] - area[0][1]) <= halfPointSize){				
 				point[0] = area[0][0];
 				point[1] = area[0][1];
                 return true;				
@@ -774,26 +774,26 @@ function drawLine(point1, point2, color, lineW){
 		ctx.stroke();
 }
 //рисует контрольные точки многоугольника
-function drawAllSquares(points, halfPoitSize){	
+function drawAllSquares(points, halfPointSize){	
 	for (var i=0; i<points.length; i++){		
-		mouseSquare(points[i], halfPoitSize, i);
+		mouseSquare(points[i], halfPointSize, i);
 	}
 }
 
 ///рисует квадрат для точки контура выделения
-function mouseSquare(point, halfPoitSize, number){	
+function mouseSquare(point, halfPointSize, number){	
 	ctx.fillStyle = "yellow";
-	ctx.fillRect(point[0]-halfPoitSize, point[1]-halfPoitSize, halfPoitSize*2, halfPoitSize*2);
+	ctx.fillRect(point[0]-halfPointSize, point[1]-halfPointSize, halfPointSize*2, halfPointSize*2);
 	if(number != undefined){
 		ctx.fillStyle = "black";
-		ctx.font = (halfPoitSize*2)+"px sans-serif";		
-		ctx.fillText(number, point[0]-halfPoitSize, point[1]+halfPoitSize/2, halfPoitSize*2);
+		ctx.font = (halfPointSize*2)+"px sans-serif";		
+		ctx.fillText(number, point[0]-halfPointSize, point[1]+halfPointSize/2, halfPointSize*2);
 	}
 }
 //проверяет клик по угловой точке на многоугольнике
 function isClickOnPoint(area ,point){
 	for(var i=0; i<area.length; i++){	
-		if( Math.abs(point[0] - area[i][0]) <= halfPoitSize*1.5 && Math.abs(point[1] - area[i][1]) <= halfPoitSize*1.5){
+		if( Math.abs(point[0] - area[i][0]) <= halfPointSize*1.5 && Math.abs(point[1] - area[i][1]) <= halfPointSize*1.5){
            // console.log(i);			
 			return i;			
 		}		
@@ -813,7 +813,7 @@ function addPointTooArray(area, index ){
 	   
 			area.splice(index+1, 0, point);
 			//drawArea(area, true);
-		//	drawAllSquares(area, halfPoitSize);
+		//	drawAllSquares(area, halfPointSize);
 			
            return index+1;
 }
@@ -825,7 +825,7 @@ function rmPointFromArray(area, index){
 			area.splice(index, 1);
 			//ctx.putImageData(saveImg, 0, 0);
 			//drawArea(area, true);
-			//drawAllSquares(area, halfPoitSize);
+			//drawAllSquares(area, halfPointSize);
 			
            return index;	
 }

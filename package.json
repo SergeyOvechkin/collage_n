@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "приложение для создания коллажей и спрайтов",
   "main": "app.js",
-  "author": "Maksaev Mihail",
   "email": "ovechkin.sergey123@mail.ru",
   "license": "Apache License Version 2.0",
   "scripts": {
@@ -11,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SergeyOvechkin/img_matrix.git"
+    "url": "git+https://github.com/SergeyOvechkin/colage_n.git"
   },
   "bugs": {
-    "url": "https://github.com/SergeyOvechkin/img_matrix.js/issues"
+    "url": "https://github.com/SergeyOvechkin/colage_n.js/issues"
   },
-  "homepage": "https://github.com/SergeyOvechkin/img_matrix#readme"
+  "homepage": "https://github.com/SergeyOvechkin/colage_n#readme"
 }

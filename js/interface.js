@@ -504,7 +504,13 @@ var StateMap = {
 								this.$props("commonProps").area_1[indexPoint] = point;
 								this.$methods().renderAll();
 								//drawAreaPoints(this.$props("commonProps").area_1);
-							}else if(this.$props("commonProps").scale_or_move == "scale"){ //искажение
+							}else if(this.$props("commonProps").scale_or_move == "scale"){ //искажение						   
+							    // var asix = this.$props("commonProps").scale_asix;							
+								if(asix == "x"){
+									 // point[1] = this.$props("commonProps").area_2[indexPoint][1]
+								}else{
+									//  point[0] = this.$props("commonProps").area_2[indexPoint][0]
+								}							
 								this.$props("commonProps").area_2[indexPoint] = point;
 								this.$methods().renderAll(false, {drawAreaPoints: false});
 								drawAreaPoints(this.$props("commonProps").area_2);
