@@ -9,16 +9,23 @@
 //area -четыре точки прямоугольника
 //direction - направление деформации
 //coeff - коэфф увеличения/уменьшения угла
-function perspectiveTransform(ctx, area, coner, coeff, isRotate){
+function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 	
 	var area2 = area.slice(0);
 	         
 			 area2[0] =  area2[0].slice(0);
-			 area2[1] =  area2[1].slice(0);				
+			 area2[1] =  area2[1].slice(0);	
+			 area2[2] =  area2[2].slice(0);
+			 area2[3] =  area2[3].slice(0);	
+			 
 			 var with_  = (area2[1][0] - area2[0][0])*coeff;
 			 var dist = with_  - (area2[1][0] - area2[0][0]); //расстояние увеличения/уменьшения
-			 area2[0][0] = area2[0][0] - dist/2;			 
-             area2[1][0] = area2[1][0] + dist/2;///2;
+			 
+			
+				  area2[0][0] = area2[0][0] - dist/2;			 
+				  area2[1][0] = area2[1][0] + dist/2;
+
+			
 			 
 			 var imgBox2= getBoxRound(area2);
 			 var imgBox= getBoxRound(area);
@@ -78,10 +85,15 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
 
            if(isRotate){
 			   ctx.putImageData(saveImg, 0, 0);
-			   rotateImgData(ctx, imgMap2, imgBox2[0], imgBox2[1], isRotate*(-1), function(){});
+			   rotateImgData(ctx, imgMap2, imgBox2[0], imgBox2[1], isRotate*(-1), function(){
+				   
+				   callb();
+				   
+			   });
 			   return;
 			 }		   
-           ctx.putImageData(imgMap2, imgBox2[0][0], imgBox2[0][1]);				
+           ctx.putImageData(imgMap2, imgBox2[0][0], imgBox2[0][1]);	
+           callb();		   
 
 }
 
@@ -155,11 +167,67 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
 				  return;
 			  }
 		      
+			
 			  var area = this.$props().commonProps.area_1;
 			  var coner = this.props("coner_name").getProp();
 			  var direction = this.props("direction").getProp();
 			   var coeff = this.props("coeff").getProp();
-			   
+			 
+             var area2 = area.slice(0);			 
+			 area2[0] =  area2[0].slice(0);
+			 area2[1] =  area2[1].slice(0);	
+			 area2[2] =  area2[2].slice(0);
+			 area2[3] =  area2[3].slice(0);	
+			 
+			 var with_  = (area2[1][0] - area2[0][0])*coeff;
+			 var height_  = (area2[2][1] - area2[1][1])*coeff;
+			 var dist = with_  - (area2[1][0] - area2[0][0]); //расстояние увеличения/уменьшения
+             var x_y = 0;
+             var directCoeff = 1;             
+			 
+			 if(direction == "y"){
+				 dist = (height_  - (area2[2][1] - area2[1][1])) 
+				 x_y = 1;
+				 directCoeff = -1; 
+                				 
+			 }			 
+			 if(coner == "AD" || coner == "DA"){
+				  area2[0][0] = Math.round(area2[0][0] - dist/2);			 
+				  area2[1][0] = Math.round(area2[1][0] + dist/2);
+			 }else if(coner == "BC" || coner == "CB" ){
+				  area2[3][0] = Math.round(area2[3][0] - dist/2);			 
+				  area2[2][0] = Math.round(area2[2][0] + dist/2);			 				 
+			 }else if(coner == "A"){ 
+				area2[1][x_y] = Math.round(area2[1][x_y] + dist/2*(directCoeff));
+				area2[2][x_y] = Math.round(area2[2][x_y] - dist/2*(directCoeff));
+				area2[3][x_y] = Math.round(area2[3][x_y] - dist/2*(directCoeff));			 
+				area2[0][x_y] = Math.round(area2[0][x_y] - dist/2*(directCoeff));					
+			 }else if(coner == "B"){ 
+				area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);
+				area2[1][x_y] = Math.round(area2[1][x_y] - dist/2);
+				area2[3][x_y] = Math.round(area2[3][x_y] - dist/2);			 
+				area2[0][x_y] = Math.round(area2[0][x_y] - dist/2);					
+			 }else if(coner == "C"){ 
+					area2[3][x_y] = Math.round(area2[3][x_y] - dist/2*(directCoeff));
+					area2[0][x_y] = Math.round(area2[0][x_y] + dist/2*(directCoeff));	
+					area2[1][x_y] = Math.round(area2[1][x_y] + dist/2*(directCoeff));	
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2*(directCoeff));					
+			 }else if(coner == "D"){ 
+					area2[0][x_y] = Math.round(area2[0][x_y] - dist/2);
+					area2[3][x_y] = Math.round(area2[3][x_y] + dist/2);					
+					area2[1][x_y] = Math.round(area2[1][x_y] + dist/2);	
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);						
+			 }else if(coner == "AB" || coner == "BA"){ 					
+					area2[1][x_y] = Math.round(area2[1][x_y] - dist/2);	
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);		
+			 
+			 }else if(coner == "CD" || coner == "DC"){ 					
+					area2[0][x_y] = Math.round(area2[1][x_y] - dist/2);	
+					area2[3][x_y] = Math.round(area2[2][x_y] + dist/2);		
+			 
+			 } 
+             console.log(area2);			 
+              var context = this;
 			  if(direction == "y"){
 				  //ctx.save();
 				 
@@ -183,15 +251,29 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
 				  ctx.imageSmoothingEnabled = false;
 				  rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2],  fi, function(){
 					  	//ctx.putImageData(saveImg, 0, 0);		  
-					    perspectiveTransform(ctx, area_, coner, coeff, fi);
+					    perspectiveTransform(ctx, area_, coner, coeff, fi, function(){
+									
+									
+									context.$methods().setAreas(area2);
+									context.$methods().renderAll();
+									lineColor = "violet";
+									drawArea(context.$props().commonProps.area_1, true);
+									
+						});
 						
 				  }, false);
 				  //ctx.restore();
 			  }else{
 				 saveStep(saveImg, this.$props().commonProps.area_1); 
 				 ctx.putImageData(saveImg, 0, 0);
-				 perspectiveTransform(ctx, area, coner, coeff, false);
-				 saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);			 
+				 perspectiveTransform(ctx, area, coner, coeff, false, function(){
+					 saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
+					 context.$methods().setAreas(area2);
+					 context.$methods().renderAll();
+					 lineColor = "violet";
+					 drawArea(context.$props().commonProps.area_1, true);
+				 });
+				 		 
 			  }
 		  },
 		  start_select: function(){
@@ -237,3 +319,4 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate){
    
 //	console.log(HM);	
 })()
+
