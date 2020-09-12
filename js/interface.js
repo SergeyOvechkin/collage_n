@@ -505,12 +505,12 @@ var StateMap = {
 								this.$methods().renderAll();
 								//drawAreaPoints(this.$props("commonProps").area_1);
 							}else if(this.$props("commonProps").scale_or_move == "scale"){ //искажение						   
-							    // var asix = this.$props("commonProps").scale_asix;							
+							    /* var asix = this.$props("commonProps").scale_asix;							
 								if(asix == "x"){
-									 // point[1] = this.$props("commonProps").area_2[indexPoint][1]
+									  point[1] = this.$props("commonProps").area_2[indexPoint][1]
 								}else{
-									//  point[0] = this.$props("commonProps").area_2[indexPoint][0]
-								}							
+								  point[0] = this.$props("commonProps").area_2[indexPoint][0]
+								}	*/						
 								this.$props("commonProps").area_2[indexPoint] = point;
 								this.$methods().renderAll(false, {drawAreaPoints: false});
 								drawAreaPoints(this.$props("commonProps").area_2);
@@ -531,7 +531,7 @@ var StateMap = {
 							if(this.$props("commonProps").scale_or_move == "scale"){
                                 var area_1 = this.$props("commonProps").area_1; var area_2 = this.$props("commonProps").area_2;	var move_point = this.$props("commonProps").isMovePoint;							
 								saveStep(saveImg, this.$props().commonProps.area_1);
-								var asix = this.$props("commonProps").scale_asix
+								var asix = this.$props("commonProps").scale_asix;
 								var imgDataArr = cutAndScale(area_1, area_2, move_point, false, true, asix);
 								this.$props("commonProps").area_1 = area_2.slice(0);
 								this.$methods().renderAll();																						
