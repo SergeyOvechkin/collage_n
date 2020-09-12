@@ -82,19 +82,15 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 								imgData2[ point2+3] = imgData[point+3];											
 						}
 				}
-
            if(isRotate){
 			   ctx.putImageData(saveImg, 0, 0);
-			   rotateImgData(ctx, imgMap2, imgBox2[0], imgBox2[1], isRotate*(-1), function(){
-				   
-				   callb();
-				   
+			   rotateImgData(ctx, imgMap2, imgBox2[0], imgBox2[1], isRotate*(-1), function(){				   
+				   callb();			   
 			   });
 			   return;
 			 }		   
            ctx.putImageData(imgMap2, imgBox2[0][0], imgBox2[0][1]);	
            callb();		   
-
 }
 
 (function(){	
@@ -247,15 +243,11 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 					area2[0][x_y] = Math.round(area2[1][x_y] - dist/2);	
 					area2[3][x_y] = Math.round(area2[2][x_y] + dist/2);		
 			 
-			 } 
-             console.log(area2);			 
+			 } 		 
               var context = this;
-			  if(direction == "y"){
-				  //ctx.save();
-				 
+			  if(direction == "y"){				 
 				  var fi = 90* Math.PI / 180;
 				  var img_data_arr =  getCutImg(ctx, area);				  
-				 // area = rotationArea(area, fi);
 				  if(coner === "A"){
 					coner = "B";					
 				  }else if(coner === "B"){
@@ -271,20 +263,15 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 				  saveStep(saveImg, this.$props().commonProps.area_1); 
 				  ctx.putImageData(saveImg, 0, 0);
 				  ctx.imageSmoothingEnabled = false;
-				  rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2],  fi, function(){
-					  	//ctx.putImageData(saveImg, 0, 0);		  
-					    perspectiveTransform(ctx, area_, coner, coeff, fi, function(){
-									
-									
+				  rotateImgData(ctx, img_data_arr[0], img_data_arr[1], img_data_arr[2],  fi, function(){		  
+					    perspectiveTransform(ctx, area_, coner, coeff, fi, function(){									
 									context.$methods().setAreas(area2);
 									context.$methods().renderAll();
 									lineColor = "violet";
-									drawArea(context.$props().commonProps.area_1, true);
-									
+									drawArea(context.$props().commonProps.area_1, true);									
 						});
 						
 				  }, false);
-				  //ctx.restore();
 			  }else{
 				 saveStep(saveImg, this.$props().commonProps.area_1); 
 				 ctx.putImageData(saveImg, 0, 0);
@@ -294,8 +281,7 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 					 context.$methods().renderAll();
 					 lineColor = "violet";
 					 drawArea(context.$props().commonProps.area_1, true);
-				 });
-				 		 
+				 });			 		 
 			  }
 		  },
 		  start_select: function(){
@@ -337,8 +323,6 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
   }
 
   HM.description.perspective_transform  = perspective_transform;
-  HM.containerInit(div , HM.description, "perspective_transform");
-   
-//	console.log(HM);	
+  HM.containerInit(div , HM.description, "perspective_transform");	
 })()
 
