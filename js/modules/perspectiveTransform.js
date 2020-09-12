@@ -197,26 +197,48 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 			 }else if(coner == "BC" || coner == "CB" ){
 				  area2[3][0] = Math.round(area2[3][0] - dist/2);			 
 				  area2[2][0] = Math.round(area2[2][0] + dist/2);			 				 
-			 }else if(coner == "A"){ 
-				area2[1][x_y] = Math.round(area2[1][x_y] + dist/2*(directCoeff));
-				area2[2][x_y] = Math.round(area2[2][x_y] - dist/2*(directCoeff));
-				area2[3][x_y] = Math.round(area2[3][x_y] - dist/2*(directCoeff));			 
-				area2[0][x_y] = Math.round(area2[0][x_y] - dist/2*(directCoeff));					
+			 }else if(coner == "A"){
+				 
+				 
+                if(coeff > 1){				 
+					area2[1][x_y] = Math.round(area2[1][x_y] + dist/2*(directCoeff));
+					area2[2][x_y] = Math.round(area2[2][x_y] - dist/2*(directCoeff));
+					area2[3][x_y] = Math.round(area2[3][x_y] - dist/2*(directCoeff));			 
+					area2[0][x_y] = Math.round(area2[0][x_y] - dist/2*(directCoeff));
+				}else{
+					area2[1][x_y] = Math.round(area2[1][x_y] + dist*(directCoeff));
+					
+				}				
 			 }else if(coner == "B"){ 
-				area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);
-				area2[1][x_y] = Math.round(area2[1][x_y] - dist/2);
-				area2[3][x_y] = Math.round(area2[3][x_y] - dist/2);			 
-				area2[0][x_y] = Math.round(area2[0][x_y] - dist/2);					
-			 }else if(coner == "C"){ 
+			  if(coeff > 1){	
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);
+					area2[1][x_y] = Math.round(area2[1][x_y] - dist/2);
+					area2[3][x_y] = Math.round(area2[3][x_y] - dist/2);			 
+					area2[0][x_y] = Math.round(area2[0][x_y] - dist/2);
+			  }else{
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist);
+					
+				}				
+			 }else if(coner == "C"){
+				if(coeff > 1){					 
 					area2[3][x_y] = Math.round(area2[3][x_y] - dist/2*(directCoeff));
 					area2[0][x_y] = Math.round(area2[0][x_y] + dist/2*(directCoeff));	
 					area2[1][x_y] = Math.round(area2[1][x_y] + dist/2*(directCoeff));	
-					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2*(directCoeff));					
-			 }else if(coner == "D"){ 
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2*(directCoeff));
+				}else{
+					area2[3][x_y] = Math.round(area2[3][x_y] - dist*(directCoeff));
+					
+				}
+			 }else if(coner == "D"){
+				if(coeff > 1){
 					area2[0][x_y] = Math.round(area2[0][x_y] - dist/2);
 					area2[3][x_y] = Math.round(area2[3][x_y] + dist/2);					
 					area2[1][x_y] = Math.round(area2[1][x_y] + dist/2);	
-					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);						
+					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);	
+                }else{
+					area2[0][x_y] = Math.round(area2[0][x_y] - dist);
+					
+				}					
 			 }else if(coner == "AB" || coner == "BA"){ 					
 					area2[1][x_y] = Math.round(area2[1][x_y] - dist/2);	
 					area2[2][x_y] = Math.round(area2[2][x_y] + dist/2);		
