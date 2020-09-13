@@ -41,8 +41,20 @@
 		["draw_sircle_radius", "inputvalue", "[name='draw_sircle_radius']"],
 		["draw_sircle_color", "inputvalue", "[name='draw_sircle_color']"], 
 		["canvas_click", "emiter-mousedown-canvas", ""], 
+		
+		["operation_with", "emiter-operation-with", ""],
 	  ],
 	  methods: {
+		  operation_with: function(){ //отключает слушателей canvas событий ( mousedown) если модуль находится в пассивном состоянии
+			  //console.log(this.emiter.prop);		  
+			  if(this.emiter.prop != "draw-circle"){			  
+				 
+				  this.parent.props.canvas_click.disableEvent();			  
+			  }else{				  
+				
+				  this.parent.props.canvas_click.enableEvent();			  
+			  }			  
+		  },
 		  draw_circle_btn: function(){
 
 				  this.$$("emiter-operation-with").set("draw-circle");
@@ -73,6 +85,7 @@
 
   HM.description.draw_circle_panel  = draw_circle_panel;
   HM.containerInit(div , HM.description, "draw_circle_panel");
+  HM.eventProps["emiter-operation-with"].emit(); //вызываем чтобы отключить слушателей canvas событий при старте модуля
    
 	//console.log(HM);	
 })()

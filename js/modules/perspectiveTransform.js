@@ -152,11 +152,22 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 		["coeff", "inputvalue", "[name='coeff']"], 
 		
 		["canvas_click", "emiter-mousedown-canvas", ""], 
-		["canvas_move", "emiter-mousemove-canvas", ""], 
+		["canvas_move", "emiter-mousemove-canvas", ""],
+		["operation_with", "emiter-operation-with", ""],
 		
 		["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],
 	  ],
 	  methods: {
+		  operation_with: function(){ //отключает слушателей canvas событий (mousemove и mousedown) если модуль находится в пассивном состоянии
+			  //console.log(this.emiter.prop);		  
+			  if(this.emiter.prop != "square-selector"){			  
+				  this.parent.props.canvas_move.disableEvent();
+				  this.parent.props.canvas_click.disableEvent();			  
+			  }else{				  
+				  this.parent.props.canvas_move.enableEvent();
+				  this.parent.props.canvas_click.enableEvent();			  
+			  }			  
+		  },
 		  start_deformation: function(){ 
 		      if(this.$$("emiter-operation-with").prop != "square-selector" || this.$props().commonProps.area_1.length != 4){				  
 				  alert("сперва необходимо выделить прямоугольнцю область для трансформации и ввести все параметры");
@@ -323,6 +334,7 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
   }
 
   HM.description.perspective_transform  = perspective_transform;
-  HM.containerInit(div , HM.description, "perspective_transform");	
+  HM.containerInit(div , HM.description, "perspective_transform");
+  HM.eventProps["emiter-operation-with"].emit(); //вызываем чтобы отключить слушателей canvas событий при старте модуля
 })()
 

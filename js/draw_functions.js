@@ -119,7 +119,7 @@ function addEffect(ctx, area, rgbaArr){
 			}
 			ctx.putImageData(imgMap, imgBox[0][0], imgBox[0][1]);
 }
-//добавляет PGBA -эффект с помощью функции - script
+//добавляет RGBA -эффект с помощью функции - script
 //area - массив с точками выделения
 function addEffectEval(ctx, area, script){
 	var temporaryObj = {};
