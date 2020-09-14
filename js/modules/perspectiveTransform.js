@@ -162,13 +162,16 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 			  //console.log(this.emiter.prop);		  
 			  if(this.emiter.prop != "square-selector"){			  
 				  this.parent.props.canvas_move.disableEvent();
-				  this.parent.props.canvas_click.disableEvent();			  
+				  this.parent.props.canvas_click.disableEvent();
+					
 			  }else{				  
 				  this.parent.props.canvas_move.enableEvent();
-				  this.parent.props.canvas_click.enableEvent();			  
+				  this.parent.props.canvas_click.enableEvent();
+								  
 			  }			  
 		  },
 		  start_deformation: function(){ 
+		      console.log(11);
 		      if(this.$$("emiter-operation-with").prop != "square-selector" || this.$props().commonProps.area_1.length != 4){				  
 				  alert("сперва необходимо выделить прямоугольнцю область для трансформации и ввести все параметры");
 				  return;

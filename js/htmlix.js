@@ -180,7 +180,6 @@ HTMLixArray.prototype.order = function (newOrderArr) {
 
   if (this.selector != undefined) {
     htmlLink = htmlLink.querySelector(this.selector);
-	//console.log(htmlLink);
     if (htmlLink == null) console.log("error - не удается найти селектор " + this.selector + " для массива " + this.pathToComponent);
   }
 
@@ -417,7 +416,7 @@ function HTMLixRouter(state, routes) {
       }
       /*
       if(word[word.length-1] == "*"){
-      				searchInword = true;
+      			searchInword = true;
       	}
       */
 
@@ -1400,6 +1399,10 @@ PropStandartEvent.prototype.removeProp = function (value) {
 };
 
 PropStandartEvent.prototype.disableEvent = function (value) {
+  if (value == undefined) {
+    value = this.type;
+  }
+
   if (this.events[value] != undefined) {
     if (this[value + 'disable'] != undefined) {
       return;
@@ -1413,6 +1416,10 @@ PropStandartEvent.prototype.disableEvent = function (value) {
 };
 
 PropStandartEvent.prototype.enableEvent = function (value) {
+  if (value == undefined) {
+    value = this.type;
+  }
+
   if (this.events[value] != undefined) {
     if (this[value + 'disable'] == undefined) {
       return;
@@ -1788,7 +1795,7 @@ HTMLixState.prototype.arrayInit = function (node, StateMap, key) {
         var string = StateMap[key]["arrayProps"][t][0];
         var selector = StateMap[key]["arrayProps"][t][2];
         var type = StateMap[key]["arrayProps"][t][1];
-       
+
         if (type == "aux") {
           if (StateMap[key]["arrayMethods"][string] == undefined) console.log("error название свойства массива " + key + " - " + string + " не совпадает с названием метода");
           if (this.state[key].methods == undefined) this.state[key].methods = {};
@@ -1800,15 +1807,16 @@ HTMLixState.prototype.arrayInit = function (node, StateMap, key) {
           t--;
           continue;
         }
-		//console.log(StateMap[key]["arrayProps"][t]);
+
         var htmlLinkToProp = this.state[key].htmlLink;
 
         if (selector != "") {
           htmlLinkToProp = this.state[key].htmlLink.querySelector(selector);
-          if (htmlLinkToProp == undefined || htmlLinkToProp == null){
-			  console.log("error не возможно найти селектор для свойства " + selector + " массива " + key + " проверьте правильность селектора");
-			  continue;
-		  } 
+
+          if (htmlLinkToProp == undefined || htmlLinkToProp == null) {
+            console.log("error не возможно найти селектор для свойства " + selector + " массива " + key + " проверьте правильность селектора");
+            continue;
+          }
         }
 
         this.state[key]["props"][string] = constructorProps(htmlLinkToProp, key, StateMap[key]["arrayProps"][t], StateMap[key]["arrayMethods"][string], key, this.state[key], this);
@@ -2136,5 +2144,15 @@ HTMLixState.prototype.isEmiter = function (emiterName) {
 
 HTMLixState.prototype.$$ = function (emiterName) {
   return this.eventProps[emiterName];
+};
+
+HTMLixState.prototype.$methods = function (nameMethod) {
+  if (nameMethod != undefined) return this.stateMethods[nameMethod];
+  return this.stateMethods;
+};
+
+HTMLixState.prototype.$props = function (nameProp) {
+  if (nameProp != undefined) return this.stateProperties[nameProp];
+  return this.stateProperties;
 };
 //# sourceMappingURL=htmlix.js.map
