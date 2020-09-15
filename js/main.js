@@ -25,10 +25,7 @@
 	 var HM; //htmlix state
 
 	 
-img.onload = function(){ 
-	startImg();
-			
-}
+
 window.onload = function(){ 
 	
 	HM = new HTMLixState(StateMap);
@@ -63,7 +60,8 @@ window.onload = function(){
 		}
         save_in_storage(collagenSettings_, "collagenSettings");		
 		collagenSettings = collagenSettings_;
-	}else{
+	}else{  
+	        if(collagenSettings.common.imgSrc)img.src = collagenSettings.common.imgSrc;
 			for(var key in collagenSettings.modules){				
 				loadModul(collagenSettings.modules[key], key);
 			}
@@ -81,12 +79,18 @@ window.onload = function(){
 			if(collagenSettings.common.lineWidth)lineWidth = collagenSettings.common.lineWidth;
             if(collagenSettings.common.mainImgScale_x) mainImgScale_x = collagenSettings.common.mainImgScale_x;
 			if(collagenSettings.common.mainImgScale_y)mainImgScale_y = collagenSettings.common.mainImgScale_y;
-			if(collagenSettings.common.imgSrc)img.src = collagenSettings.common.imgSrc;
-            if(collagenSettings.common.mainImgScale_x || collagenSettings.common.imgSrc || collagenSettings.common.mainImgScale_y)startImg();			
-	}
-	HM.state.form_load_module.props.colagen_settings.setProp( JSON.stringify(collagenSettings, null, ' ') );
-	//console.log(collagenSettings);
 			
+           // if(collagenSettings.common.mainImgScale_x || collagenSettings.common.imgSrc || collagenSettings.common.mainImgScale_y)startImg();			
+	}
+	if(img.complete){
+		startImg();
+	}else{
+	   img.onload = function(){ 
+		  startImg();			
+	   }
+	}	
+	HM.state.form_load_module.props.colagen_settings.setProp( JSON.stringify(collagenSettings, null, ' ') );
+	//console.log(collagenSettings);			
 }
 
 
