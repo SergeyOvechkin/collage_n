@@ -303,29 +303,39 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 				
 						<form class="col-12" name="form_load_module" style="margin-top: 0px;" onsubmit="return false" data-form_load_module="container" style="margin-top: 10px;">
                     		
-							<p name="form_show" class="clicker" >Загрузить модуль <span>+</span></p>
+							<p name="form_show" class="clicker" >Загрузить модуль, изменить настройки <span>+</span></p>
 
 							<div class="d-none">
 							    <div class="form-group form-row ">
-									<div class="form-group col-2">
+								   <!--	<div class="form-group col-2">
 										<input type="text" name="setting_name"  class="form-control form-control-sm"  placeholder="module name" value="addDrawCirclePanel">	
-									</div>
-									<div class="form-group col-6">
+									</div>-->
+									<div class="form-group col-9">
 										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collage_n/js/modules/addDrawCirclePanel.js">	
 									</div>
-									<div class="form-group col-4">
+									<div class="form-group col-3">
 										<button type="button" name="load_module" class="btn btn-info btn-sm">Загрузить модуль</button>										
-										<button type="button" name="setting_add" class="btn btn-info btn-sm">В автозагрузку</button>
-										<button type="button" name="setting_remove" class="btn btn-info btn-sm">Удалить</button>
+										<!--<button type="button" name="setting_add" class="btn btn-info btn-sm">В автозагрузку</button>
+										<button type="button" name="setting_remove" class="btn btn-info btn-sm">Удалить</button>-->
 									</div>
 								</div>
+								<div class="form-group form-row ">
+								    <div class="form-group col-9">
+										<textarea name="colagen_settings" rows="5" cols="45" type="text"  class="form-control form-control-sm"  title="общие настройки, автозагружаемые модули и стили при старте приложения"></textarea>
+									 </div>
+									 <div class="form-group col-3">
+									     <button type="button" name="save_colagen_settings" class="btn btn-info btn-sm">Сохранить</button>
+									 </div>
+								</div>			
 								<div class="alert alert-info" role="alert">
 								   <ul>
-								    <li>Модулями можно расширять стандартный набор функций приложения. В примере выше подключается модуль рисования окружностей кликом мыши.</li>
+								    <li>Модулями можно расширять стандартный набор функций приложения. В примере выше подкулючается модуль рисования окружностей кликом мыши.</li>
 									<li>Также функции модулей можно использовать для обработки пикселей либо создания контура.</li>
 									<li>"./js/modules/drawStar.js" - функция для создания контура в форме звезы: area = modules.drawStar(200,200, 4,70,30);</li>
-									<li>В настройках можно сохранить модуль для автоматичкской загрузки при старте приложения, для этого нужно ввести имя модуля и его url.</li>
-									<li>Удалить модуль из автозагрузки можно по его именни введенном при создании настройки, имена всех автозагружаемых модулей можно посмотреть в консоли.</li>
+									<li>В настройках можно сохранить модуль для автоматичкской загрузки при старте приложения, для этого нужно ввести имя модуля и его url, например: "modules" : {
+									"spriteMatrix" : "./js/modules/spriteMatrix.js" },</li>
+									<li>Аналогично можно добавить стили со шрифтами.</li>
+									<li>При сохранении настройки нужно убедиться в ее валидности. Для возврата к настройкам по умолчанию нужно сохранить пустой объект.</li>
 								   </ul>
 								</div>
 							</div>

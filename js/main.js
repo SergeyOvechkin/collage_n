@@ -31,17 +31,60 @@ img.onload = function(){
 }
 window.onload = function(){ 
 	
-	 HM = new HTMLixState(StateMap);
+	HM = new HTMLixState(StateMap);
 	 
 	console.log(HM);
-
+    
+	//загрузка настроек модулей и стилей
 	var collagenSettings = get_from_storage("collagenSettings");
+	var collagenSettings_ ;
+	
+	if(collagenSettings == null || collagenSettings.modules == undefined || collagenSettings.styles == undefined){
+		
+		collagenSettings_ = {
+		  common: {	
+			backStepCounts: 3,
+			halfPointSize: 5,
+			colorCommonArea: "red",
+			colorSpriteArea: "#0fec42",
+			lineWidth: 3,
+		    mainImgScale_x: 0.7,
+            mainImgScale_y: 0.7,
+			imgSrc: "./img/img.png",
+		  },			
+		  modules: {},
+		  styles: {}						
+		}
+	    if(collagenSettings != null){					
+			for(var key in collagenSettings){
+				collagenSettings_.modules[key] = collagenSettings[key];
+				loadModul(collagenSettings[key], key);
+			}
+		}
+        save_in_storage(collagenSettings_, "collagenSettings");		
+		collagenSettings = collagenSettings_;
+	}else{
+			for(var key in collagenSettings.modules){				
+				loadModul(collagenSettings.modules[key], key);
+			}
+			for(var key in collagenSettings.styles){				
+				loadStyles(collagenSettings.styles[key]);
+				preloadFonts(collagenSettings.styles[key]);
+			}
+			if(!collagenSettings.common)collagenSettings.common = {};
+            if(collagenSettings.common.backStepCounts)backStepCounts = collagenSettings.common.backStepCounts;
+			if(collagenSettings.common.halfPointSize)halfPointSize = collagenSettings.common.halfPointSize;
+            if(collagenSettings.common.colorCommonArea)colorCommonArea = collagenSettings.common.colorCommonArea;
+			if(collagenSettings.common.colorSpriteArea)colorSpriteArea = collagenSettings.common.colorSpriteArea;
+			if(collagenSettings.common.lineWidth)lineWidth = collagenSettings.common.lineWidth;
+            if(collagenSettings.common.mainImgScale_x) mainImgScale_x = collagenSettings.common.mainImgScale_x;
+			if(collagenSettings.common.mainImgScale_y)mainImgScale_y = collagenSettings.common.mainImgScale_y;
+			if(collagenSettings.common.imgSrc)img.src = collagenSettings.common.imgSrc;
+            if(collagenSettings.common.mainImgScale_x || collagenSettings.common.imgSrc || collagenSettings.common.mainImgScale_y)startImg();			
+	}
+	HM.state.form_load_module.props.colagen_settings.setProp( JSON.stringify(collagenSettings, null, ' ') );
 	//console.log(collagenSettings);
-	if(collagenSettings == null)return;
-					
-		for(var key in collagenSettings){
-			loadModul(collagenSettings[key], key);
-		}			
+			
 }
 
 

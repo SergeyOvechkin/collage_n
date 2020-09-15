@@ -4,16 +4,31 @@ var StateMap = {
 	form_load_module: {
 		container: "form_load_module",
 		props: [ ["module_url", "inputvalue", "[name='module_url']"],  ["load_module", "click", "[name='load_module']"], 
-					["setting_name", "inputvalue", "[name='setting_name']"],  
-					["setting_add", "click", "[name='setting_add']"],  ["setting_remove", "click", "[name='setting_remove']"], 
-					["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],
+					//["setting_name", "inputvalue", "[name='setting_name']"],  
+					//["setting_add", "click", "[name='setting_add']"],  ["setting_remove", "click", "[name='setting_remove']"], 
+					["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],					
+					["save_colagen_settings", "click", "[name='save_colagen_settings']"],  ["colagen_settings", "inputvalue", "[name='colagen_settings']"], 
+					
 		],		 				
 		methods: {
+			save_colagen_settings: function(){
+				
+				var settings = this.props("colagen_settings").getProp();
+                try{
+                    settings.replace(/(\s)/g, "$1");					
+					settings = JSON.parse(settings);
+				}catch(error){
+					alert("ошибка json файла, убедитесь в корректности настроек: "+error);
+					return
+				}	
+				save_in_storage(settings, "collagenSettings");	
+			   	alert("настройки сохранены");			
+			},
 			load_module: function(){ //подключает загруженный скрипт, модуль
 				var module_url  = this.props("module_url").getProp();           
 				loadModul(module_url);
 			},
-			setting_add: function(){//добавляет модуль в автозагрузку
+			/*setting_add: function(){//добавляет модуль в автозагрузку
 				var setting_name = this.parent.props.setting_name.getProp(); var module_url = this.parent.props.module_url.getProp();
 				if(setting_name != "" && setting_name.length > 4 &&  module_url !="" && module_url.length > 4){				
 					var collagenSettings = get_from_storage("collagenSettings");
@@ -34,7 +49,7 @@ var StateMap = {
 					delete collagenSettings[setting_name];
 					save_in_storage (collagenSettings, "collagenSettings");
 					alert("настройки "+setting_name+" удалены");
-			}
+			}*/
 		}	
 	},
 	form_text: {
