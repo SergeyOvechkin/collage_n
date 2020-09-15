@@ -19,10 +19,21 @@ function CollageSprite(img, area, id, rotate){
 	if(rotate != undefined)this.rotate = rotate;
 	this.show = true;
 	this.stamp_cursor = false;//рисование спрайтом
-
-	
 	this.scale_x = 1; //масштаб относительно изначального при создании спрайта
 	this.scale_y = 1;
+	this.textParam = false; /* {
+		text: "", 
+		lineHeight: 30, высота строки
+		font: "30px Balsamiq Sans",
+		fillStyle: "red",
+		padding_x_l: 0, отступ слева
+		padding_x_r: 0,	отступ справа	
+		padding_x: false, 
+	    padding_y: 0, отступ с верху
+        max_width: false, максимальная ширина: ширина спрайта - отступы
+        textArr: false,		
+	}*/	
+
 
 }
 
@@ -62,12 +73,17 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 			}
 			ctx.save();
 			ctx.translate(move[0],   move[1]);				
-			ctx.rotate(this.rotate);           				
+			ctx.rotate(this.rotate); 
+			
 			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
+			
+			if(this.textParam)this.fillText(-halfW, -halfH);
+			
 			ctx.restore();
-	}else{
-		
+	}else{		
 		ctx.drawImage(this.frame, point[0], point[1], width, height);
+		
+		if(this.textParam)this.fillText(point[0], point[1]);
 	}
 	if(this.id == sprite_id && this.stamp_cursor == false){
 		
@@ -88,6 +104,25 @@ CollageSprite.prototype.setAreas = function(area){
 	this.point = imgBox[0];
 	this.point2 = imgBox[1];	
 }
+CollageSprite.prototype.fillText = function(x, y){
+	
+	        if(!this.textParam.max_width){
+				this.textParam.max_width = this.point2[0] - this.point[0];
+				if(this.textParam.padding_x_l)this.textParam.max_width -= this.textParam.padding_x_l;
+				if(this.textParam.padding_x_r != undefined){
+					this.textParam.max_width -= this.textParam.padding_x_r;
+					this.textParam.padding_x = this.textParam.padding_x_r;
+				}
+				if(!this.textParam.padding_x_r && !this.textParam.padding_x_l && this.textParam.padding_x)this.textParam.max_width -= this.textParam.padding_x*2;				
+			}	
+		    ctx.fillStyle = this.textParam.fillStyle;
+			ctx.font = this.textParam.font;
+			if(!this.textParam.textArr)this.textParam.textArr = getLines(ctx, this.textParam.text, this.textParam.max_width);
+			for(var i=0; i<this.textParam.textArr.length; i++){			
+				ctx.fillText(this.textParam.textArr[i], x+this.textParam.padding_x, y+this.textParam.padding_y+(this.textParam.lineHeight*(i+1)));				
+			}	
+}
+
 CollageSprite.prototype.rotateArea = function(){
 	
 	var area = rotationArea(this.area_1, this.rotate);
@@ -106,6 +141,8 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	this.point2 = imgBox[1];
 	this.scale_x = coeff_x;
 	this.scale_y = coeff_y;
+	this.textParam.max_width = false;
+	this.textParam.textArr = false;
 		
 }
 CollageSprite.prototype.flip = function(x, y, context){

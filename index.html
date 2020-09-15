@@ -40,7 +40,7 @@
 							</div>							
 						</div>
 						<form name="form_text" style="margin-top: 20px;" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">
-							<p name="form_show" class="clicker" >Написать текст  <span>+</span></p>
+							<p name="form_show" class="clicker" >Добавить текст спрайту, фоновому изображению  <span>+</span></p>
 							<div class="d-none">
 								<div class="form-group form-row">
 									<div class="form-group col-md-9">
@@ -50,27 +50,35 @@
 										<button type="button" name="add_font" class="btn btn-info btn-sm">Добавить шрифт</button>
 									</div>
 								</div>
+								
 								<div class="form-group">
 									<input type="text" name="font"  class="form-control form-control-sm" value="30px Balsamiq Sans"  placeholder="font param (size_px font-family from font url)">	
 								</div>
 								<div class="form-group form-row">
 									<div class="form-group col-md-3">
-											<input type="text" name="text_x"  class="form-control form-control-sm" value="100"  placeholder="x coord">	
+											<input type="text" name="text_x"  class="form-control form-control-sm" value=""  placeholder="x coord or padding  L" title="x coord or padding left for sprites">	
 									</div>
 									<div class="form-group col-md-3">
-											<input type="text" name="text_y"  class="form-control form-control-sm"  value="100"  placeholder="y coord">	
+											<input type="text" name="text_y"  class="form-control form-control-sm"  value=""  placeholder="y coord or padding T" title="y coord or padding top for sprites">	
 									</div>
 									<div class="form-group col-md-3">
 											<input type="text" name="color"  class="form-control form-control-sm"  value="green"  placeholder="color">	
 									</div>
 									<div class="form-group col-md-3">
-											<input type="text" name="max_w"  class="form-control form-control-sm"  placeholder="max width">	
+											<input type="text" name="max_w"  class="form-control form-control-sm"  placeholder="max-w or padding-R" title="max width or padding right for sprites">	
 									</div>
 								</div>									
 								<div class="form-group">
 									<textarea name="text" rows="2" cols="45" type="text"  class="form-control form-control-sm"  placeholder="text"></textarea>
 								</div>
-								<button type="button" name="add_text" class="btn btn-info btn-sm">Добавить текст</button>
+								<button type="button" name="add_text" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Добавить текст</button>
+								<div class="alert alert-info" role="alert">
+								   <ul>
+								    <li>Добавить, удалить текст текущему спрайту или фоновому изображению</li>
+									<li>Для фонового изображения необходимо указать координаты текста по x и y осям, также можно указать максимальную ширину текста</li>
+									<li>Для спрайта отступы от верхней, левой и правой граници спрайта, ширина текста определяется автоматически</li>
+								   </ul>
+								</div>
 							</div>
 						</form>
 

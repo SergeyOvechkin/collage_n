@@ -74,19 +74,47 @@ var StateMap = {
 			add_text: function(){ //добавить текст				
 				var props = this.parent.props; var font_url = props.font_url.getProp(); var font = props.font.getProp();  var text = props.text.getProp();
 				var text_x = props.text_x.getProp();  var text_y = props.text_y.getProp(); var max_w = 	props.max_w.getProp(); var color = props.color.getProp();
-					ctx.putImageData(saveImg, 0, 0);
-					saveStep(saveImg, this.$props().commonProps.area_1);
-					ctx.save();
-					ctx.fillStyle = color;
-					ctx.font = font;					
-					if(max_w == "" || max_w == false){
-						ctx.fillText(text, text_x, text_y);
-					}else{
+					if(this.$props().sprites[this.$props("operationWith")]){
+						var sprite = this.$props().sprites[this.$props("operationWith")];
+						
+						if(text == false || text == ""){
+							sprite.textParam = false;
+							this.$methods().renderAll();
+							return;
+						}else{
+							
+							sprite.textParam = {};
+							sprite.textParam.text = text;
+							if(text_x.match(/\d+/) == null)text_x = 0;
+							if(text_y.match(/\d+/) == null)text_y = 0;
+							if(max_w.match(/\d+/) == null)max_w = 0;
+							sprite.textParam.padding_x_r = parseInt(text_x);
+							sprite.textParam.padding_x_l =  parseInt(max_w);
+							sprite.textParam.padding_y = parseInt(text_y);
+							sprite.textParam.fillStyle = color;
+							sprite.textParam.font = font;
+							var lineHeight = font.match(/(\d+)(px)/);
+							sprite.textParam.lineHeight = parseInt(lineHeight[1]);
+							this.$methods().renderAll();
+							
+						}
+						
+						
+					}else{	
+						ctx.putImageData(saveImg, 0, 0);
+						saveStep(saveImg, this.$props().commonProps.area_1);
+						ctx.save();
+						ctx.fillStyle = color;
+						ctx.font = font;					
+						if(max_w == "" || max_w == false){
+							ctx.fillText(text, text_x, text_y);
+						}else{
 						ctx.fillText(text, text_x, text_y, max_w);
-					}
-					saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
-					ctx.restore();	
-					this.$methods().renderAll();		
+						}
+						saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+						ctx.restore();	
+						this.$methods().renderAll();
+                    }						
 			},
 			add_font: function(){ //загрузить cdn шрифт
 				var props = this.parent.props;					
@@ -961,6 +989,21 @@ var StateMap = {
 			prop: "common",
 			behavior: function(){				
 				this.$props().operationWith = this.prop;
+				
+				var sprite = this.$props().sprites[this.$props("operationWith")];				
+				if(sprite){					
+					var text = ""; if(sprite.textParam)text = sprite.textParam.text;
+                    var props = this.$("form_text").props; 									
+					if(text != ""){
+						props.text.setProp(text);
+						props.font.setProp(sprite.textParam.font);
+						props.color.setProp(sprite.textParam.fillStyle);
+						props.max_w.setProp(sprite.textParam.padding_x_r);
+						props.text_x.setProp(sprite.textParam.padding_x_l);
+						props.text_y.setProp(sprite.textParam.padding_y);
+					}
+				}
+				
 			}		
 		}, //событие смены операции (фоном, спрайтом)
 
