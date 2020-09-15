@@ -88,9 +88,11 @@ window.onload = function(){
 	/*if(img.complete){
 		startImg();
 	}else{*/
+	     
 	   img.onload = function(){ 
 		  startImg();			
 	   }
+	    startImg();
 	//}	
 	HM.state.form_load_module.props.colagen_settings.setProp( JSON.stringify(collagenSettings, null, ' ') );
 	//console.log(collagenSettings);			
