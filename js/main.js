@@ -36,7 +36,7 @@ window.onload = function(){
 	var collagenSettings = get_from_storage("collagenSettings");
 	var collagenSettings_ ;
 	
-	if(collagenSettings == null || collagenSettings.modules == undefined || collagenSettings.styles == undefined){
+	if(collagenSettings == null || collagenSettings.common == undefined && collagenSettings.modules == undefined && collagenSettings.styles == undefined){
 		
 		collagenSettings_ = {
 		  common: {	
@@ -61,6 +61,9 @@ window.onload = function(){
         save_in_storage(collagenSettings_, "collagenSettings");		
 		collagenSettings = collagenSettings_;
 	}else{  
+	        if(!collagenSettings.common)collagenSettings.common = {};
+			if(!collagenSettings.modules)collagenSettings.modules = {};
+			if(!collagenSettings.styles)collagenSettings.styles = {};
 	        if(collagenSettings.common.imgSrc)img.src = collagenSettings.common.imgSrc;
 			for(var key in collagenSettings.modules){				
 				loadModul(collagenSettings.modules[key], key);
@@ -69,7 +72,7 @@ window.onload = function(){
 				loadStyles(collagenSettings.styles[key]);
 				preloadFonts(collagenSettings.styles[key]);
 			}
-			if(!collagenSettings.common)collagenSettings.common = {};
+			
             if(collagenSettings.common.backStepCounts)backStepCounts = collagenSettings.common.backStepCounts;
 			if(collagenSettings.common.halfPointSize)halfPointSize = collagenSettings.common.halfPointSize;
             if(collagenSettings.common.colorCommonArea){
