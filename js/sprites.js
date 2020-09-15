@@ -274,10 +274,18 @@ CollageSprite.prototype.saveOnPC = function(){
 					imgAsURL: imgAsURL,
                     rotate: this.rotate,
 					scale_x: this.scale_x,
-					scale_y: this.scale_y,					
-				}			
-				save_in_storage(state, "spritesState");
-
+					scale_y: this.scale_y,
+                    controlSpritePoint: this.controlSpritePoint,
+                    controlPoint: this.controlPoint,
+                    textParam: this.textParam,				
+				}
+                try{				
+					save_in_storage(state, "spritesState");
+                }catch(e){
+					alert(e);
+					return;
+				}
+				console.log("спрайт "+name+" сохранен");
 }
 
 function createFromPC(spr_id, context, to_beginning){
@@ -293,7 +301,10 @@ function createFromPC(spr_id, context, to_beginning){
     var img = new Image();
 	var sprite = new CollageSprite( img, area, spr_id, sprite_.rotate);
 	if(sprite_.scale_x == undefined){sprite.scale_x = 1;}else{sprite.scale_x = sprite_.scale_x;}
-	if(sprite_.scale_y == undefined){sprite.scale_y = 1;}else{sprite.scale_y = sprite_.scale_y;}
+	if(sprite_.scale_y == undefined){sprite.scale_y = 1;}else{sprite.scale_y = sprite_.scale_y;}	
+	if(sprite_.controlSpritePoint != undefined)sprite.controlSpritePoint = sprite_.controlSpritePoint;
+	if(sprite_.controlPoint != undefined)sprite.controlPoint = sprite_.controlPoint;
+	if(sprite_.textParam != undefined)sprite.textParam = sprite_.textParam;
 	
 	context.$props("sprites")[spr_id] = sprite;
 	var dataURL = 'data:image/png;base64,' + sprite_.imgAsURL;
