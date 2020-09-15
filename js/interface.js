@@ -58,8 +58,25 @@ var StateMap = {
 				 ["text_x", "inputvalue", "[name='text_x']"], ["text_y", "inputvalue", "[name='text_y']"], ["max_w", "inputvalue", "[name='max_w']"],
 				 ["color", "inputvalue", "[name='color']"], ["text", "inputvalue", "[name='text']"], ["add_text", "click", "[name='add_text']"],
 				 ["form_show", "click", "[name='form_show']"], ["form_style", "class", "div.d-none"],
+				 ["operation_with", "emiter-operation-with", ""],
 		],
 		methods: {
+			operation_with: function(){ 
+			 		  				
+				var sprite = this.$props().sprites[this.emiter.prop];				
+				if(sprite){					
+					var text = "";  if(sprite.textParam)text = sprite.textParam.text;
+                    var props = this.parent.props; 									
+					if(text != ""){
+						props.text.setProp(text);
+						props.font.setProp(sprite.textParam.font);
+						props.color.setProp(sprite.textParam.fillStyle);
+						props.max_w.setProp(sprite.textParam.padding_x_r);
+						props.text_x.setProp(sprite.textParam.padding_x_l);
+						props.text_y.setProp(sprite.textParam.padding_y);
+					}
+				}			  
+			},
 			form_show: function(){ //отобразить скрыть форму текста
 				if(this.prop == null){				
 					this.prop = true;
@@ -989,20 +1006,6 @@ var StateMap = {
 			prop: "common",
 			behavior: function(){				
 				this.$props().operationWith = this.prop;
-				
-				var sprite = this.$props().sprites[this.$props("operationWith")];				
-				if(sprite){					
-					var text = ""; if(sprite.textParam)text = sprite.textParam.text;
-                    var props = this.$("form_text").props; 									
-					if(text != ""){
-						props.text.setProp(text);
-						props.font.setProp(sprite.textParam.font);
-						props.color.setProp(sprite.textParam.fillStyle);
-						props.max_w.setProp(sprite.textParam.padding_x_r);
-						props.text_x.setProp(sprite.textParam.padding_x_l);
-						props.text_y.setProp(sprite.textParam.padding_y);
-					}
-				}
 				
 			}		
 		}, //событие смены операции (фоном, спрайтом)
