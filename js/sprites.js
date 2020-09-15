@@ -266,21 +266,10 @@ CollageSprite.prototype.saveOnPC = function(){
 
 
 				var name = this.id;
-				var img = this.frame;				
-				var imgAsURL = getBase64Image(img);              
-				var area = this.area_1.slice(0);
+
                 var state = get_from_storage("spritesState");				
 				if(state == null)state = {};			
-				state[name] = {
-					area: area,
-					imgAsURL: imgAsURL,
-                    rotate: this.rotate,
-					scale_x: this.scale_x,
-					scale_y: this.scale_y,
-                    controlSpritePoint: this.controlSpritePoint,
-                    controlPoint: this.controlPoint,
-                    textParam: this.textParam,				
-				}
+				state[name] = this.getToSave();
                 try{				
 					save_in_storage(state, "spritesState");
                 }catch(e){
@@ -289,9 +278,34 @@ CollageSprite.prototype.saveOnPC = function(){
 				}
 				console.log("спрайт "+name+" сохранен");
 }
+CollageSprite.prototype.getToSave = function(){
+				
+				var img = this.frame;				
+				var imgAsURL = getBase64Image(img);              
+				var area = this.area_1.slice(0);
+	            
+				var sprite = {
+					area: area,
+					imgAsURL: imgAsURL,
+                    rotate: this.rotate,
+					scale_x: this.scale_x,
+					scale_y: this.scale_y,
+                    controlSpritePoint: this.controlSpritePoint,
+                    controlPoint: this.controlPoint,
+                    textParam: this.textParam,						
+				}
+				
+				return sprite;
+}
 
-function createFromPC(spr_id, context, to_beginning){
-	var sprite_ = get_from_storage ("spritesState", spr_id);
+
+function createFromPC(spr_id, context, to_beginning, fromProject){
+	var sprite_;
+	if(fromProject == undefined){
+		sprite_ = get_from_storage ("spritesState", spr_id);
+	}else{
+		sprite_ = fromProject;
+	}
 	
 	var area = sprite_.area;
 	if(!area)area = sprite_.cut_area;

@@ -906,10 +906,59 @@ var StateMap = {
 			
 		},		
 	},
-	save_sprites: {
+	save_sprites: {//панель сохранения загрузки спрайтов, проектов
 		selector: "ul:first-of-type",
-		arrayProps: [ ["load_save_sprites", "click", "[name='load_save_sprites']",] ],
+		arrayProps: [ 	
+			["load_save_sprites", "click", "[name='load_save_sprites']",],
+			
+			["project_name", "inputvalue", "[name='project_name']",],
+			["save_project", "click", "[name='save_project']",],
+			["load_project_click", "change", "[name='load_project']",],
+			["load_project", "inputvalue", "[name='load_project']"], 
+		],
 		arrayMethods: {
+			load_project_click: function(){
+				var json_ = this.parent.props.load_project.htmlLink.files[0];
+				handleFiles(json_);
+				var context = this;
+				function handleFiles(file) {
+						json = file;
+						var reader = new FileReader();					
+						reader.onload = (function(aJson) { return function(e) { 
+						aJson = e.target.result;							
+						var project = JSON.parse(aJson);
+						var dataURL = 'data:image/png;base64,' + project.backImg;
+						mainImgScale_x = 1;
+						mainImgScale_y = 1; 
+						img.src=dataURL;
+						img.onload = function(){ 		
+							startImg();	
+						}	
+						for(var key in  project.sprites){
+							   var sprite = createFromPC(key, context, false, project.sprites[key]);
+							   if(sprite)context.$$("emiter-create-sprite").set(key);									
+						}							
+						}; })(json);						
+						reader.readAsText(file);					
+				}				
+			},
+			save_project: function(){
+				var project = {};
+				var name = this.props("project_name").getProp();
+				if(name == "")name = "colagen_project";
+				ctx.putImageData(saveImg, 0, 0);
+				project.backImg= canvas.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
+				project.sprites = {};
+				
+				var sprites = this.$props().sprites;
+				for(var key in sprites){
+					project.sprites[key] = sprites[key].getToSave();					
+				}
+				var json = JSON.stringify(project);
+			    download(name+".json", json);				
+				this.$methods().renderAll();
+				
+			},
 			load_save_sprites: function(){
                if(this.prop == null){				
 					this.parent.removeAll();			
