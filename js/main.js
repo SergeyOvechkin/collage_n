@@ -74,7 +74,9 @@ window.onload = function(){
 			if(!collagenSettings.common)collagenSettings.common = {};
             if(collagenSettings.common.backStepCounts)backStepCounts = collagenSettings.common.backStepCounts;
 			if(collagenSettings.common.halfPointSize)halfPointSize = collagenSettings.common.halfPointSize;
-            if(collagenSettings.common.colorCommonArea)colorCommonArea = collagenSettings.common.colorCommonArea;
+            if(collagenSettings.common.colorCommonArea){
+				lineColor = colorCommonArea = collagenSettings.common.colorCommonArea;
+			}
 			if(collagenSettings.common.colorSpriteArea)colorSpriteArea = collagenSettings.common.colorSpriteArea;
 			if(collagenSettings.common.lineWidth)lineWidth = collagenSettings.common.lineWidth;
             if(collagenSettings.common.mainImgScale_x) mainImgScale_x = collagenSettings.common.mainImgScale_x;
