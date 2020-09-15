@@ -141,8 +141,10 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	this.point2 = imgBox[1];
 	this.scale_x = coeff_x;
 	this.scale_y = coeff_y;
-	this.textParam.max_width = false;
-	this.textParam.textArr = false;
+	if(this.textParam != false){
+		this.textParam.max_width = false;
+		this.textParam.textArr = false;
+	}	
 		
 }
 CollageSprite.prototype.flip = function(x, y, context){
