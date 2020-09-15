@@ -86,21 +86,24 @@
 		["create_matrix_btn", "click", "[name='create_matrix_btn']"], ["matrix_name", "inputvalue", "[name='matrix_name']"], 
 		"type_matrix_contur", "type_matrix_square", 
 		 ["is_save_control_points", "checkbox", "[name='is_save_control_points']"],
-			    ["move_to_control_points", "checkbox", "[name='move_to_control_points']"],
+	     ["move_to_control_points", "checkbox", "[name='move_to_control_points']"],
 		
 		["load_matrix_click", 'change', "[name='load_matrix']"], ["load_matrix", "inputvalue", "[name='load_matrix']"], 
              		
 	  ],
 	  methods: {
 		  load_matrix_click: function(){
+			  
 			    var move_to_control_points = this.props("move_to_control_points").getProp();
 			  	var json_ = this.parent.props.load_matrix.htmlLink.files[0];
 				var context = this;
-				handleFiles(json_); 
-			
-				function handleFiles(file) {
+				
+				handleFiles_(json_); 
+				
+				function handleFiles_(file) {
 						json = file;
-						var reader = new FileReader();					
+						var reader = new FileReader();	
+                        //console.log(file);						
 						reader.onload = (function(aJson) { return function(e) { 
 							aJson = e.target.result;							
 							var spiteList = JSON.parse(aJson);
@@ -121,7 +124,7 @@
 									}
 									if(spiteList[key].controlPoint != undefined){
 										sprite.controlPoint = spiteList[key].controlPoint;
-										if(move_to_control_points === true){
+										if(move_to_control_points === true && sprite.controlPoint !==false){
 											sprite.moveCenterTo(sprite.controlPoint);
 											img_data_arr[1]=sprite.point; img_data_arr[2]=sprite.point2; 
 										}

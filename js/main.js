@@ -85,13 +85,13 @@ window.onload = function(){
 			
            // if(collagenSettings.common.mainImgScale_x || collagenSettings.common.imgSrc || collagenSettings.common.mainImgScale_y)startImg();			
 	}
-	if(img.complete){
+	/*if(img.complete){
 		startImg();
-	}else{
+	}else{*/
 	   img.onload = function(){ 
 		  startImg();			
 	   }
-	}	
+	//}	
 	HM.state.form_load_module.props.colagen_settings.setProp( JSON.stringify(collagenSettings, null, ' ') );
 	//console.log(collagenSettings);			
 }

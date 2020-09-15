@@ -328,12 +328,13 @@ var StateMap = {
 			load_img_click: function(event){ //загружает картинку с компьютера		
 				var img_ = this.parent.props.load_img.htmlLink.files[0];
 				var context = this;
-				handleFiles(img_); 			
-				function handleFiles(file) {
+				handleFiles___(img_); 			
+				function handleFiles___(file) {
 						img.file = file;
 						var reader = new FileReader();					
 						reader.onload = (function(aImg) { return function(e) { 
-							aImg.src = e.target.result;  startImg();													
+							aImg.src = e.target.result; 
+							startImg();													
 						}; })(img);						
 						reader.readAsDataURL(file);					
 				}			
@@ -918,10 +919,11 @@ var StateMap = {
 		],
 		arrayMethods: {
 			load_project_click: function(){
+				console.log(1111);
 				var json_ = this.parent.props.load_project.htmlLink.files[0];
-				handleFiles(json_);
+				handleFiles__(json_);
 				var context = this;
-				function handleFiles(file) {
+				function handleFiles__(file) {
 						json = file;
 						var reader = new FileReader();					
 						reader.onload = (function(aJson) { return function(e) { 
@@ -930,7 +932,7 @@ var StateMap = {
 						var dataURL = 'data:image/png;base64,' + project.backImg;
 						mainImgScale_x = 1;
 						mainImgScale_y = 1; 
-						img.src=dataURL;
+						img.src = dataURL;
 						img.onload = function(){ 		
 							startImg();	
 						}	
