@@ -182,10 +182,16 @@
 									<button type="button"  style="margin-top: 5px; " name="scale_or_move_point" class="btn btn-warning btn-sm" title="Масштабировать по точкам выделения">Искажать</button>
 									<button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button> 
 									<button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
-								 </div> 								
+								 </div>
+								 <div name="add_border_class" class="d-none" style="margin-top: 5px;">
+									<input name="border_size" type="text" style="width: 50px; "  placeholder="size" title="толщина граници спрайта">
+									<input name="border_color" type="text" style="width: 80px; "    placeholder="color" title="цвет границы спрайта">
+									<button  type="button" name="add_border_click" class="btn btn-info btn-sm" title="Добавить, удалить границу спрайту">add border</button>
+								  </div>
 								  <button type="button"  style="margin-top: 5px;" name="mirror_x_area" class="btn btn-primary btn-sm" title="Отразить выделенную область по горизонтали">flip x</button>
 								  <button type="button"  style="margin-top: 5px;" name="mirror_y_area" class="btn btn-primary btn-sm" title="Отразить выделенную область по вертикали">flip y</button>								  
 								  <button type="button"  style="margin-top: 5px;" name="clear_phone" class="btn btn-secondary btn-sm" title="Установить прозрачность фона = 0">Очистить фон</button>
+								  								  
 								  <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm d-none">Работать с фоновым изображением</button> 		
 							</form>	
 						<ul data-sprites="array" class="list-group" style="margin-top: 10px; margin-bottom: 10px; max-height: 300px; overflow: auto;">

@@ -791,27 +791,67 @@ function getConerPath(path, area, i){
 }
 
 //рисует многоугольник из точек если передать isEnd = true замыкает его на нулевой точке
-function drawArea(area, isEnd){
-
+function drawArea(area, isEnd, brSize, brColor){
 	if(area.length > 1){
+		ctx.strokeStyle = lineColor;
+		if(brColor)ctx.strokeStyle = brColor;
+		ctx.lineWidth = lineWidth;
+		if( brSize)ctx.lineWidth = brSize;
+		ctx.lineJoin = "miter";
+		ctx.beginPath();	
+		ctx.moveTo(area[0][0], area[0][1]);    	
+	
 	    var isConer ;
 		for(var i=1; i<area.length; i++){
-		///	
 			if(isEnd){			  
-			   isConer = arcConer(area, i);
+			   isConer = arcConer_(area, i);
 			  if(isConer)continue;
 			}	
-		////
-		   drawLine(area[i-1], area[i]);
+		   ctx.lineTo(area[i][0], area[i][1]);
+		   //drawLine(area[i-1], area[i]);
 		}
         if(isEnd){
-			isConer = arcConer(area, 0);
-			if(isConer)return;
-			drawLine(area[area.length-1], area[0]);			
+			isConer = arcConer_(area, 0);
+			if(isConer){
+				ctx.closePath();
+				ctx.stroke();
+				return;
+			}
+			//drawLine(area[area.length-1], area[0]);
+			ctx.closePath();
+             //ctx.lineTo(area[0][0], area[0][1]);			
 		}		
+        ctx.stroke();		
 	}	
 }
-
+//продолжении функции drawArea 
+function arcConer_(area, i, isEnd){		
+				var i_1 = i-1;
+				if(i_1 < 0)i_1 = area.length-1;	
+				if(area[i_1][2] != undefined && area[i_1][2] > 0){			
+					if(area[i][2] == undefined || area[i][2] == 0){
+						var point_half_1 = getHalfDistance(area[i], area[i_1]); 
+						 if(i === 1)ctx.moveTo(point_half_1[0],point_half_1[1]);    
+						 ctx.lineTo(area[i][0], area[i][1]);
+						return true;
+					}
+			}
+            if(area[i][2] != undefined && area[i][2] > 0){			
+				var point_half_1 = getHalfDistance(area[i], area[i_1]); 
+				if(area[i_1][2] == undefined || area[i_1][2] == 0){
+					ctx.lineTo(point_half_1[0], point_half_1[1]);
+				}else{
+					if(i === 1)ctx.moveTo(point_half_1[0],point_half_1[1]);
+				}
+                var i_2 = i+1;
+                if(i_2 > area.length-1)i_2 = 0;	                 				
+				var point_half_2 = getHalfDistance(area[i_2], area[i]);  				
+				ctx.arcTo(area[i][0], area[i][1], point_half_2[0], point_half_2[1], area[i][2]);
+				ctx.lineTo(point_half_2[0], point_half_2[1]);
+                return true				
+			}
+}
+/*
 function arcConer(area, i){		
 			ctx.strokeStyle = lineColor;
 			ctx.lineWidth = lineWidth;
@@ -840,7 +880,7 @@ function arcConer(area, i){
                 return true				
 			}
 }
-
+*/
 //рисует линию на канвас
 function drawLine(point1, point2, color, lineW){	 
 	
@@ -851,7 +891,7 @@ function drawLine(point1, point2, color, lineW){
 	}	
 	ctx.beginPath();       // Начинает новый путь
 
-		ctx.moveTo(point1[0], point1[1]);    // Рередвигает перо в точку (30, 50)
+		ctx.moveTo(point1[0], point1[1]);    // Передвигает перо в точку (30, 50)
 	    ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
 		if(lineW != undefined){
 			ctx.lineWidth = lineW;
@@ -917,7 +957,7 @@ function rmPointFromArray(area, index){
 			
            return index;	
 }
-
+//возвращает середину между двумя точками
 function getHalfDistance(point1, point2){
 	
 	return [Math.round((point1[0] -  point2[0])/2+ point2[0]),  Math.round((point1[1] -  point2[1])/2+ point2[1]) ];

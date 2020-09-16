@@ -21,6 +21,10 @@ function CollageSprite(img, area, id, rotate){
 	this.stamp_cursor = false;//рисование спрайтом
 	this.scale_x = 1; //масштаб относительно изначального при создании спрайта
 	this.scale_y = 1;
+	this.border = false;/* {
+		size: 20,
+		color: "red"		
+	},*/
 	this.textParam = false; /* {
 		text: "", 
 		lineHeight: 30, высота строки
@@ -60,12 +64,12 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		point = this.stamp_cursor_point ;
 	}		
 	if(this.rotate !== 0){
+		var halfW = width/2;
+		var halfH = height/2;
 	    area = rotationArea(this.area_1, this.rotate);			
-		if(operationName == "move" && this.id == sprite_id ){			
+		if(operationName == "move" && this.id == sprite_id ){								
 			area = rotationArea(this.area_2, this.rotate);									
-		}
-		    var halfW = width/2;
-			var halfH = height/2;	
+		}	
 			var move = [this.point[0]+  halfW, this.point[1] + halfH];
             if(this.stamp_cursor == true){
 				
@@ -73,16 +77,33 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 			}
 			ctx.save();
 			ctx.translate(move[0],   move[1]);				
-			ctx.rotate(this.rotate); 
-			
+			ctx.rotate(this.rotate); 		
 			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
-			
-			if(this.textParam)this.fillText(-halfW, -halfH);
-			
+						
+			if(this.border){
+				ctx.restore();
+				if(this.stamp_cursor == true){
+					var move = [point[0]+  halfW , point[1] + halfH ];
+					var imgBox = getBox(this.area_1);						
+					var area = getCutSize(this.area_1, imgBox[0][0]-move[0]+(imgBox[1][0]-imgBox[0][0])/2, imgBox[0][1]-move[1]+(imgBox[1][1]-imgBox[0][1])/2 );
+                    area = rotationArea(area, this.rotate);						
+				}
+				drawArea(area, true, this.border.size, this.border.color);
+				ctx.save();
+				ctx.translate(move[0],   move[1]);				
+				ctx.rotate(this.rotate); 
+			}			
+			if(this.textParam)this.fillText(-halfW, -halfH);			
 			ctx.restore();
 	}else{		
 		ctx.drawImage(this.frame, point[0], point[1], width, height);
-		
+		if(this.border){
+			if(this.stamp_cursor == true){
+					var imgBox = getBox(area);						
+					area = getCutSize(area, imgBox[0][0]-point[0]- width/2+(imgBox[1][0]-imgBox[0][0])/2, imgBox[0][1]-point[1]- height/2+(imgBox[1][1]-imgBox[0][1])/2 );				
+			}
+			drawArea(area, true, this.border.size, this.border.color);
+		}
 		if(this.textParam)this.fillText(point[0], point[1]);
 	}
 	if(this.id == sprite_id && this.stamp_cursor == false){
@@ -292,7 +313,8 @@ CollageSprite.prototype.getToSave = function(){
 					scale_y: this.scale_y,
                     controlSpritePoint: this.controlSpritePoint,
                     controlPoint: this.controlPoint,
-                    textParam: this.textParam,						
+                    textParam: this.textParam,	
+                    border: this.border,						
 				}
 				
 				return sprite;
@@ -321,6 +343,7 @@ function createFromPC(spr_id, context, to_beginning, fromProject){
 	if(sprite_.controlSpritePoint != undefined)sprite.controlSpritePoint = sprite_.controlSpritePoint;
 	if(sprite_.controlPoint != undefined)sprite.controlPoint = sprite_.controlPoint;
 	if(sprite_.textParam != undefined)sprite.textParam = sprite_.textParam;
+	if(sprite_.border != undefined)sprite.border = sprite_.border;
 	
 	context.$props("sprites")[spr_id] = sprite;
 	var dataURL = 'data:image/png;base64,' + sprite_.imgAsURL;

@@ -258,7 +258,12 @@ var StateMap = {
 				 ["asix_xy", 'select', "[name='asix_xy']"], ["asix_xy_change", 'change', "[name='asix_xy']"], ["asix_xy_class", 'class', "[name='asix_xy']"],
 				 
 				 ["radius_coner_click", "click", "[name='radius_coner_click']"], ["radius_index_point", "inputvalue", "[name='radius_index_point']"],
-				 ["radius_coner", "inputvalue", "[name='radius_coner']"],
+				 ["radius_coner", "inputvalue", "[name='radius_coner']"], ["add_border_class", "class", "[name='add_border_class']"],
+				 
+				  ["add_border_click", "click", "[name='add_border_click']"],  ["border_color", "inputvalue", "[name='border_color']"], 
+				  ["border_size", "inputvalue", "[name='border_size']"],
+				 
+				
 				 
 		],			
 		methods: {
@@ -274,6 +279,7 @@ var StateMap = {
 					props.common_btns_class.removeProp("d-none");
 					props.scale_rotate_area_sprite.removeProp("d-none");
 					props.to_phone_img_class.setProp("d-none");
+					props.add_border_class.setProp("d-none");
 				}else if(this.$props().sprites[this.$props("operationWith")]){ //со спрайтами
 					props.mirror_x_area.removeProp("d-none");
 					props.mirror_y_area.removeProp("d-none");
@@ -281,6 +287,7 @@ var StateMap = {
 					props.common_btns_class.setProp("d-none");
 					props.scale_rotate_area_sprite.removeProp("d-none");					
 					props.to_phone_img_class.removeProp("d-none");
+					props.add_border_class.removeProp("d-none");
 				}else{ //другими операциями
 					props.mirror_x_area.setProp("d-none");
 					props.mirror_y_area.setProp("d-none");					
@@ -288,6 +295,7 @@ var StateMap = {
 					props.add_rm_index_point.setProp("d-none");
 					props.common_btns_class.setProp("d-none");
 					props.to_phone_img_class.removeProp("d-none");
+					props.add_border_class.setProp("d-none");
 				}
 				
 			},
@@ -320,6 +328,22 @@ var StateMap = {
 				        this.$methods().renderAll();
 				}
 				
+			},
+			add_border_click: function(){
+				var color = this.props("border_color").getProp(); var size = parseInt(this.props("border_size").getProp());
+				var sprite = this.$props().sprites[this.$props("operationWith")];
+				if(sprite ){				
+					if(color != "" && size != 0){
+						sprite.border = {
+									size: size,
+									color: color
+							
+						}
+					}else{
+						sprite.border = false;
+					}
+                    this.$methods().renderAll();					
+				}				
 			},
 			scale_x_y: function(){	//масштабирует выделенную область или спрайт	
 				var coeff_x = this.props("scale_x_area").getProp(); var coeff_y = this.props("scale_y_area").getProp();
@@ -947,7 +971,7 @@ var StateMap = {
 		],
 		arrayMethods: {
 			load_project_click: function(){
-				console.log(1111);
+				//console.log(1111);
 				var json_ = this.parent.props.load_project.htmlLink.files[0];
 				handleFiles__(json_);
 				var context = this;
