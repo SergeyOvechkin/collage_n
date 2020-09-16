@@ -291,6 +291,7 @@ function rotationArea(area, fi){
 		var X = cutArea[i][0] * Math.cos(fi) - cutArea[i][1] * Math.sin(fi) ;
 		var Y = cutArea[i][1] * Math.cos(fi) + cutArea[i][0]  * Math.sin(fi) ;
 		newArr.push( [Math.round(X+imgBox[0][0]+width/2), Math.round(Y+imgBox[0][1]+height/2)] );
+		if(cutArea[i][2])newArr[i][2] = cutArea[i][2];
 	}
 	return newArr;	
 }
@@ -314,6 +315,7 @@ function scaleArea(area, coeff_x, coeff_y){
 			Y=	(height/2)*coeff_y*(cutArea[i][1]/(height/2));
 		}else{Y = cutArea[i][1]}
 		newArr.push( [   Math.round(X+imgBox[0][0]+width/2) ,  Math.round(Y+imgBox[0][1]+height/2) ] );
+		if(cutArea[i][2])newArr[i][2] = cutArea[i][2];
 	}
 	return newArr;	
 }
@@ -329,7 +331,9 @@ function flipArea(area, x, y){
 		if(x){X = width - cutArea[i][0];}else{X = cutArea[i][0]}		
 		if(y){Y = height - cutArea[i][1];}else{Y = cutArea[i][1]}
 		newArr.push( [   Math.round(X+imgBox[0][0]) ,  Math.round(Y+imgBox[0][1]) ] );
+		if(cutArea[i][2])newArr[i][2] = cutArea[i][2];
 	}
+	
 	return newArr;	
 }
 ///возвращает сторону квадрата на которой изменились координаты точки
