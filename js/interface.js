@@ -257,6 +257,8 @@ var StateMap = {
 				 ["mirror_x_area", 'class', "[name='mirror_x_area']"], ["mirror_y_area", 'class', "[name='mirror_y_area']"],
 				 ["asix_xy", 'select', "[name='asix_xy']"], ["asix_xy_change", 'change', "[name='asix_xy']"], ["asix_xy_class", 'class', "[name='asix_xy']"],
 				 
+				 ["radius_coner_click", "click", "[name='radius_coner_click']"], ["radius_index_point", "inputvalue", "[name='radius_index_point']"],
+				 ["radius_coner", "inputvalue", "[name='radius_coner']"],
 				 
 		],			
 		methods: {
@@ -296,6 +298,28 @@ var StateMap = {
 					this.$methods().setAreas(step[1]);
 					this.$methods().renderAll();
 				}	
+			},
+			radius_coner_click: function(){
+				var props = this.parent.props;
+				var index = parseInt(props.radius_index_point.getProp());
+				var radius = parseInt(props.radius_coner.getProp());				
+				if(isNaN(radius) || isNaN(index)){					
+					alert("необходимо ввести индекс точки и ее радиус");
+					return;
+				}
+				if(this.$props("operationWith") == "common" ){
+						if(!this.$props("commonProps").isEndArea_1){					
+										alert("сперва нужно  закончить выделение контура");
+											return;					
+						}
+						
+						if(this.$props("commonProps").area_1[index]){						
+							this.$props("commonProps").area_1[index][2]=radius;
+							this.$props("commonProps").area_2 = this.$props("commonProps").area_1.slice(0);
+						}
+				        this.$methods().renderAll();
+				}
+				
 			},
 			scale_x_y: function(){	//масштабирует выделенную область или спрайт	
 				var coeff_x = this.props("scale_x_area").getProp(); var coeff_y = this.props("scale_y_area").getProp();
@@ -513,6 +537,7 @@ var StateMap = {
 					 var id = "sprite_"+Math.floor(Math.random()*10000); 
 					 this.$props().operationWith = id;
 					 var area = this.$props("commonProps").area_1;
+					
 					 var img_data_arr =  getCutImg(ctx, area);
 					 var sprite = new CollageSprite(false,  area.slice(0), id);
 					 this.$methods().renderAll();
@@ -562,7 +587,9 @@ var StateMap = {
                         var indexPoint = this.$props("commonProps").isMovePoint;					
 						if(indexPoint !== false){							
 							if(this.$props("commonProps").scale_or_move == "move"){ //перемещение точки
-								this.$props("commonProps").area_1[indexPoint] = point;
+							    
+								this.$methods().setPoint(point, indexPoint, "area_1");
+								//this.$props("commonProps").area_1[indexPoint] = point;
 								this.$methods().renderAll();
 								//drawAreaPoints(this.$props("commonProps").area_1);
 							}else if(this.$props("commonProps").scale_or_move == "scale"){ //искажение						   
@@ -572,7 +599,8 @@ var StateMap = {
 								}else{
 								  point[0] = this.$props("commonProps").area_2[indexPoint][0]
 								}	*/						
-								this.$props("commonProps").area_2[indexPoint] = point;
+								//this.$props("commonProps").area_2[indexPoint] = point;
+								this.$methods().setPoint(point, indexPoint, "area_2");
 								this.$methods().renderAll(false, {drawAreaPoints: false});
 								drawAreaPoints(this.$props("commonProps").area_2);
 							}	
@@ -1046,6 +1074,12 @@ var StateMap = {
         setAreas: function(area){ //копирует масив с точками 
 				this.stateProperties.commonProps.area_1 = area.slice(0);
 				this.stateProperties.commonProps.area_2 = area.slice(0);					
+		},
+        setPoint : function(point, indexPoint, areaName){
+
+			this.stateProperties.commonProps[areaName][indexPoint][0] = point[0];
+			this.stateProperties.commonProps[areaName][indexPoint][1] = point[1];
+			if(point[2])this.stateProperties.commonProps[areaName][indexPoint][2] = point[2];
 		}		
 	},	
 	eventEmiters: {		

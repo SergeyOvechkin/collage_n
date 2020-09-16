@@ -157,16 +157,21 @@
 										</div>	
 								 </div>
 								<div class="form-group" name="add_rm_index_point">
-									<label for="exampleFormControlInput1" style="font-size: 15px;">Добавить, удалить точку к контуру выделения.</label>
+									<label for="exampleFormControlInput1" style="font-size: 15px;">Добавить, удалить, точку контура выделения. Скруглить угол .</label>
 									<div class="form-row">
-										<div class="form-group col-md-6">
+										<div class="form-group col-3">
 										
-											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки +1" title="Добавить точку к замкнутому контуру выделения области">
+											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="index +1" title="Добавить точку к замкнутому контуру выделения области">
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-3">
 										
-											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="индекс точки" title="Удалить точку из контура выделения области">
+											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="index point" title="Удалить точку из контура выделения области">
 										</div>
+										<div class="form-group col-6">
+										        <input name="radius_index_point" type="text" style="width: 50px; "  placeholder="index" title="индекс точки">
+												<input name="radius_coner" type="text" style="width: 50px; "    placeholder="radius px" title="радиус скругления">
+												<button  type="button" name="radius_coner_click" class="btn btn-info btn-sm" title="Скруглить уголовую точку: индекс точки,  радиус">round</button>
+										</div>		
 									</div>
 								 </div>								 
                                  <div name="common_btns_class">

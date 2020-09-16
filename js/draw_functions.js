@@ -403,8 +403,10 @@ function getBoxRound(area){
 }
 ///возвращает координаты области относительно прамоугольника в который она вписана
 function getCutSize(area, startX, startY){	
-	return area.map(function(pos){		
-		return [pos[0]-startX, pos[1]-startY];
+	return area.map(function(pos){
+        var arr = [pos[0]-startX, pos[1]-startY];
+        if(pos[2])arr[2]=pos[2];		
+		return  arr;
 	})
 }
 //получает массив с двумя imgData объектами для последующей трансформации
@@ -743,16 +745,98 @@ function endArea(area, point){
 		}
         return false;		
 }
+///возвращает объект области фигуры 
+function getPathArea(area){		
+	let path = new Path2D();	
+	path.moveTo(area[0][0], area[0][1]);	
+	for(var i=1; i<area.length; i++){
+		
+            if(getConerPath(path, area, i))continue;				
+			       		
+		path.lineTo(area[i][0], area[i][1]);	
+	}
+	if(area[0][2] != undefined && area[0][2] > 0){		
+		getConerPath(path, area, 0);
+	}
+	path.closePath();	
+	return path;
+	
+}
+
+function getConerPath(path, area, i){
+	    var i_1 = i-1;
+		if(i_1 < 0)i_1 = area.length-1;
+			if(area[i_1][2] != undefined && area[i_1][2] > 0){
+				if(area[i][2] == undefined || area[i][2] == 0){
+						var point_half_1 = getHalfDistance(area[i], area[i_1]); 
+						//path.moveTo(point_half_1[0], point_half_1[1]);	
+                        path.lineTo(area[i][0], area[i][1]);						
+						return true
+				}
+			}	
+			if(area[i][2] != undefined && area[i][2] > 0){			
+					var point_half_1 = getHalfDistance(area[i], area[i_1]); 
+					if(area[i_1][2] == undefined || area[i_1][2] == 0)path.lineTo(point_half_1[0], point_half_1[1]); 
+					var i_2 = i+1;
+					if(i_2 > area.length-1)i_2 = 0;	                				
+					var point_half_2 = getHalfDistance(area[i_2], area[i]); 				
+					path.arcTo(area[i][0], area[i][1], point_half_2[0], point_half_2[1], area[i][2]);
+					path.lineTo(point_half_2[0], point_half_2[1]);					
+					return true				
+			}		
+}
 
 //рисует многоугольник из точек если передать isEnd = true замыкает его на нулевой точке
-function drawArea(area, isEnd){	
+function drawArea(area, isEnd){
+
 	if(area.length > 1){
-		for(var i=1; i<area.length; i++){			
-			drawLine(area[i-1], area[i]);
+	    var isConer ;
+		for(var i=1; i<area.length; i++){
+		///	
+			if(isEnd){			  
+			   isConer = arcConer(area, i);
+			  if(isConer)continue;
+			}	
+		////
+		   drawLine(area[i-1], area[i]);
 		}
-        if(isEnd)drawLine(area[area.length-1], area[0]);		
+        if(isEnd){
+			isConer = arcConer(area, 0);
+			if(isConer)return;
+			drawLine(area[area.length-1], area[0]);			
+		}		
 	}	
 }
+
+function arcConer(area, i){		
+			ctx.strokeStyle = lineColor;
+			ctx.lineWidth = lineWidth;
+			
+				var i_1 = i-1;
+				if(i_1 < 0)i_1 = area.length-1;	
+				if(area[i_1][2] != undefined && area[i_1][2] > 0){
+				
+					if(area[i][2] == undefined || area[i][2] == 0){
+						var point_half_1 = getHalfDistance(area[i], area[i_1]); 
+						drawLine(point_half_1, area[i]);
+						return true;
+					}
+			}
+            if(area[i][2] != undefined && area[i][2] > 0){			
+				var point_half_1 = getHalfDistance(area[i], area[i_1]); 
+				if(area[i_1][2] == undefined || area[i_1][2] == 0)drawLine(area[i_1], point_half_1);
+				ctx.beginPath();
+				ctx.moveTo(point_half_1[0], point_half_1[1]);
+                var i_2 = i+1;
+                if(i_2 > area.length-1)i_2 = 0;	                 				
+				var point_half_2 = getHalfDistance(area[i_2], area[i]);  				
+				ctx.arcTo(area[i][0], area[i][1], point_half_2[0], point_half_2[1], area[i][2]);
+				ctx.lineTo(point_half_2[0], point_half_2[1]);
+				ctx.stroke();
+                return true				
+			}
+}
+
 //рисует линию на канвас
 function drawLine(point1, point2, color, lineW){	 
 	
@@ -829,17 +913,12 @@ function rmPointFromArray(area, index){
 			
            return index;	
 }
-///возвращает объект области фигуры 
-function getPathArea(area){	
-	let path = new Path2D();	
-	path.moveTo(area[0][0], area[0][1]);	
-	for(var i=1; i<area.length; i++){		
-		path.lineTo(area[i][0], area[i][1]);	
-	}
-	path.closePath();	
-	return path;
-}
 
+function getHalfDistance(point1, point2){
+	
+	return [Math.round((point1[0] -  point2[0])/2+ point2[0]),  Math.round((point1[1] -  point2[1])/2+ point2[1]) ];
+	
+}
 
 ///разбивает строку текста на несколько если она не помещается в указанный максимальный размер
 function getLines(ctx, text, maxWidth) {
