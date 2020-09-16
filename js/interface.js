@@ -599,8 +599,8 @@ var StateMap = {
 								}else{
 								  point[0] = this.$props("commonProps").area_2[indexPoint][0]
 								}	*/						
-								//this.$props("commonProps").area_2[indexPoint] = point;
-								this.$methods().setPoint(point, indexPoint, "area_2");
+								this.$props("commonProps").area_2[indexPoint] = point;
+								//this.$methods().setPoint(point, indexPoint, "area_2");
 								this.$methods().renderAll(false, {drawAreaPoints: false});
 								drawAreaPoints(this.$props("commonProps").area_2);
 							}	
