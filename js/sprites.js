@@ -159,6 +159,7 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	var area = scaleArea(this.area_1, current_scale_x, current_scale_y);
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
+
 	var imgBox = getBox(area);
 	this.point = imgBox[0];
 	this.point2 = imgBox[1];
@@ -168,7 +169,13 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 		this.textParam.max_width = false;
 		this.textParam.textArr = false;
 	}	
-		
+	if(coeff_x == coeff_y && this.scale_x !==1 && this.scale_y !==1 ){	       
+		for(var i=0; i< this.area_1.length; i++){		
+			if(this.area_1[i][2]){				
+				this.area_1[i][2] = this.area_1[i][2]*current_scale_x;
+			}		
+		}
+	}	
 }
 //отражает спрайт 
 CollageSprite.prototype.flip = function(x, y, context){
