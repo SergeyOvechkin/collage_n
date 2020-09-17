@@ -13,9 +13,11 @@
 		<div class="container-fluid">
 			<div class="row main-row">
 				<div  class="col-8" id="canvas_container">
+<!--canvas-->				
 						<div  class="canvas-container">
 							<canvas data-canvas="container"  id="canvas"></canvas>
 						</div>
+<!-- контрольные точки, координаты x,y -->						
 						<div data-control_points="container" class="control-points row">
 							<div class="col-md-1">
 								<span name="point_x" type="text"  style="display: inline-block; width: 40px; padding: 0px; font-size: 15px; color: red;"  placeholder="x point" title="Координаты точки X на canvas"></span>
@@ -39,8 +41,9 @@
 							   <div  name="current_operation" style="background-color: green; color: white;">common</div>
 							</div>							
 						</div>
+<!-- добавить текст -->						
 						<form name="form_text" style="margin-top: 20px;" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">
-							<p name="form_show" class="clicker" style="font-weight: bold; color: #155724;">Добавить текст спрайту, фоновому изображению  <span>+</span></p>
+							<p name="form_show" class="clicker">Добавить текст спрайту, фоновому изображению  <span>+</span></p>
 							<div class="d-none">
 								<div class="form-group form-row">
 									<div class="form-group col-md-9">
@@ -83,9 +86,10 @@
 						</form>
 
 
-				</div>
+				</div><!-- end col-8 -->
 				<div class="col-4">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
+<!-- загрузка картинки, шаги назад для преобразований -->							
 								<div class="form-row panel_phone_img_1">
 									<div class="form-group col-2">
 											
@@ -104,8 +108,9 @@
 										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-clockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.17 6.706a5 5 0 0 1 7.103-3.16.5.5 0 1 0 .454-.892A6 6 0 1 0 13.455 5.5a.5.5 0 0 0-.91.417 5 5 0 1 1-9.375.789z"/><path fill-rule="evenodd" d="M8.147.146a.5.5 0 0 1 .707 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 1 1-.707-.708L10.293 3 8.147.854a.5.5 0 0 1 0-.708z"/></svg></button>
 									</div>
 								</div>
-								<div style="margin-top: 5px; margin-bottom: 5px; ">
-								<div class="form-row" style=";">
+<!-- панель масштабирования отражения фоновой картинки -->								
+							<div style="margin-top: 5px; margin-bottom: 5px; ">
+								<div class="form-row" >
 									<div class="form-group col-12">
 										<label for="exampleFormControlInput1">Коэффициенты x,y масштабирования и отражение фона</label>
 									</div>	
@@ -114,8 +119,7 @@
 									</div>
 									<div class="form-group col-2">								
 											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y" value="0.7" title="Коэффициент масштабирования по горизонтали">
-									</div>
-									
+									</div>									
 									<div class="form-group col-2"> 
 										<div class="form-check">
 											<input type="checkbox" name="mirror_x"  class="form-check-input" >
@@ -132,11 +136,8 @@
 										<button type="button"  style="margin-top: 0px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">Применить</button>
 									</div>											
 								 </div> 
-								 <div class="form-row">
-
-
-								</div>
-								</div>
+							</div>
+<!-- панель кнопок для манипуляции с ввыделением, спрайтами -->								
 								<div class="form-group" name="scale_rotate_area_sprite">
 										<label for="exampleFormControlInput1" style="font-size: 15px;">Вращать, масштабировать выделение, спрайт.</label>
 										<div class="form-row">
@@ -195,7 +196,8 @@
 							</div>
 							
 								  <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm d-none">Работать с фоновым изображением</button> 		
-							</form>	
+							</form>
+<!-- массив спрайтов --->							
 						<ul data-sprites="array" class="list-group" style="margin-top: 10px; margin-bottom: 10px; max-height: 300px; overflow: auto;">
 							<div  class="sprites-settings">
 							  <div class="form-row">
@@ -227,7 +229,7 @@
 								</li>
 							</div>							
 						</ul>
-							
+<!--добавить цвет, эффект -->							
 							<form name="form_effects" onsubmit="return false" data-form_effects="container" style="margin-top: 10px;">
 								<div class="form-row">
 									<div class="form-group col-md-3">
@@ -252,7 +254,8 @@
 										<button type="button"  style="margin-top: 5px;" name="rgba_effect" class="btn btn-primary btn-sm" title="Применить ко всем свойствам или к некоторым (оставить поля пустыми)">Применить к выделению</button>
 									</div>	
 								</div>
-							<p name="form_show" class="clicker" style="margin-top: 10px; font-weight: bold; color: #155724;">Применить функцию  <span>+</span></p>
+<!-- применить функцию -->								
+							<p name="form_show" class="clicker" style="margin-top: 10px;">Применить функцию  <span>+</span></p>
 							<div class="d-none">
 								<div class="form-row" style="margin-bottom: 10px;">
 										<label for="exampleFormControlInput1">Формула для обработки пикселя R,G,B,A,X,Y,W,H,TMP</label>
@@ -306,7 +309,8 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 										<button type="button"  style="margin-top: 5px;" name="function_to_contur_click" class="btn btn-primary btn-sm">Создать контур</button>
 								</div>
 							</div>	
-							</form>							
+							</form>	
+<!-- загрузить, удалить сохраненный спрайт 	-->						
 							<div data-save_sprites="array">
 								<button  type="button" name="load_save_sprites" class="btn btn-info btn-sm">Показать сохраненные спрайты</button>
 							
@@ -319,6 +323,7 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 										<label class="form-check-label" for="exampleCheck1" >top left</label>										
 									</li>
 								</ul>
+<!-- сохранить, загрузить проект -->								
                                 <div  style="margin-top: 10px;" >
 									<input name="project_name" type="text" style="width: 80px; position: relative; top: 3px;"  placeholder="name" title="Название проекта">
 									<button  type="button" name="save_project" class="btn btn-info btn-sm" title="Сохранить все спрайты и фоновую картинку в json проект">Save project</button>
@@ -328,24 +333,21 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 								
 							</div>
 
-				</div>
+				</div><!-- end col-4 -->
+				
+<!-- загрузить модуль изменить настройки-->
 				
 						<form class="col-12" name="form_load_module" style="margin-top: 0px;" onsubmit="return false" data-form_load_module="container" style="margin-top: 10px;">
                     		
-							<p name="form_show" class="clicker" style="font-weight: bold; color: #155724;">Загрузить модуль, изменить настройки <span>+</span></p>
+							<p name="form_show" class="clicker">Загрузить модуль, изменить настройки <span>+</span></p>
 
 							<div class="d-none">
 							    <div class="form-group form-row ">
-								   <!--	<div class="form-group col-2">
-										<input type="text" name="setting_name"  class="form-control form-control-sm"  placeholder="module name" value="addDrawCirclePanel">	
-									</div>-->
 									<div class="form-group col-9">
 										<input type="text" name="module_url"  class="form-control form-control-sm"  placeholder="module url" value="https://sergeyovechkin.github.io/collage_n/js/modules/addDrawCirclePanel.js">	
 									</div>
 									<div class="form-group col-3">
 										<button type="button" name="load_module" class="btn btn-info btn-sm">Загрузить модуль</button>										
-										<!--<button type="button" name="setting_add" class="btn btn-info btn-sm">В автозагрузку</button>
-										<button type="button" name="setting_remove" class="btn btn-info btn-sm">Удалить</button>-->
 									</div>
 								</div>
 								<div class="form-group form-row ">
@@ -370,8 +372,10 @@ area = modules.drawStar(200, 200, 4, 70, 30);
 							</div>
 							</p>	
 						</form>
+<!-- -->						
+						
 			</div><!--row-->
-		</div>
+		</div><!-- end container-fluid -->
 		<script src="./js/draw_functions.js"></script> 
 	   <script src="./js/htmlix.js"></script>
 	   <script src="./js/sprites.js"></script>

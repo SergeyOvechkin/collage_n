@@ -1,21 +1,19 @@
 
 
 var StateMap = {
-	form_load_module: {
+	form_load_module: { //загрузить модуль, сохранить настройки
 		container: "form_load_module",
 		props: [ ["module_url", "inputvalue", "[name='module_url']"],  ["load_module", "click", "[name='load_module']"], 
-					//["setting_name", "inputvalue", "[name='setting_name']"],  
-					//["setting_add", "click", "[name='setting_add']"],  ["setting_remove", "click", "[name='setting_remove']"], 
 					["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],					
 					["save_colagen_settings", "click", "[name='save_colagen_settings']"],  ["colagen_settings", "inputvalue", "[name='colagen_settings']"], 
 					
 		],		 				
 		methods: {
-			save_colagen_settings: function(){
+			save_colagen_settings: function(){ //сохранить настройки в json файл на локальном хранилище
 				
 				var settings = this.props("colagen_settings").getProp();
                 try{
-                    settings.replace(/(\s)/g, "$1");					
+                   // settings.replace(/(\s)/g, "$1");					
 					settings = JSON.parse(settings);
 				}catch(error){
 					alert("ошибка json файла, убедитесь в корректности настроек: "+error);
@@ -28,31 +26,9 @@ var StateMap = {
 				var module_url  = this.props("module_url").getProp();           
 				loadModul(module_url);
 			},
-			/*setting_add: function(){//добавляет модуль в автозагрузку
-				var setting_name = this.parent.props.setting_name.getProp(); var module_url = this.parent.props.module_url.getProp();
-				if(setting_name != "" && setting_name.length > 4 &&  module_url !="" && module_url.length > 4){				
-					var collagenSettings = get_from_storage("collagenSettings");
-					if(collagenSettings == null)collagenSettings = {};
-					collagenSettings[setting_name] = module_url;			
-					save_in_storage(collagenSettings, "collagenSettings");				
-					alert("настройки "+setting_name+" сохранены");
-				}				
-			},
-			setting_remove: function(){//удаляет модуль из автозагрузки
-				var setting_name = this.parent.props.setting_name.getProp();				
-					var collagenSettings = get_from_storage ("collagenSettings");
-					if(collagenSettings == null)collagenSettings = {};
-					if(collagenSettings[setting_name] == undefined){
-						alert("настроек с таким имененм не найдено");
-						return					
-					}
-					delete collagenSettings[setting_name];
-					save_in_storage (collagenSettings, "collagenSettings");
-					alert("настройки "+setting_name+" удалены");
-			}*/
 		}	
 	},
-	form_text: {
+	form_text: { //добавить удалить текст спрайту, фоновому изображению
 		container: "form_text",
 		props: [ ["font_url", "inputvalue", "[name='font_url']"], ["add_font", "click", "[name='add_font']"], ["font", "inputvalue", "[name='font']"],
 				 ["text_x", "inputvalue", "[name='text_x']"], ["text_y", "inputvalue", "[name='text_y']"], ["max_w", "inputvalue", "[name='max_w']"],
@@ -141,7 +117,7 @@ var StateMap = {
 			}
 		},
 	},
-	form_effects: {
+	form_effects: { //цветовые эффекты
 		container: "form_effects",
 		props: [ ["function_to_pixels", "inputvalue", "[name='function_to_pixels']"], ["function_to_pixels_click", "click", "[name='function_to_pixels_click']"],				  
 				  ["rgba_effect", 'click', "[name='rgba_effect']"], ["color_r", 'inputvalue', "[name='color_r']"], ["color_g", 'inputvalue', "[name='color_g']"],
@@ -247,19 +223,16 @@ var StateMap = {
 				 ["save_img", 'click', "[name='save_img']"], ["restore_img", 'click', "[name='restore_img']"], ["restart_img", 'click', "[name='restart_img']"],
 				 ["rotate_area", 'inputvalue', "[name='rotate_area']"], ["rotate_area_click", 'change', "[name='rotate_area']"], ["smoothing", 'checkbox', "[name='smoothing']"],
 				 ["mirror_x_area", 'click', "[name='mirror_x_area']"], ["mirror_y_area", 'click', "[name='mirror_y_area']"],
-				 ["scale_x_area", 'inputvalue', "[name='scale_x_area']"], ["scale_y_area", 'inputvalue', "[name='scale_y_area']"], ["scale_x_y", 'click', "[name='scale_x_y']"], 
-				
+				 ["scale_x_area", 'inputvalue', "[name='scale_x_area']"], ["scale_y_area", 'inputvalue', "[name='scale_y_area']"], ["scale_x_y", 'click', "[name='scale_x_y']"], 				
 				["add_rm_classes_on_change_operationWith", 'emiter-operation-with', ""], ["add_rm_index_point", 'class', "[name='add_rm_index_point']"],
 				 //["scale_area_class", 'class', "[name='scale_area_class']"],  
 				 ["common_btns_class", 'class', "[name='common_btns_class']"],
                  ["to_phone_img_class", 'class', "[name='operation_with']"], 
 				 ["scale_rotate_area_sprite", 'class', "[name='scale_rotate_area_sprite']"], 
 				 ["mirror_x_area", 'class', "[name='mirror_x_area']"], ["mirror_y_area", 'class', "[name='mirror_y_area']"],
-				 ["asix_xy", 'select', "[name='asix_xy']"], ["asix_xy_change", 'change', "[name='asix_xy']"], ["asix_xy_class", 'class', "[name='asix_xy']"],
-				 
+				 ["asix_xy", 'select', "[name='asix_xy']"], ["asix_xy_change", 'change', "[name='asix_xy']"], ["asix_xy_class", 'class', "[name='asix_xy']"],				 
 				 ["radius_coner_click", "click", "[name='radius_coner_click']"], ["radius_index_point", "inputvalue", "[name='radius_index_point']"],
-				 ["radius_coner", "inputvalue", "[name='radius_coner']"], ["add_border_class", "class", "[name='add_border_class']"],
-				 
+				 ["radius_coner", "inputvalue", "[name='radius_coner']"], ["add_border_class", "class", "[name='add_border_class']"],				 
 				  ["add_border_click", "click", "[name='add_border_click']"],  ["border_color", "inputvalue", "[name='border_color']"], 
 				  ["border_size", "inputvalue", "[name='border_size']"],
 				 
@@ -307,7 +280,7 @@ var StateMap = {
 					this.$methods().renderAll();
 				}	
 			},
-			radius_coner_click: function(){
+			radius_coner_click: function(){ //скругление углов контура выделения
 				var props = this.parent.props;
 				var index = parseInt(props.radius_index_point.getProp());
 				var radius = parseInt(props.radius_coner.getProp());				
@@ -329,7 +302,7 @@ var StateMap = {
 				}
 				
 			},
-			add_border_click: function(){
+			add_border_click: function(){ //добавляет границу спрайту
 				var color = this.props("border_color").getProp(); var size = parseInt(this.props("border_size").getProp());
 				var sprite = this.$props().sprites[this.$props("operationWith")];
 				if(sprite ){				
@@ -659,7 +632,7 @@ var StateMap = {
 			}			
 		}		
 	},
-	control_points: {
+	control_points: { //контрольные точки, координаты
 		container: "control_points",
 		props: [["control_point_x", "inputvalue", "[name='control_point_x']"], 
 		        ["control_point_y", "inputvalue", "[name='control_point_y']"],
@@ -677,7 +650,7 @@ var StateMap = {
                				
 			 ],
 		methods: {
-			listen_current_operation: function(){
+			listen_current_operation: function(){ //текущяя опреация
 				 			this.parent.props.current_operation.setProp(this.emiter.prop); 			
 			},
 			listen_change_points: function(){ //отображает координаты x,y при движении курсора мыши
@@ -1058,6 +1031,7 @@ var StateMap = {
 			}			
 		},
 	},
+	//общие переменные, свойства 
 	stateProperties: {		
 		operationWith: "common", ///"spriteID" операция с объектом - спрайтом или общей картинкой "common"
 		commonProps: { 	//обект с переменными для операций с фоновой картинкой	
@@ -1072,6 +1046,7 @@ var StateMap = {
 	    showBox: true, //показывать квадрат в который вписан спрайт
 	    showPoints: false, //контрольные точки выделения спрайтов		
 	},
+	//общие методы
 	stateMethods: {		
 		renderAll: function(operationName, option){	//отображает на экране все спрайты и фоновую картинку
 

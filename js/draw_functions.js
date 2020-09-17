@@ -1,11 +1,34 @@
 
 
 //рисует прямоугольник из линий на канвас
-function drawBox(point, point2, color, with_){	       			
-			drawLine([point[0], point[1]], [point2[0], point[1]], color, with_);
-			drawLine([point[0], point[1]], [point[0], point2[1]], color, with_);
-			drawLine([point[0], point2[1]],  [point2[0], point2[1]], color, with_);
-			drawLine([point2[0], point2[1]], [point2[0], point[1]], color, with_);					
+// brWith - толщина линий грницы
+//color цвет линий границы
+//point, point2, верхняя левая и правая нижняя точки
+//fill - true залить цветом  fillColor
+//isDrawBorder - false  отменить рисование границы
+function drawBox(point, point2, color, brWith, fill, fillColor, isDrawBorder ){
+
+	if(brWith != undefined){
+			ctx.lineWidth = brWith;
+		}else{		
+			ctx.lineWidth = lineWidth;
+	}
+	if(color != undefined){
+		ctx.strokeStyle = color;
+	}else{
+		ctx.strokeStyle = lineColor;
+	}
+    ctx.lineJoin = "miter";
+	if(fill){
+		if(fillColor){
+			ctx.fillStyle = fillColor;
+		}else{
+			ctx.fillStyle = "white";
+		}
+		ctx.fillRect(point[0], point[1], point2[0]-point[0], point2[1]-point[1]);
+	}
+	if(fill && isDrawBorder === false)return;
+    ctx.strokeRect(point[0], point[1], point2[0]-point[0], point2[1]-point[1]);
 }
 //возвращает прямоугольный контур из двух точек
 function getSquareFromTwo(point, point2){	
@@ -153,8 +176,9 @@ function addEffectEval(ctx, area, script){
 		}			
 }
 
-//добавляет PGBA -эффект с помощью функции - script
+//добавляет RGBA -эффект с помощью функции - script к границе
 //area - массив с точками выделения
+//coeff_x, coeff_y - толщина граници по осям в долях от общей ширины и высоты
 function addEffectEvalToBorder(ctx, area,  script, coeff_x, coeff_y){
 	var temporaryObj = {};
 	var imgBox = getBox(area); 	
@@ -211,9 +235,9 @@ function getImgToSprite(imgMapArr, sprite, isRender){
 	
 }
 ///асинхронно рисует вырезанные пиксели по верх фонового изображения
-//imgMap - пиксели, point-координаты, area-контур, mirror_x -true or flase, mirror_y -true or flase, width ширина , heigh высота 
-function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height, isSaveImg, callb){
-	
+//imgMap - пиксели, point-координаты, area-контур, mirror_x -true or flase, mirror_y -true or flase, width ширина , heigh высота
+//isSaveImg - false отменить сохранение  в переменной SaveImg после отрисовки
+function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height, isSaveImg, callb){	
    Promise.all([
    
     createImageBitmap(imgMap),
@@ -245,14 +269,12 @@ function drawImgData(ctx, imgMap, point, area, mirror_x, mirror_y, width, height
 	
 	ctx.restore();	
 	callb();
-	
-  //  drawArea(area, true);
-  //  drawAllSquares(area, halfPointSize);
-	
   });
 	
 }
 //асинхронно рисует повернутые на какой либо градус вырезанные пиксели по верх фона
+//isSaveImg - false отменить сохранение  в переменной SaveImg после отрисовки
+// point, point2,  fi, верхняя левая, правая нижня точка и угол поворота
 function rotateImgData(ctx, imgMap, point, point2,  fi, callb, isSaveImg){
 	
 	var move = [point[0]+(point2[0] - point[0])/2, point[1]+(point2[1] - point[1])/2];
@@ -272,8 +294,6 @@ function rotateImgData(ctx, imgMap, point, point2,  fi, callb, isSaveImg){
 	ctx.translate( -move[0],  -move[1]);
 	if(isSaveImg !== false)saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);	
 	callb();
-	
-	//drawAreaPoints(area);	
   });	
 }
 //вращает масив контура вокруг своего центра
@@ -336,7 +356,7 @@ function flipArea(area, x, y){
 	
 	return newArr;	
 }
-///возвращает сторону квадрата на которой изменились координаты точки
+///возвращает сторону квадрата на которой изменились координаты точки 
 function getSquareSide(area, indexPoint){
 	
 	var imgBox = getBox(area);	
@@ -749,7 +769,8 @@ function endArea(area, point){
 		}
         return false;		
 }
-///возвращает объект области фигуры 
+///возвращает объект Path2D области контура выделения фигуры 
+//area[i][0] - x, area[i][1] - y координаты точки, area[i][2] - радиус сругления точки - необязательный параметр 
 function getPathArea(area){		
 	let path = new Path2D();	
 	path.moveTo(area[0][0], area[0][1]);	
@@ -765,9 +786,8 @@ function getPathArea(area){
 	path.closePath();	
 	return path;
 	
-}
-
-function getConerPath(path, area, i){
+	///для скругленных углов
+	function getConerPath(path, area, i){
 	    var i_1 = i-1;
 		if(i_1 < 0)i_1 = area.length-1;
 			if(area[i_1][2] != undefined && area[i_1][2] > 0){
@@ -788,10 +808,14 @@ function getConerPath(path, area, i){
 					path.lineTo(point_half_2[0], point_half_2[1]);					
 					return true				
 			}		
+	}	
 }
 
 //рисует многоугольник из точек если передать isEnd = true замыкает его на нулевой точке
-function drawArea(area, isEnd, brSize, brColor){
+//brSize, brColor - толщина линий и цвет
+//area массив точек area[i][0] - x, area[i][1] - y, area[i][2] - radius скругления - необязательный параметр,
+//fill, fillColor, залить цветом, цвет заливки,  isDrawBorder - false  отменить рисование границы
+function drawArea(area, isEnd, brSize, brColor, fill, fillColor, isDrawBorder){
 	if(area.length > 1){
 		ctx.strokeStyle = lineColor;
 		if(brColor)ctx.strokeStyle = brColor;
@@ -808,24 +832,21 @@ function drawArea(area, isEnd, brSize, brColor){
 			  if(isConer)continue;
 			}	
 		   ctx.lineTo(area[i][0], area[i][1]);
-		   //drawLine(area[i-1], area[i]);
 		}
         if(isEnd){
 			isConer = arcConer_(area, 0);
 			if(isConer){
 				ctx.closePath();
-				ctx.stroke();
+				if(fill && isEnd)fill_();
+				if(isDrawBorder !== false)ctx.stroke();
 				return;
 			}
-			//drawLine(area[area.length-1], area[0]);
-			ctx.closePath();
-             //ctx.lineTo(area[0][0], area[0][1]);			
-		}		
-        ctx.stroke();		
-	}	
-}
-//продолжении функции drawArea 
-function arcConer_(area, i, isEnd){		
+			ctx.closePath();	
+		}
+		if(fill && isEnd)fill_();
+        if(isDrawBorder !== false)ctx.stroke();		
+	}
+	function arcConer_(area, i, isEnd){		
 				var i_1 = i-1;
 				if(i_1 < 0)i_1 = area.length-1;	
 				if(area[i_1][2] != undefined && area[i_1][2] > 0){			
@@ -850,38 +871,18 @@ function arcConer_(area, i, isEnd){
 				ctx.lineTo(point_half_2[0], point_half_2[1]);
                 return true				
 			}
-}
-/*
-function arcConer(area, i){		
-			ctx.strokeStyle = lineColor;
-			ctx.lineWidth = lineWidth;
-			
-				var i_1 = i-1;
-				if(i_1 < 0)i_1 = area.length-1;	
-				if(area[i_1][2] != undefined && area[i_1][2] > 0){
-				
-					if(area[i][2] == undefined || area[i][2] == 0){
-						var point_half_1 = getHalfDistance(area[i], area[i_1]); 
-						drawLine(point_half_1, area[i]);
-						return true;
-					}
+	}
+    function fill_(){
+			if(fillColor){
+				ctx.fillStyle = fillColor;
+			}else{
+				ctx.fillStyle = "white";
 			}
-            if(area[i][2] != undefined && area[i][2] > 0){			
-				var point_half_1 = getHalfDistance(area[i], area[i_1]); 
-				if(area[i_1][2] == undefined || area[i_1][2] == 0)drawLine(area[i_1], point_half_1);
-				ctx.beginPath();
-				ctx.moveTo(point_half_1[0], point_half_1[1]);
-                var i_2 = i+1;
-                if(i_2 > area.length-1)i_2 = 0;	                 				
-				var point_half_2 = getHalfDistance(area[i_2], area[i]);  				
-				ctx.arcTo(area[i][0], area[i][1], point_half_2[0], point_half_2[1], area[i][2]);
-				ctx.lineTo(point_half_2[0], point_half_2[1]);
-				ctx.stroke();
-                return true				
-			}
+			ctx.fill();		
+	}	
 }
-*/
 //рисует линию на канвас
+//lineW толщина линии
 function drawLine(point1, point2, color, lineW){	 
 	
     if(color != undefined){
@@ -889,10 +890,9 @@ function drawLine(point1, point2, color, lineW){
 	}else{
 		ctx.strokeStyle = lineColor;
 	}	
-	ctx.beginPath();       // Начинает новый путь
-
-		ctx.moveTo(point1[0], point1[1]);    // Передвигает перо в точку (30, 50)
-	    ctx.lineTo(point2[0], point2[1]);  // Рисует линию до точки (150, 100)
+	ctx.beginPath();       
+		ctx.moveTo(point1[0], point1[1]);   
+	    ctx.lineTo(point2[0], point2[1]);  
 		if(lineW != undefined){
 			ctx.lineWidth = lineW;
 		}else{
@@ -945,7 +945,7 @@ function addPointTooArray(area, index ){
 			
            return index+1;
 }
-//удаляет точку контура
+//удаляет точку контура выделения 
 function rmPointFromArray(area, index){
 	
 	        if(area.length-1 < index)return false;
@@ -965,6 +965,7 @@ function getHalfDistance(point1, point2){
 }
 
 ///разбивает строку текста на несколько если она не помещается в указанный максимальный размер
+//возврящает массив строк
 function getLines(ctx, text, maxWidth) {
     var words = text.split(" ");
     var lines = [];

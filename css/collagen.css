@@ -114,6 +114,8 @@ canvas {
 	 border-radius: 1px;
 	 font: caption;
 	 background-color: #f8f9fa;
+	 font-weight: bold;
+	 color: #155724;
  }
  .clicker span{
 	 color: #efcb5c; 

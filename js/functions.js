@@ -143,11 +143,8 @@ function preloadFonts(font_url, ctx){
 						ctx.fillText('Hello!', 20, 10);
 						//context.$methods().renderAll();
 					};
-				}
-	
+				}	
 }
-
-
 
 //сохраняет шаги для редактирования фона
 function saveStep(saveImg, area){
@@ -157,7 +154,7 @@ function saveStep(saveImg, area){
 	
 }
 
-// добавляет json файл в загрузку  
+// добавляет json файл в загрузку  для скачивания со страницы
 function download(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(text));

@@ -4,7 +4,7 @@ function CollageSprite(img, area, id, rotate){
 	
 	this.id = id;
 	this.frame = img;
-	this.point = imgBox[0];
+	this.point = imgBox[0]; //верхяя левая точка спрайта на канвас
 	this.point2 = imgBox[1];
 	this.controlPoint = false; //контрольная точка размещения центра спрайта на канвас
 	this.controlSpritePoint = false; //контрольная точка в спрайт листе
@@ -37,10 +37,7 @@ function CollageSprite(img, area, id, rotate){
         max_width: false, максимальная ширина: ширина спрайта - отступы
         textArr: false,		
 	}*/	
-
-
 }
-
 
 //при масштабировании и вращении спрайта, сначала считается масштабирование относительно начального размера,
 // затем поворот относительно центра уже отмасштабированого спрайта
@@ -58,31 +55,31 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 	var point = this.point;
 	var width = this.point2[0] - this.point[0];
 	var height = this.point2[1] - this.point[1];
-	//console.log(width);
-	
-	if(this.stamp_cursor == true && this.stamp_cursor_point){	
+
+	if(this.stamp_cursor == true && this.stamp_cursor_point){	//штам курсор - координаты мыши
 		point = this.stamp_cursor_point ;
 	}		
-	if(this.rotate !== 0){
+	if(this.rotate !== 0){ //вращение спрайта
 		var halfW = width/2;
 		var halfH = height/2;
-	    area = rotationArea(this.area_1, this.rotate);			
-		if(operationName == "move" && this.id == sprite_id ){								
+	    area = rotationArea(this.area_1, this.rotate);	
+		
+		if(operationName == "move" && this.id == sprite_id ){	//перемещение при вращении							
 			area = rotationArea(this.area_2, this.rotate);									
 		}	
-			var move = [this.point[0]+  halfW, this.point[1] + halfH];
-            if(this.stamp_cursor == true){
-				
-				move = [point[0]+  halfW , point[1] + halfH ];
+			var move = [this.point[0]+  halfW, this.point[1] + halfH]; //translate в точку move для вращения canvas
+			
+            if(this.stamp_cursor == true){			
+				move = [point[0]+  halfW , point[1] + halfH ]; //translate в точку move для вращения canvas при операции штам курсор
 			}
 			ctx.save();
 			ctx.translate(move[0],   move[1]);				
 			ctx.rotate(this.rotate); 		
 			ctx.drawImage(this.frame, -halfW, -halfH, width, height);
 						
-			if(this.border){
+			if(this.border && this.border.size > 0){ //рисование границы спрайта при ее наличии
 				ctx.restore();
-				if(this.stamp_cursor == true){
+				if(this.stamp_cursor == true){ //рисование граници при операции штам курсор
 					var move = [point[0]+  halfW , point[1] + halfH ];
 					var imgBox = getBox(this.area_1);						
 					var area = getCutSize(this.area_1, imgBox[0][0]-move[0]+(imgBox[1][0]-imgBox[0][0])/2, imgBox[0][1]-move[1]+(imgBox[1][1]-imgBox[0][1])/2 );
@@ -93,9 +90,11 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 				ctx.translate(move[0],   move[1]);				
 				ctx.rotate(this.rotate); 
 			}			
-			if(this.textParam)this.fillText(-halfW, -halfH);			
+			if(this.textParam && this.textParam.text != "")this.fillText(-halfW, -halfH); //добавление текста 			
 			ctx.restore();
-	}else{		
+			
+	}else{//без вращения
+		
 		ctx.drawImage(this.frame, point[0], point[1], width, height);
 		if(this.border){
 			if(this.stamp_cursor == true){
@@ -118,6 +117,7 @@ CollageSprite.prototype.render = function(sprite_id , operationName, option){
 		}	
 	}
 }
+//обновляет точки контура и крайние точки изображения
 CollageSprite.prototype.setAreas = function(area){
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
@@ -125,6 +125,7 @@ CollageSprite.prototype.setAreas = function(area){
 	this.point = imgBox[0];
 	this.point2 = imgBox[1];	
 }
+//добавление текста при рендере спрайта
 CollageSprite.prototype.fillText = function(x, y){
 	
 	        if(!this.textParam.max_width){
@@ -150,6 +151,7 @@ CollageSprite.prototype.rotateArea = function(){
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
 }
+//масштабирование спрайта
 CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	if(coeff_x == this.scale_x && coeff_y == this.scale_y)return;
 	
@@ -168,6 +170,7 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	}	
 		
 }
+//отражает спрайт 
 CollageSprite.prototype.flip = function(x, y, context){
 	ctx.clearRect(0, 0, srcWidth , srcHeight);
 
@@ -201,25 +204,7 @@ CollageSprite.prototype.getHalfH = function(){
 	return 	(this.point2[1]-this.point[1])/2;
 }
 
-CollageSprite.prototype.mousedown = function(point, e, context){	
-	if(this.cursorOver){     //move движение всего спрайта							
-		if(this.moveStart === false /*&& this.isMovePoint === false*/&& this.currentOperation === false){
-			this.moveStart = point;
-			this.currentOperation = "move";
-			this.savePoints = {point: this.point.slice(0), point2: this.point2.slice(0),}
-            return ;								
-		}							
-	}
-    if(this.stamp_cursor === true){
-		var point = getCanvasPoint(e, canvas, context);
-		this.stamp_cursor_point = [ point[0] - this.getHalfW(),   point[1] - this.getHalfH(),];
-		ctx.putImageData(saveImg, 0, 0);
-		saveStep(saveImg, context.$props().commonProps.area_1);
-		this.render();
-		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
-		context.$methods().renderAll();		
-	}
-}
+//перемещает центр спрайта в указанную точку
 CollageSprite.prototype.moveCenterTo  = function(point){
 	    var h_w = this.getHalfW();
 		var h_h = this.getHalfH();
@@ -234,16 +219,38 @@ CollageSprite.prototype.moveCenterTo  = function(point){
 
        // console.log(this.point);		
 }
+//событие canvas mousedown
+CollageSprite.prototype.mousedown = function(point, e, context){	
+	if(this.cursorOver){     //move движение всего спрайта							
+		if(this.moveStart === false /*&& this.isMovePoint === false*/&& this.currentOperation === false){
+			this.moveStart = point;
+			this.currentOperation = "move";
+			this.savePoints = {point: this.point.slice(0), point2: this.point2.slice(0),}
+            return ;								
+		}							
+	}
+    if(this.stamp_cursor === true){ //рисование спрайтом
+		var point = getCanvasPoint(e, canvas, context);
+		this.stamp_cursor_point = [ point[0] - this.getHalfW(),   point[1] - this.getHalfH(),];
+		ctx.putImageData(saveImg, 0, 0);
+		saveStep(saveImg, context.$props().commonProps.area_1);
+		this.render();
+		saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+		context.$methods().renderAll();		
+	}
+}
+
+//событие canvas mousemove 
 CollageSprite.prototype.mousemove  = function(point, context, e){
 	
-	if(this.currentOperation === "move"){					                        //move движение всего спрайта					
+	if(this.currentOperation === "move"){					      //move движение всего спрайта					
 		var distance = [this.moveStart[0] - point[0], this.moveStart[1] -  point[1] ];		
 		this.area_2 = getCutSize(this.area_1, distance[0], distance[1]);
 		this.point = [this.savePoints.point[0] -distance[0],  this.savePoints.point[1] -distance[1]];
 		this.point2 = [this.savePoints.point2[0] -distance[0], this.savePoints.point2[1] -distance[1]];
 		context.$methods().renderAll("move");
 	}
-	if(this.stamp_cursor === true){
+	if(this.stamp_cursor === true){ //премещение спрайта курсором при рисовании
 		var point = getCanvasPoint(e, canvas, context);
 		this.stamp_cursor_point = [ point[0] - this.getHalfW(),   point[1] - this.getHalfH(),];
 		//ctx.putImageData(saveImg, 0, 0);
@@ -253,6 +260,7 @@ CollageSprite.prototype.mousemove  = function(point, context, e){
 	}
 	
 }
+//событие canvas mouseup
 CollageSprite.prototype.mouseup  = function(context){ 
 
 	if(this.currentOperation == "move"){ 													
@@ -267,6 +275,7 @@ CollageSprite.prototype.mouseup  = function(context){
 		this.moveStart =false;
 	}
 }
+//проверяет попадаеют ли координаты точки в контур спрайта, учитывает поворот и масштаб спрайта
 CollageSprite.prototype.cursorOver_ = function(point){
 	var area = this.area_1;
 	if(this.rotate !== 0){
@@ -282,7 +291,7 @@ CollageSprite.prototype.cursorOver_ = function(point){
 		this.cursorOver = false;
 	}	
 }
-
+//сохраняет спрайт в локальном хранилище
 CollageSprite.prototype.saveOnPC = function(){ 
 
 
@@ -299,7 +308,8 @@ CollageSprite.prototype.saveOnPC = function(){
 				}
 				console.log("спрайт "+name+" сохранен");
 }
-CollageSprite.prototype.getToSave = function(){
+//возвращает объект с данными для сохранения спрайта
+CollageSprite.prototype.getToSave = function(){ 
 				
 				var img = this.frame;				
 				var imgAsURL = getBase64Image(img);              
@@ -315,13 +325,12 @@ CollageSprite.prototype.getToSave = function(){
                     controlPoint: this.controlPoint,
                     textParam: this.textParam,	
                     border: this.border,						
-				}
-				
+				}				
 				return sprite;
 }
 
-
-function createFromPC(spr_id, context, to_beginning, fromProject){
+//восстановить спрайт из локального хранилища
+function createFromPC(spr_id, context, to_beginning, fromProject){ 
 	var sprite_;
 	if(fromProject == undefined){
 		sprite_ = get_from_storage ("spritesState", spr_id);
@@ -353,6 +362,7 @@ function createFromPC(spr_id, context, to_beginning, fromProject){
 	}	
 	return sprite;	
 }
+ //удалить спрайт из локального хранилища
 function removeFromPC(spr_id){
 	var sprites = get_from_storage ("spritesState");
 	delete sprites [spr_id];	
