@@ -10,36 +10,39 @@
 </style>
 </head>
 	<body>
-		<div class="container-fluid">
+		<div class="container-fluid" >
 			<div class="row main-row">
 				<div  class="col-8" id="canvas_container">
 <!--canvas-->				
-						<div  class="canvas-container">
+						<div  class="canvas-container" style="padding-right: 5px; padding-left: 5px;">
+						
 							<canvas data-canvas="container"  id="canvas"></canvas>
 						</div>
 <!-- контрольные точки, координаты x,y -->						
-						<div data-control_points="container" class="control-points row">
-							<div class="col-md-1">
+						<div data-control_points="container" class="control-points">
+						  <div  class="form-group form-row">
+							<div class="form-group col-1">
 								<span name="point_x" type="text"  style="display: inline-block; width: 40px; padding: 0px; font-size: 15px; color: red;"  placeholder="x point" title="Координаты точки X на canvas"></span>
 								<span name="point_y" type="text"  style="display: inline-block; width: 40px; padding: 0px;  font-size: 15px; color: red;" placeholder="y point" title="Координаты точки Y на canvas"></span>
 							</div>
-							<div class="col-md-1">
+							<div class="form-group col-1">
 								<input name="control_point_x" type="text"  style="width: 60px; padding: 0px; font-size: 14px; margin-top: 2px;"  placeholder="x point" title="Координаты  X на canvas">
 								<input name="control_point_y" type="text"  style="width: 60px; padding: 0px;  font-size: 14px;" placeholder="y point" title="Координаты  Y на canvas">
 							</div>
-							<div class="col-md-3">
+							<div class="form-group col-3">
 								<button type="button" name="move_coner_to_point" style="width: 190px; " class="btn btn-outline-info btn-sm" title="Поместить верхний угол спрайта или контура в точку на координатах">Переместить в точку угол</button>
 								<button type="button" name="move_center_to_point" style="width: 190px; " class="btn btn-outline-info btn-sm" title="Поместить центр спрайта или контура в точку на координатах">Переместить в точку центр</button>							
 							</div>
-							<div class="col-md-4">
+							<div class="form-group col-4">
 								<button type="button" name="add_area_point" style="width: 190px; margin-left: 4px;" class="btn btn-outline-info btn-sm" title="Добавить точку незаконченного контура к координатам">Добавить точку к контуру</button>
 								<input name="move_area_point" type="text"  style="margin-left: 4px; width: 90px; padding: 0px; font-size: 13px; position: relative; top: 2px;"  placeholder="index point" title="Переместить точку - index контура в указанные координаты">
 								<button type="button" name="move_area_point_click" style="width: 90px;" class="btn btn-outline-info btn-sm" title="Переместить точку - index контура в указанные координаты">move</button>
 							</div>
-							<div class="col-md-3">
+							<div class="form-group col-3">
 							   <div>текущая операция:</div>
 							   <div  name="current_operation" style="background-color: green; color: white;">common</div>
-							</div>							
+							</div>
+						   </div>	
 						</div>
 <!-- добавить текст -->						
 						<form name="form_text" style="margin-top: 20px;" onsubmit="return false" data-form_text="container" style="margin-top: 10px;">
