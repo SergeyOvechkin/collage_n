@@ -12,7 +12,7 @@
 	<body>
 		<div class="container-fluid" >
 			<div class="row main-row">
-				<div  class="col-8" id="canvas_container">
+				<div  class="col-9" id="canvas_container">
 <!--canvas-->				
 						<div  class="canvas-container" style="padding-right: 5px; padding-left: 5px;">
 						
@@ -90,7 +90,7 @@
 
 
 				</div><!-- end col-8 -->
-				<div class="col-4">
+				<div class="col-3">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
 <!-- загрузка картинки, шаги назад для преобразований -->							
 								<div class="form-row panel_phone_img_1">
@@ -98,15 +98,15 @@
 											
 											<input name="load_url_img" type="text" class="form-control form-control-sm"  placeholder="img url" title="Url картинки сервера разрешающего crossorigin запросы">
 									</div>
-								    <div class="form-group col-3">
+								    <div class="form-group col-2">
 										 <div class="form-group">
-											<label name="load_img_click" class="inp-file" for="exampleFormControlFile1" title="Загрузить картинку с компьютера">load img</label>
+											<label style="padding-left: 4px; padding-right: 4px;" name="load_img_click" class="inp-file" for="exampleFormControlFile1" title="Загрузить картинку с компьютера"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg></label>
 											<input name="load_img" type="file" class="form-control-file form-control-sm"  id="exampleFormControlFile1">
 										</div>
 									</div>
-									<div class="form-group col-7 col-md-7">
+									<div class="form-group col-8">
 										<button type="button"  name="step_back" class="btn btn-success btn-sm" title="Шаг назад для преобразований фоновой картинки"><</button>
-										<button type="button"  name="save_img" class="btn btn-success btn-sm" title="Сделать снимок фонового изображения">save</button>
+										<button type="button"  name="save_img" class="btn btn-success btn-sm" title="Сделать снимок фонового изображения"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-lock" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.5 8h-7a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-7-1a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7zm0-3a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/></svg></button>
 										<button type="button"  name="restore_img" class="btn btn-warning btn-sm" title="Отобразить предыдущий снимок фонового изображения">restore</button>
 										<button type="button"  name="restart_img" class="btn btn-danger btn-sm" title="Восстановить начальное изображение"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-clockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.17 6.706a5 5 0 0 1 7.103-3.16.5.5 0 1 0 .454-.892A6 6 0 1 0 13.455 5.5a.5.5 0 0 0-.91.417 5 5 0 1 1-9.375.789z"/><path fill-rule="evenodd" d="M8.147.146a.5.5 0 0 1 .707 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 1 1-.707-.708L10.293 3 8.147.854a.5.5 0 0 1 0-.708z"/></svg></button>
 									</div>
@@ -115,28 +115,26 @@
 							<div style="margin-top: 5px; margin-bottom: 5px; ">
 								<div class="form-row" >
 									<div class="form-group col-12">
-										<label for="exampleFormControlInput1">Коэффициенты x,y масштабирования и отражение фона</label>
+										<label for="exampleFormControlInput1">Масштабирования и отражение фона</label>
 									</div>	
-									<div class="form-group col-2">									
-											<input name="img_main_scale_x" type="text" class="form-control form-control-sm"  placeholder="scale X" value="0.7" title="Коэффициент масштабирования по вертикали"> 
-									</div>
-									<div class="form-group col-2">								
-											<input name="img_main_scale_y" type="text" class="form-control form-control-sm"  placeholder="scale Y" value="0.7" title="Коэффициент масштабирования по горизонтали">
+									<div class="form-group col-4">									
+											<input style="width: 33px; display: inline-block;" name="img_main_scale_x"  type="text" class=""  placeholder="scale X" value="0.7" title="Коэффициент масштабирования по вертикали"> 
+								
+											<input style="width: 33px; display: inline-block;" name="img_main_scale_y" type="text" class=""  placeholder="scale Y" value="0.7" title="Коэффициент масштабирования по горизонтали">
 									</div>									
-									<div class="form-group col-2"> 
-										<div class="form-check">
+									<div class="form-group col-5"> 
+										<div class="form-check" style="display: inline-block;">
 											<input type="checkbox" name="mirror_x"  class="form-check-input" >
 											<label class="form-check-label" for="exampleCheck1">flip-x</label>
 										</div>	
-									</div>	
-									<div class="form-group col-2"> 
-										<div class="form-check">
+				
+										<div class="form-check" style="display: inline-block;">
 											<input type="checkbox" name="mirror_y"  class="form-check-input" >
 											<label class="form-check-label" for="exampleCheck1">flip-y</label>
 										</div>	
 									</div>	
-									<div class="form-group col-4">	
-										<button type="button"  style="margin-top: 0px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">Применить</button>
+									<div class="form-group col-3">	
+										<button type="button"  style="margin-top: 0px;" name="phone_scale_mirror" class="btn btn-primary btn-sm">apply</button>
 									</div>											
 								 </div> 
 							</div>
@@ -145,15 +143,15 @@
 										<label for="exampleFormControlInput1" style="font-size: 15px;">Вращать, масштабировать выделение, спрайт.</label>
 										<div class="form-row">
 											<div class="form-group col-md-2">
-												<input name="rotate_area" type="text" class="form-control form-control-sm"  placeholder="градус" title="Вращать спрайт или выделенную область">
+												<input style="width: 40px;" name="rotate_area" type="text" class=""  placeholder="градус" title="Вращать спрайт или выделенную область">
 											</div>	
-											<div class="form-group col-md-4"> 
+											<div class="form-group col-md-3"> 
 												<div class="form-check">
 													<input type="checkbox" name="smoothing"  class="form-check-input" id="exampleCheck1" title="Включить сглаживание для вращения">
-													<label class="form-check-label" for="exampleCheck1" >Сглаживание</label>
+													<label class="form-check-label" for="exampleCheck1" >smooth</label>
 												</div>	
 											</div>
-											<div class="form-group col-md-6" name="scale_area_class">
+											<div class="form-group col-md-7" name="scale_area_class">
 												<input name="scale_x_area"  placeholder="x scale" type="text"    title="Масштабировать область выделения по оси X">
 												<input name="scale_y_area"   placeholder="y scale"  type="text"   title="Масштабировать область выделения по оси Y">
 												<button type="button"  name="scale_x_y" class="btn btn-success btn-sm">scale</button>
@@ -163,18 +161,17 @@
 								<div class="form-group" name="add_rm_index_point">
 									<label for="exampleFormControlInput1" style="font-size: 14px;">Добавить, удалить, точку контуру выделения. Скруглить угол</label>
 									<div class="form-row">
-										<div class="form-group col-3">
+										<div class="form-group col-6">
 										
-											<input name="add_index_point" type="text" class="form-control form-control-sm"  placeholder="index +1" title="Добавить точку к замкнутому контуру выделения области">
-										</div>
-										<div class="form-group col-3">
+											<input style="width: 65px;" name="add_index_point" type="text" class=""  placeholder="index+1" title="Добавить точку к замкнутому контуру выделения области">
+			
 										
-											<input name="rm_index_point" type="text" class="form-control form-control-sm"  placeholder="index point" title="Удалить точку из контура выделения области">
+											<input style="width: 50px;" name="rm_index_point" type="text" class=""  placeholder="remove" title="Удалить точку из контура выделения области">
 										</div>
 										<div class="form-group col-6">
-										        <input name="radius_index_point" type="text" style="width: 50px; "  placeholder="index" title="индекс точки">
-												<input name="radius_coner" type="text" style="width: 50px; "    placeholder="radius px" title="радиус скругления">
-												<button  type="button" name="radius_coner_click" class="btn btn-info btn-sm" title="Скруглить угловую точку: индекс точки,  радиус">round</button>
+										        <input name="radius_index_point" type="text" style="width: 37px; "  placeholder="i" title="индекс точки">
+												<input name="radius_coner" type="text" style="width: 37px; "    placeholder="rad" title="радиус скругления">
+												<button style="padding-right: 2px; padding-left: 2px;"  type="button" name="radius_coner_click" class="btn btn-info btn-sm" title="Скруглить угловую точку: индекс точки,  радиус">round</button>
 										</div>		
 									</div>
 								 </div>								 
@@ -187,7 +184,7 @@
 									<button type="button"  style="margin-top: 5px;" name="reset_area" class="btn btn-dark btn-sm">Сбросить выделение</button> 
 									<button type="button" style="margin-top: 5px;" name="create_sprite" class="btn btn-success btn-sm">Создать Sprite</button>
 								 </div>
-							<div class="form-row">	 
+							<div class="form-row"  style="">	 
 								 <div name="add_border_class" class="d-none" style="margin-top: 5px;">
 									<input name="border_size" type="text" style="width: 50px; "  placeholder="size" title="толщина границы спрайта">
 									<input name="border_color" type="text" style="width: 60px; "    placeholder="color" title="цвет границы спрайта">
@@ -196,9 +193,10 @@
 								  <button type="button"  style="margin-top: 5px; margin-left: 2px;" name="mirror_x_area" class="btn btn-primary btn-sm" title="Отразить выделенную область, спрайт по горизонтали">flip x</button>
 								  <button type="button"  style="margin-top: 5px; margin-left: 2px;" name="mirror_y_area" class="btn btn-primary btn-sm" title="Отразить выделенную область, спрайт по вертикали">flip y</button>								  
 								  <button type="button"  style="margin-top: 5px; margin-left: 2px;" name="clear_phone" class="btn btn-secondary btn-sm" title="Установить прозрачность фона = 0">Очистить фон</button>
+								  <button type="button"  style="margin-top: 5px; margin-left: 2px;" name="operation_with" class="btn btn-primary btn-sm d-none">Работать с фоном</button> 		
 							</div>
 							
-								  <button type="button"  style="margin-top: 5px;" name="operation_with" class="btn btn-primary btn-sm d-none">Работать с фоновым изображением</button> 		
+								  
 							</form>
 <!-- массив спрайтов --->							
 						<ul data-sprites="array" class="list-group" style="margin-top: 10px; margin-bottom: 10px; max-height: 300px; overflow: auto;">
@@ -236,17 +234,17 @@
 							<form name="form_effects" onsubmit="return false" data-form_effects="container" style="margin-top: 10px;">
 								<div class="form-row">
 									<div class="form-group col-md-3">
-											<input type="text" name="color_r"  class="form-control form-control-sm"  placeholder="Red 0-255">	
+											<input type="text" name="color_r"  class="form-control form-control-sm"  placeholder="R 0-255" title="красный">	
 									</div>
 									<div class="form-group col-md-3">
-											<input type="text" name="color_g"  class="form-control form-control-sm"  placeholder="Green 0-255">	
+											<input type="text" name="color_g"  class="form-control form-control-sm"  placeholder="G 0-255" title="зеленый">	
 									</div>
 									
 									<div class="form-group col-md-3"> 										  
-											<input type="text" name="color_b" class="form-control form-control-sm"  placeholder="Blue 0-255">																					
+											<input type="text" name="color_b" class="form-control form-control-sm"  placeholder="B 0-255" title="синий">																					
 									</div>	
 									<div class="form-group col-md-3"> 
-											<input type="text" name="color_a"  class="form-control form-control-sm"  placeholder="Opacity 0-255">
+											<input type="text" name="color_a"  class="form-control form-control-sm"  placeholder="A 0-255" title="прозрачность">
 									</div>						
 								 </div> 
 								 <div class="form-row">
