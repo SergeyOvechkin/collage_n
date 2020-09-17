@@ -758,8 +758,21 @@ var StateMap = {
 			["add_control_sprite_point", "click",  "[name='add_control_sprite_point']"], //контрольные точки спрайтов на спрайт листах
 			["all_to_control_sprite_points", "click",  "[name='all_to_control_sprite_points']"],
 			
+			["form_show", "click", "[name='form_show']"], ["form_style", "class", "div.sprites"],//отобразить скрыть список спрайтов
+			
 		],
 		arrayMethods: {
+			form_show: function(){ //отобразить скрыть список спрайтов
+				if(this.prop == null){				
+					this.prop = true;
+					this.props("form_style").setProp("d-none");
+					this.htmlLink.innerText="+";
+				}else{
+					this.prop = null;
+					this.props("form_style").removeProp("d-none");
+					this.htmlLink.innerText="-";
+				}				
+			},
 			all_to_control_sprite_points: function(){				
 				var it = 0;
 				for(var key in this.$props().sprites){
