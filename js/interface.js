@@ -235,6 +235,7 @@ var StateMap = {
 				 ["radius_coner", "inputvalue", "[name='radius_coner']"], ["add_border_class", "class", "[name='add_border_class']"],				 
 				  ["add_border_click", "click", "[name='add_border_click']"],  ["border_color", "inputvalue", "[name='border_color']"], 
 				  ["border_size", "inputvalue", "[name='border_size']"],
+				  ["form_show", "extend", "form_text", "props"], ["form_style", "class", "div.d-none"],
 				 
 				
 				 

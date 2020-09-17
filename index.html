@@ -12,7 +12,7 @@
 	<body>
 		<div class="container-fluid" >
 			<div class="row main-row">
-				<div  class="col-9" id="canvas_container">
+				<div  class="col-7 col-sm-7 col-md-8 col-lg-9" id="canvas_container">
 <!--canvas-->				
 						<div  class="canvas-container" style="padding-right: 5px; padding-left: 5px;">
 						
@@ -90,7 +90,7 @@
 
 
 				</div><!-- end col-8 -->
-				<div class="col-3">
+				<div class="col-5 col-sm-5 col-md-4 col-lg-3">
 						    <form data-main_form="container" name="formA" onsubmit="return false" enctype="multipart/form-data" action="__URL__" method="POST" style="margin-top: 10px;">
 <!-- загрузка картинки, шаги назад для преобразований -->							
 								<div class="form-row panel_phone_img_1">
@@ -112,11 +112,9 @@
 									</div>
 								</div>
 <!-- панель масштабирования отражения фоновой картинки -->								
-							<div style="margin-top: 5px; margin-bottom: 5px; ">
-								<div class="form-row" >
-									<div class="form-group col-12">
-										<label for="exampleFormControlInput1">Масштабирования и отражение фона</label>
-									</div>	
+							<div style="margin-top: 0px; margin-bottom: 0px; ">
+							    <p name="form_show" class="clicker">Масштабирование, отражение фона <span>+</span></p>
+								<div class="form-row d-none" style="">
 									<div class="form-group col-4">									
 											<input style="width: 33px; display: inline-block;" name="img_main_scale_x"  type="text" class=""  placeholder="scale X" value="0.7" title="Коэффициент масштабирования по вертикали"> 
 								
@@ -159,7 +157,7 @@
 										</div>	
 								 </div>
 								<div class="form-group" name="add_rm_index_point">
-									<label for="exampleFormControlInput1" style="font-size: 14px;">Добавить, удалить, точку контуру выделения. Скруглить угол</label>
+									<label for="exampleFormControlInput1" style="font-size: 14px;">Добавить, удалить точку, cкруглить угол</label>
 									<div class="form-row">
 										<div class="form-group col-6">
 										
@@ -171,7 +169,7 @@
 										<div class="form-group col-6">
 										        <input name="radius_index_point" type="text" style="width: 37px; "  placeholder="i" title="индекс точки">
 												<input name="radius_coner" type="text" style="width: 37px; "    placeholder="rad" title="радиус скругления">
-												<button style="padding-right: 2px; padding-left: 2px;"  type="button" name="radius_coner_click" class="btn btn-info btn-sm" title="Скруглить угловую точку: индекс точки,  радиус">round</button>
+												<button style="padding-right: 2px; padding-left: 2px; position: relative; top: -2px;"  type="button" name="radius_coner_click" class="btn btn-info btn-sm" title="Скруглить угловую точку: индекс точки,  радиус">round</button>
 										</div>		
 									</div>
 								 </div>								 
@@ -219,8 +217,8 @@
 							<div class="sprites">	
 								<li data-sprite="template" class="list-group-item">
 									<input style="width: 95px;" name="id" type="text"  placeholder="" title="Изменить id спрайта">
-									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">Удалить</button>
-									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm">Скрыть</button>
+									<button type="button" name="rm_sprite" class="btn btn-danger btn-sm">remove</button>
+									<button type="button" name="show_sprite" class="btn btn-secondary btn-sm" title="скрыть">hide</button>
 									<button type="button" name="layer_up" class="btn btn-info btn-sm" title="Поднять спрайт на верхний слой">Слой up</button>
 									<button type="button" name="stamp" class="btn btn-secondary btn-sm" title="Сделать отпечаток спрайта на фоновом изображении">Штамп</button>
 									<button type="button" name="copy_contur" class="btn btn-warning btn-sm" title="Скоприровать контур спрайта на фоную картинку">Copy contur</button>
