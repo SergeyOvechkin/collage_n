@@ -111,6 +111,7 @@
 							
 							gradient.addColorStop(points_colors[i][0], points_colors[i][1]);
 						}
+						ctx.putImageData(saveImg, 0, 0);
 						saveStep(saveImg, this.$props().commonProps.area_1);
 						drawArea(area, true, false, false, true, gradient, false);
 						saveImg = ctx.getImageData(0,0, srcWidth, srcHeight);
