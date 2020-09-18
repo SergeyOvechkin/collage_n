@@ -173,10 +173,6 @@
                            var imgBox = getBox(area);
                            	point = imgBox[0]; point2 = imgBox[1];					   
 					   }
-                       if(sprites[key].border){
-						   point = [ point[0] - sprites[key].border.size/2, point[1] - sprites[key].border.size/2];
-						   point2 = [ point2[0] + sprites[key].border.size/2, point2[1] + sprites[key].border.size/2];
-					   }
                        if(!isNaN(padding)){
 						  	point = [ point[0] - padding, point[1] - padding];
 						   point2 = [ point2[0] + padding, point2[1] + padding]; 					    

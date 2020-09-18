@@ -87,7 +87,8 @@ function get_from_storage (name, spr_id){
 			
 }
 //загружает модуль
-function loadModul(url, name){			        
+function loadModul(url, name){
+                if(url[0] == "#")return; //закомментировать url модуля	
 				var module = document.createElement("script");
 				var head = document.head || document.getElementsByTagName('head')[0];
 				module.type = 'text/javascript';
