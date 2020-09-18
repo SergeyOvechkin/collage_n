@@ -35,6 +35,7 @@
 
 										<div class="form-group col-4">						
 											<input name="matrix_name" type="text" class="form-control form-control-sm"  placeholder="название спрайт листа" title="название спрайт листа" value="">
+											<input type="text" name="add_padding" placeholder="добавить отступы прямоугольным спрайтам" class="form-control form-control-sm"  title="Добавить отступы для прамоугольных спрайтов">
 										</div>	
 									
 									     <div class="form-group col-4">								
@@ -87,6 +88,7 @@
 		"type_matrix_contur", "type_matrix_square", 
 		 ["is_save_control_points", "checkbox", "[name='is_save_control_points']"],
 	     ["move_to_control_points", "checkbox", "[name='move_to_control_points']"],
+		  ["add_padding", "inputvalue", "[name='add_padding']"],
 		
 		["load_matrix_click", 'change', "[name='load_matrix']"], ["load_matrix", "inputvalue", "[name='load_matrix']"], 
              		
@@ -144,6 +146,7 @@
 			  var matrix_name = this.props("matrix_name").getProp();			  
 			  var type_matrix_contur = this.props("type_matrix_contur").getProp();
 			  var type_matrix_square = this.props("type_matrix_square").getProp();
+			  var padding = parseInt(this.props("add_padding").getProp());
 
 		      var spriteMatrix = {};
 			  var sprites = this.$props().sprites;
@@ -169,7 +172,15 @@
 						   var area = rotationArea(sprites[key].area_1, sprites[key].rotate);
                            var imgBox = getBox(area);
                            	point = imgBox[0]; point2 = imgBox[1];					   
-					   }					  
+					   }
+                       if(sprites[key].border){
+						   point = [ point[0] - sprites[key].border.size/2, point[1] - sprites[key].border.size/2];
+						   point2 = [ point2[0] + sprites[key].border.size/2, point2[1] + sprites[key].border.size/2];
+					   }
+                       if(!isNaN(padding)){
+						  	point = [ point[0] - padding, point[1] - padding];
+						   point2 = [ point2[0] + padding, point2[1] + padding]; 					    
+					   }					   
 					  spriteMatrix[key].point = point.slice(0);
 					  spriteMatrix[key].width = point2[0] - point[0];
 					  spriteMatrix[key].height = point2[1] - point[1];
