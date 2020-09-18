@@ -12,7 +12,7 @@
 									<div class="form-row">
 										<div class="form-group col-12">
 										
-											<textarea  name="add_gradient_colors" type="text" rows="3" cols="45" type="text" class="form-control form-control-sm"  placeholder="Массив с контрольными точками и цветами градиента: [[0,'red'], [0.5, 'yellow'],........., [0.5, 'green'] ]" title="Добавить цвета градиентов и контрольные точки" >[[0, "green"],[0.5,"cyan"],[1, "green"]]</textarea>
+											<textarea  name="add_gradient_colors" type="text" rows="3" cols="45" type="text" class="form-control form-control-sm"  placeholder="Массив с контрольными точками и цветами градиента: [[0,'red'], [0.5, 'yellow'],........., [0.5, 'green'] ]" title="Добавить цвета градиентов и контрольные точки" >[[0, "green"],[0.5,"cyan"],[1, "transparent"]]</textarea>
 										    <textarea name="radial_points" type="text" rows="3" cols="45" type="text" class="form-control form-control-sm d-none"  placeholder="центр относительно высоты и ширины фигуры, начальный и конечный диаметр: [0.5,0.5,d1],[0.5,0.5,d2]]" title="центр относительно высоты и ширины фигуры, начальный и конечный диаметр" >[[0.5,0.5,30],[0.5,0.5,100]]</textarea>
 										</div>									
 
