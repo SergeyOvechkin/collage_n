@@ -6,7 +6,7 @@
 (function(){	
   var html = `
   							<div data-add_gradient_panel="container"  class="form-group" name="data-add_gradient_panel">
-								 <p name="form_show" class="clicker" style="margin-top: 10px;">Добавить радиент <span>+</span></p>
+								 <p name="form_show" class="clicker" style="margin-top: 10px;">Добавить градиент <span>+</span></p>
 								 <div  class="d-none">
 									<label for="exampleFormControlInput1" style="font-size: 15px;">Добавить градиент выделению</label>
 									<div class="form-row">
