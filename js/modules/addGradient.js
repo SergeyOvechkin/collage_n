@@ -115,6 +115,7 @@
 						saveStep(saveImg, this.$props().commonProps.area_1);
 						drawArea(area, true, false, false, true, gradient, false);
 						saveImg = ctx.getImageData(0,0, srcWidth, srcHeight);
+						this.$methods().renderAll();
 						
 		  }else{
 			  alert("сперва нужно  переключиться на фоновое изображение");
