@@ -7,6 +7,7 @@
 (function(){	
   var html = `
   								 <div data-draw_circle_panel="container"  class="form-group" name="draw_circle_panel">
+
 									<label for="exampleFormControlInput1" style="font-size: 15px;">Рисовать окружность</label>
 									<div class="form-row">
 									     <div class="form-group col-md-4">								
@@ -21,6 +22,7 @@
 											<input name="draw_sircle_color" type="text" class="form-control form-control-sm"  placeholder="цвет" title="" value="yellow">
 										</div>
 									</div>
+								
 								 </div>
   `;
   
@@ -37,6 +39,7 @@
 	  
 	  container: "draw_circle_panel",
 	  props: [
+
 		["draw_circle_btn", "click", "[name='draw_circle_btn']"], 
 		["draw_sircle_radius", "inputvalue", "[name='draw_sircle_radius']"],
 		["draw_sircle_color", "inputvalue", "[name='draw_sircle_color']"], 
