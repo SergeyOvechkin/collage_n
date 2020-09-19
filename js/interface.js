@@ -241,7 +241,7 @@ var StateMap = {
 				 
 		],			
 		methods: {
-			asix_xy_change: function(){				
+			asix_xy_change: function(){	//изменение оси масштабирования по точкам			
 				this.$props("commonProps").scale_asix = this.props("asix_xy").getProp();				
 			},
 			add_rm_classes_on_change_operationWith: function(){ //скрывает кнопки при операции со спрайтами и фоновой картинкой
@@ -679,8 +679,8 @@ var StateMap = {
 			},
 			add_area_point: function(){ //добавляет указанную точку к незаконченному контуру
 				var x = parseInt(this.parent.props.control_point_x.getProp()); var y = parseInt(this.parent.props.control_point_y.getProp());
-				var index = parseInt(this.parent.props.move_area_point.getProp());
-				if(isNaN(x) || isNaN(y) || isNaN(index) || this.$props("operationWith") != "common"){					
+				//var index = parseInt(this.parent.props.move_area_point.getProp());
+				if(isNaN(x) || isNaN(y)  || this.$props("operationWith") != "common"){					
 					alert("сперва нужно переключиться на фоновое изображение и ввести координаты точки");
 					return;
 				}
