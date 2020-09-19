@@ -169,10 +169,13 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 		this.textParam.max_width = false;
 		this.textParam.textArr = false;
 	}	
-	if(coeff_x == coeff_y && this.scale_x !==1 && this.scale_y !==1 ){	       
+	if(coeff_x == coeff_y && this.scale_x !==1 && this.scale_y !==1 ||  coeff_x == coeff_y & this.round_scale == undefined){
+        var sc = current_scale_x;
+        if(this.round_scale == undefined)sc = coeff_x;		
 		for(var i=0; i< this.area_1.length; i++){		
-			if(this.area_1[i][2]){				
-				this.area_1[i][2] = this.area_1[i][2]*current_scale_x;
+			if(this.area_1[i][2]){
+                this.round_scale = true;				
+				this.area_1[i][2] = this.area_1[i][2]*sc;
 			}		
 		}
 	}	
