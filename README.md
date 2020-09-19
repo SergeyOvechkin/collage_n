@@ -1,5 +1,5 @@
 
-
+<img src="https://github.com/SergeyOvechkin/collage_n/blob/master/collagen_2.png">
 
 Collage_n - приложение для создания коллажей и спрайтов.
 
