@@ -35,7 +35,7 @@
 
 										<div class="form-group col-4">						
 											<input name="matrix_name" type="text" class="form-control form-control-sm"  placeholder="название спрайт листа" title="название спрайт листа" value="">
-											<input type="text" name="add_padding" placeholder="добавить отступы прямоугольным спрайтам" class="form-control form-control-sm"  title="Добавить отступы для прамоугольных спрайтов">
+											<input style="margin-top: 2px;" type="text" name="add_padding" placeholder="добавить отступы прямоугольным спрайтам" class="form-control form-control-sm"  title="Добавить отступы для прамоугольных спрайтов">
 										</div>	
 									
 									     <div class="form-group col-4">								
