@@ -770,7 +770,7 @@ var StateMap = {
 				}else{
 					this.prop = null;
 					this.props("form_style").removeProp("d-none");
-					this.htmlLink.innerText="-";
+					this.htmlLink.innerText="—";
 				}				
 			},
 			all_to_control_sprite_points: function(){				
