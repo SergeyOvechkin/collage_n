@@ -335,7 +335,10 @@ function scaleArea(area, coeff_x, coeff_y){
 			Y=	(height/2)*coeff_y*(cutArea[i][1]/(height/2));
 		}else{Y = cutArea[i][1]}
 		newArr.push( [   Math.round(X+imgBox[0][0]+width/2) ,  Math.round(Y+imgBox[0][1]+height/2) ] );
-		if(cutArea[i][2])newArr[i][2] = cutArea[i][2];
+		if(cutArea[i][2]){
+			newArr[i][2] = cutArea[i][2];
+			if(coeff_x == coeff_y)newArr[i][2] *=coeff_x;
+		}
 	}
 	return newArr;	
 }
