@@ -316,7 +316,7 @@ function rotationArea(area, fi){
 	return newArr;	
 }
 //масштабирует конттур относительно центра
-function scaleArea(area, coeff_x, coeff_y){
+function scaleArea(area, coeff_x, coeff_y, isScaleRound){
 	var imgBox = getBox(area);
 	var width = imgBox[1][0] - imgBox[0][0];
 	var height = imgBox[1][1] - imgBox[0][1];
@@ -337,7 +337,7 @@ function scaleArea(area, coeff_x, coeff_y){
 		newArr.push( [   Math.round(X+imgBox[0][0]+width/2) ,  Math.round(Y+imgBox[0][1]+height/2) ] );
 		if(cutArea[i][2]){
 			newArr[i][2] = cutArea[i][2];
-			if(coeff_x == coeff_y)newArr[i][2] *=coeff_x;
+			if(coeff_x == coeff_y && isScaleRound)newArr[i][2] *=coeff_x;
 		}
 	}
 	return newArr;	

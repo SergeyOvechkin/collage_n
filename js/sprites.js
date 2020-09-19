@@ -156,7 +156,7 @@ CollageSprite.prototype.scale = function(coeff_x, coeff_y){
 	if(coeff_x == this.scale_x && coeff_y == this.scale_y)return;
 	
 	var current_scale_x = coeff_x/this.scale_x; var current_scale_y = coeff_y/this.scale_y;
-	var area = scaleArea(this.area_1, current_scale_x, current_scale_y);
+	var area = scaleArea(this.area_1, current_scale_x, current_scale_y, false);
 	this.area_1 = area.slice(0);
 	this.area_2 = area.slice(0);
 
