@@ -44,7 +44,13 @@ window.onload = function(){
             mainImgScale_y: 0.7,
 			imgSrc: "./img/img.png",
 		  },			
-		  modules: {},
+		  modules: {
+			    "addDrawCirclePanel": "#./js/modules/addDrawCirclePanel.js",
+			    "spriteMatrix": "#./js/modules/spriteMatrix.js",
+				"addGradient": "#./js/modules/addGradient.js",
+				"perspectiveTransform": "#./js/modules/perspectiveTransform.js",
+				"drawStarContur": "#https://sergeyovechkin.github.io/collage_n/js/modules/drawStar.js"			
+		  },
 		  styles: {}						
 		}
 	    if(collagenSettings != null){					

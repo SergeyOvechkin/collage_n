@@ -105,7 +105,7 @@ function loadModul(url, name){
 
 //создает тег link и загружает стили 
 function loadStyles(url){
-	
+				if(url[0] == "#")return; //закомментировать url 	
 			    var link = document.createElement("link");
 				var head = document.head || document.getElementsByTagName('head')[0];
 				link.href = url;
