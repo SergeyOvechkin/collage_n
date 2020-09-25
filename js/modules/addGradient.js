@@ -14,6 +14,7 @@
 										<div class="form-group col-12">
 										
 											<textarea  name="add_gradient_colors" type="text" rows="2" cols="45" type="text" class="form-control form-control-sm"  placeholder="Массив с контрольными точками и цветами градиента: [[0,'red'], [0.5, 'yellow'],........., [0.5, 'green'] ]" title="Добавить цвета градиентов и контрольные точки" >[[0, "green"],[0.5,"cyan"],[1, "transparent"]]</textarea>
+											<input style="margin-top: 10px;" name="liner_points" type="text" rows="2" cols="45" type="text" class="form-control form-control-sm"  placeholder="0 - по прямой, 1 - по диагонали" title="коэффициент смещения направления: 0 - для прямой линии, 1 - по диагонали" value="0">
 										    <textarea style="margin-top: 10px;" name="radial_points" type="text" rows="2" cols="45" type="text" class="form-control form-control-sm d-none"  placeholder="Центр относительно высоты и ширины, начальный и конечный радиус: [[0.5, 0.5, r1], [0.5, 0.5, r2]]" title="Центр относительно высоты и ширины фигуры, начальный и конечный радиус" >[[0.5,0.5,30],[0.5,0.5,100]]</textarea>
 										</div>									
 
@@ -52,7 +53,8 @@
 		["add_gradient_btn", "click", "[name='add_gradient_btn']"], 
 		["gradient_direction", "select", "[name='gradient_direction']"],
 		["add_gradient_colors", "inputvalue", "[name='add_gradient_colors']"],
-		
+		["liner_points", "inputvalue", "[name='liner_points']"],
+		["liner_points_class", "class", "[name='liner_points']"],
 		["radial_points", "inputvalue", "[name='radial_points']"],
 		["radial_class", "class", "[name='radial_points']"],
 		["gradient_direction_click", "click", "[name='gradient_direction']"],
@@ -68,9 +70,11 @@
 			  var direction = this.parent.props.gradient_direction.getProp();
 			  if(direction == "radial"){
 				  this.parent.props.radial_class.removeProp("d-none");
+				  this.parent.props.liner_points_class.setProp("d-none");
 				  
 			  }else{
 				  this.parent.props.radial_class.setProp("d-none");
+				  this.parent.props.liner_points_class.removeProp("d-none");
 			  }
 		  },
 		  add_gradient_btn: function(){
@@ -93,9 +97,15 @@
 						
 						var gradient;
 						if(direction == "x"){
-							gradient = ctx.createLinearGradient(box[0][0],0, box[1][0],0);
+							var liner_points = this.props("liner_points").getProp();						
+							var y2 = box[0][1] + (box[1][1]-box[0][1])*parseFloat(liner_points);
+														
+							gradient = ctx.createLinearGradient(box[0][0],  box[0][1], box[1][0], y2);
 						}else if(direction == "y"){
-							gradient = ctx.createLinearGradient(0, box[0][1], 0, box[1][1]);
+							var liner_points = this.props("liner_points").getProp();
+							var x2 = box[0][0] + (box[1][0]-box[0][0])*parseFloat(liner_points);
+							
+							gradient = ctx.createLinearGradient(box[0][0], box[0][1], x2, box[1][1]);
 						}else if(direction == "radial"){
 						   var radial_points;
 							try{
