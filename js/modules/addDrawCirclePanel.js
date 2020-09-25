@@ -4,7 +4,10 @@
 */
 
 
-(function(){	
+(function(){
+
+   if(onloadModules.addDrawcCirclePanel  != undefined)return;
+	
   var html = `
   								 <div data-draw_circle_panel="container"  class="form-group" name="draw_circle_panel">
 
@@ -89,6 +92,6 @@
   HM.description.draw_circle_panel  = draw_circle_panel;
   HM.containerInit(div , HM.description, "draw_circle_panel");
   HM.eventProps["emiter-operation-with"].emit(); //вызываем чтобы отключить слушателей canvas событий при старте модуля
-   
+  onloadModules.addDrawcCirclePanel  = true;
 	//console.log(HM);	
 })()

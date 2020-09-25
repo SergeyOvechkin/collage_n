@@ -1,7 +1,8 @@
 /*
 Модуль  - добавляет панель автоматического создания и загрузки спрайт листов 
 */
-(function(){	
+(function(){
+  if(onloadModules.spriteMatrix  != undefined)return;	
   var html = `
   							<div data-sprite_matrix_panel="container"  class="form-group col-12">
 								 <p name="form_show" class="clicker" style="margin-top: 10px;">Sprite Matrix <span>+</span></p>
@@ -199,5 +200,5 @@
 
   HM.description.sprite_matrix_panel  = sprite_matrix_panel;
   HM.containerInit(div , HM.description, "sprite_matrix_panel");
-
+  onloadModules.spriteMatrix = true;
 })()

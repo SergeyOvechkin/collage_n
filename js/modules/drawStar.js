@@ -7,6 +7,7 @@
 	outerRadius, innerRadius - внутренний и внешний радиус
 	использование в функции создания контура:	area = modules.drawStar(200,200, 4,70,30);
 	*/
+	if(onloadModules.drawStar  != undefined)return;
 	modules.drawStar = function(cx,cy,spikes,outerRadius,innerRadius){		
 	  var area = [];	
       var rot=Math.PI/2*3;
@@ -28,5 +29,5 @@
     //  area.push([cx,cy-outerRadius]);
 	  return area//[[10,10],[20,20],[30,50],[90,300]];
     }
-		
+	onloadModules.drawStar = true;	
 })()

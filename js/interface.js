@@ -207,7 +207,7 @@ var StateMap = {
 			},			
 		}				 	
 	},
-	main_form: {
+	main_form: { //основная форма
 		container: "main_form",
 		props: [ 
 				 ["load_url_img", "inputvalue", "[name='load_url_img']"], ["load_url_img_click", 'change', "[name='load_url_img']"],
@@ -241,8 +241,15 @@ var StateMap = {
 				 
 		],			
 		methods: {
-			asix_xy_change: function(){	//изменение оси масштабирования по точкам			
-				this.$props("commonProps").scale_asix = this.props("asix_xy").getProp();				
+			asix_xy_change: function(){	//изменение оси масштабирования по точкам (масштабирование  и искажение по точкам производится в компоненте canvas)			
+				this.$props("commonProps").scale_asix = this.props("asix_xy").getProp();
+									    	
+					if(this.$props("commonProps").scale_asix == "xy"){                       
+                        this.$methods().startWarper();														
+				    }else{
+						this.$methods().renderAll();
+					}
+					
 			},
 			add_rm_classes_on_change_operationWith: function(){ //скрывает кнопки при операции со спрайтами и фоновой картинкой
 				var props = this.parent.props; 			
@@ -310,8 +317,7 @@ var StateMap = {
 					if(color != "" && size != 0){
 						sprite.border = {
 									size: size,
-									color: color
-							
+									color: color						
 						}
 					}else{
 						sprite.border = false;
@@ -405,10 +411,24 @@ var StateMap = {
 					this.$props("commonProps").scale_or_move = "scale";
 					this.props("scale_or_move_point").setProp("Перемещать точку");
 					this.props("asix_xy_class").removeProp("d-none");
+					
+					if(onloadModules.ImgWarper == undefined && this.$props("commonProps").scale_asix == "xy"){
+                        var context = this;						
+						loadModul("./js/modules/imgWarp.js", false, false, "ImgWarper", function(){
+								context.$methods().startWarper();	
+						});					
+					}else if(this.$props("commonProps").scale_asix == "xy"){						
+						    	this.$methods().startWarper();									
+					}else{
+					 this.$methods().renderAll();
+					}
+	
 				}else{
 					this.$props("commonProps").scale_or_move = "move";
 					this.props("scale_or_move_point").setProp("Искажать");
-					this.props("asix_xy_class").setProp("d-none");					
+					this.props("asix_xy_class").setProp("d-none");
+                     this.$methods().renderAll();	
+				
 				}				
 			},
 			clear_phone: function(){ ///делает фон прозрачным
@@ -547,7 +567,7 @@ var StateMap = {
 			}
 		},				
 	},
-	canvas: {		
+	canvas: { //канвас	
 		container: "canvas",
 		props: [["mousedown", "mousedown", ""], ["mousemove", "mousemove", ""], ["mouseup", "mouseup", ""],
 		         ],
@@ -558,7 +578,13 @@ var StateMap = {
 				    if(event.which !== 1)return;
 				    var area_1 = this.$props("commonProps").area_1;
 					var isEndArea_1 = this.$props("commonProps").isEndArea_1;				
-					if(this.$props("operationWith") == "common"){						
+					if(this.$props("operationWith") == "common"){
+                            if(this.$props("commonProps").scale_or_move == "scale" && this.$props("commonProps").scale_asix == "xy" && this.$props().warper){								
+								this.$props().warper.touchStart(event, function(){
+									saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+								});								
+								return;
+							}							
 							if(isEndArea_1 === false){                           //добавляет точку к выделению либо замыкает контур								
 									isEndArea_1 = endArea(area_1, point);								
 									if(!isEndArea_1 ){
@@ -582,6 +608,12 @@ var StateMap = {
 					var point = getCanvasPoint(event, canvas);
 					this.$$("emiter-mousemove-canvas").set(point);
 					if(this.$props("operationWith") == "common"){
+						if(this.$props("commonProps").scale_or_move == "scale" && this.$props("commonProps").scale_asix == "xy" && this.$props().warper){							
+								this.$props().warper.touchDrag(event, function(){									
+									saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+								});
+								return;
+						}
                         var indexPoint = this.$props("commonProps").isMovePoint;					
 						if(indexPoint !== false){							
 							if(this.$props("commonProps").scale_or_move == "move"){ //перемещение точки
@@ -613,15 +645,28 @@ var StateMap = {
 					var point = getCanvasPoint(event, canvas);	
 					this.$$("emiter-mouseup-canvas").set(point);			    
 					if(event.which !== 1)return;										
-					if(this.$props("operationWith") == "common"){						
+					if(this.$props("operationWith") == "common"){
+						if(this.$props("commonProps").scale_or_move == "scale" && this.$props("commonProps").scale_asix == "xy" && this.$props().warper){								
+								this.$props().warper.touchEnd(event);								
+								return;
+						}						
 						if(this.$props("commonProps").isMovePoint !== false){						
 							if(this.$props("commonProps").scale_or_move == "scale"){
+								var asix = this.$props("commonProps").scale_asix;								
                                 var area_1 = this.$props("commonProps").area_1; var area_2 = this.$props("commonProps").area_2;	var move_point = this.$props("commonProps").isMovePoint;							
 								saveStep(saveImg, this.$props().commonProps.area_1);
-								var asix = this.$props("commonProps").scale_asix;
-								var imgDataArr = cutAndScale(area_1, area_2, move_point, false, true, asix);
-								this.$props("commonProps").area_1 = area_2.slice(0);
-								this.$methods().renderAll();																						
+                                if(asix == "xy"){
+									
+									//var warper = new modules.ImgWarper.PointDefiner(canvas, img, saveImg);
+									
+									
+								}else{
+									
+										var imgDataArr = cutAndScale(area_1, area_2, move_point, false, true, asix);
+										this.$props("commonProps").area_1 = area_2.slice(0);
+										this.$methods().renderAll();	
+								}								
+																					
 								//drawAreaPoints(area_2);							
 							}
 							this.$props("commonProps").isMovePoint = false;							
@@ -744,7 +789,7 @@ var StateMap = {
 			},
 		}
 	},
-	sprites: {
+	sprites: { //спрайты
 		selector: ".sprites",
 		arrayProps: [
 			["listen_create_sprite", "emiter-create-sprite", ""],
@@ -1054,11 +1099,12 @@ var StateMap = {
 			isEndArea_1: false, //флаг показывает - закончено ли выделение первой области (замкнут контур выделения)
 			isMovePoint : false, //индекс перемещаемой/искажаемой точки контура
 			scale_or_move: "move", // scale масштаб(искажение) по точкам либо перемещение точки контура 
-			scale_asix: "x", //ось искажения
+			scale_asix: "xy", //ось искажения
 		},
 		sprites: {},	//спрайты
 	    showBox: true, //показывать квадрат в который вписан спрайт
-	    showPoints: false, //контрольные точки выделения спрайтов		
+	    showPoints: false, //контрольные точки выделения спрайтов
+        warper: false, //деформация изображения 		
 	},
 	//общие методы
 	stateMethods: {		
@@ -1093,7 +1139,19 @@ var StateMap = {
 			this.stateProperties.commonProps[areaName][indexPoint][0] = point[0];
 			this.stateProperties.commonProps[areaName][indexPoint][1] = point[1];
 			if(point[2])this.stateProperties.commonProps[areaName][indexPoint][2] = point[2];
-		}		
+		},
+        startWarper: function(){
+			                    var context = this;						
+								var img = 	new Image();
+							    ctx.putImageData(saveImg, 0, 0);
+								var dataURL = canvas.toDataURL("image/png");
+						        img.src = dataURL;
+                                img.onload = function(){									
+									if(modules.ImgWarper)context.$props().warper = new modules.ImgWarper.PointDefiner(canvas, img, saveImg);
+								}
+                         this.$methods().renderAll(false, {drawAreaPoints: false});
+			
+		},		
 	},	
 	eventEmiters: {		
 		["emiter-create-sprite"] : {prop: ""}, //событие создания спрайта

@@ -9,6 +9,10 @@
 //area -четыре точки прямоугольника
 //direction - направление деформации
 //coeff - коэфф увеличения/уменьшения угла
+
+
+
+
 function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
 	
 	var area2 = area.slice(0);
@@ -93,7 +97,8 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
            callb();		   
 }
 
-(function(){	
+(function(){
+  if(onloadModules.perspectiveTransform  != undefined)return;	
   var html = `
   								 <div data-perspective_transform="container"  class="form-group" name="perspective_transform_panel">
 								  <p name="form_show" class="clicker" style="margin-top: 10px;">Perspective Transform<span>+</span></p>
@@ -339,5 +344,6 @@ function perspectiveTransform(ctx, area, coner, coeff, isRotate, callb){
   HM.description.perspective_transform  = perspective_transform;
   HM.containerInit(div , HM.description, "perspective_transform");
   HM.eventProps["emiter-operation-with"].emit(); //вызываем чтобы отключить слушателей canvas событий при старте модуля
+  onloadModules.perspectiveTransform = true;
 })()
 

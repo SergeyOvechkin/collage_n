@@ -87,8 +87,9 @@ function get_from_storage (name, spr_id){
 			
 }
 //загружает модуль
-function loadModul(url, name){
-                if(url[0] == "#")return; //закомментировать url модуля	
+function loadModul(url, name, showLogs, id, callb){
+                if(url[0] == "#")return; //закомментировать url модуля
+                if(id != undefined && onloadModules[id] != undefined)return;				
 				var module = document.createElement("script");
 				var head = document.head || document.getElementsByTagName('head')[0];
 				module.type = 'text/javascript';
@@ -96,7 +97,8 @@ function loadModul(url, name){
 				head.appendChild(module);
 				
 	module.onload = function() {
-		console.log("модуль "+name+" загружен", url);  
+		if(showLogs !== false)console.log("модуль "+name+" загружен", url);
+        if(callb != undefined)callb();		
 	};
 	module.onerror = function() {
 		alert("модуль "+name+" не найден "+url); 				

@@ -19,6 +19,7 @@
 	 var mirror_x = 1; //отражение фона
 	 var mirror_y = 1;
 	 var modules = {}; //подключаемые cdn функции
+	 var onloadModules = {}; ///список загруженых модулей и скриптов
 	 var HM; //htmlix state
 
 window.onload = function(){ 

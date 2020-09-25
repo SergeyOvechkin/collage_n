@@ -3,7 +3,8 @@
 
 */
 
-(function(){	
+(function(){
+  if(onloadModules.addGradient  != undefined)return;	
   var html = `
   							<div data-add_gradient_panel="container"  class="form-group" name="data-add_gradient_panel">
 								 <p name="form_show" class="clicker" style="margin-top: 10px;">Добавить градиент <span>+</span></p>
@@ -125,5 +126,6 @@
 	  }	  
   }
   HM.description.add_gradient_panel  = add_gradient_panel;
-  HM.containerInit(div , HM.description, "add_gradient_panel");	
+  HM.containerInit(div , HM.description, "add_gradient_panel");
+  onloadModules.addGradient  = true;  
 })()
