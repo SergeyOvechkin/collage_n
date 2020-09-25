@@ -18,6 +18,7 @@
      var mainImgScale_y = 0.7; //множитель размера картинки(масштаб)
 	 var mirror_x = 1; //отражение фона
 	 var mirror_y = 1;
+	 var showLogs = true;
 	 var modules = {}; //подключаемые cdn функции
 	 var onloadModules = {}; ///список загруженых модулей и скриптов
 	 var HM; //htmlix state
@@ -43,6 +44,7 @@ window.onload = function(){
 			lineWidth: 3,
 		    mainImgScale_x: 0.7,
             mainImgScale_y: 0.7,
+			showLogs: true,
 			imgSrc: "./img/img.png",
 		  },			
 		  modules: {
@@ -67,8 +69,9 @@ window.onload = function(){
 			if(!collagenSettings.modules)collagenSettings.modules = {};
 			if(!collagenSettings.styles)collagenSettings.styles = {};
 	        if(collagenSettings.common.imgSrc)img.src = collagenSettings.common.imgSrc;
+			if(collagenSettings.common.showLogs != undefined)showLogs = collagenSettings.common.showLogs;
 			for(var key in collagenSettings.modules){				
-				loadModul(collagenSettings.modules[key], key);
+				loadModul(collagenSettings.modules[key], key, showLogs);
 			}
 			for(var key in collagenSettings.styles){				
 				loadStyles(collagenSettings.styles[key]);
@@ -80,7 +83,8 @@ window.onload = function(){
 			if(collagenSettings.common.colorSpriteArea)colorSpriteArea = collagenSettings.common.colorSpriteArea;
 			if(collagenSettings.common.lineWidth)lineWidth = collagenSettings.common.lineWidth;
             if(collagenSettings.common.mainImgScale_x) mainImgScale_x = collagenSettings.common.mainImgScale_x;
-			if(collagenSettings.common.mainImgScale_y)mainImgScale_y = collagenSettings.common.mainImgScale_y;		
+			if(collagenSettings.common.mainImgScale_y)mainImgScale_y = collagenSettings.common.mainImgScale_y;	
+			
 	}
 
 	   img.onload = function(){ 
