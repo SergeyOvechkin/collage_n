@@ -47,7 +47,7 @@ window.onload = function(){
 			lineWidth: 3,
 		    mainImgScale_x: 0.7,
             mainImgScale_y: 0.7,
-			littleCanvas: true,
+			littleCanvas: false,
 			showLogs: true,
 			imgSrc: "./img/img.png",
 		  },			
