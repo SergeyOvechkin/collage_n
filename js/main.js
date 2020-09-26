@@ -5,6 +5,7 @@
 	
 	var colorSpriteArea = "#0fec42"; //цвет обводки контура спрайтов
 	var colorCommonArea = "red"; //..фоновой картинки
+	var colorAdditionalArea = "violet"; //..фоновой картинки
 	 var img = new Image();
 	 img.src="./img/img.png";
 	 var saveImg = false; //предыдущее преобразование картинки фона
@@ -41,6 +42,7 @@ window.onload = function(){
 			halfPointSize: 5,
 			colorCommonArea: "red",
 			colorSpriteArea: "#0fec42",
+			colorAdditionalArea: "violet",
 			lineWidth: 3,
 		    mainImgScale_x: 0.7,
             mainImgScale_y: 0.7,
@@ -80,6 +82,7 @@ window.onload = function(){
             if(collagenSettings.common.backStepCounts)backStepCounts = collagenSettings.common.backStepCounts;
 			if(collagenSettings.common.halfPointSize)halfPointSize = collagenSettings.common.halfPointSize;
             if(collagenSettings.common.colorCommonArea)lineColor = colorCommonArea = collagenSettings.common.colorCommonArea;
+			if(collagenSettings.common.colorAdditionalArea)colorAdditionalArea = collagenSettings.common.colorAdditionalArea;
 			if(collagenSettings.common.colorSpriteArea)colorSpriteArea = collagenSettings.common.colorSpriteArea;
 			if(collagenSettings.common.lineWidth)lineWidth = collagenSettings.common.lineWidth;
             if(collagenSettings.common.mainImgScale_x) mainImgScale_x = collagenSettings.common.mainImgScale_x;

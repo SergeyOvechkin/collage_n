@@ -580,8 +580,11 @@ var StateMap = {
 					var isEndArea_1 = this.$props("commonProps").isEndArea_1;				
 					if(this.$props("operationWith") == "common"){
                             if(this.$props("commonProps").scale_or_move == "scale" && this.$props("commonProps").scale_asix == "xy" && this.$props().warper){								
+								var context = this.rootLink;
+							
 								this.$props().warper.touchStart(event, function(){
 									saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+									drawArea(context.stateProperties.commonProps.area_1, context.stateProperties.commonProps.isEndArea_1, 3, colorAdditionalArea) 
 								});								
 								return;
 							}							
@@ -609,8 +612,10 @@ var StateMap = {
 					this.$$("emiter-mousemove-canvas").set(point);
 					if(this.$props("operationWith") == "common"){
 						if(this.$props("commonProps").scale_or_move == "scale" && this.$props("commonProps").scale_asix == "xy" && this.$props().warper){							
+								var context = this.rootLink;
 								this.$props().warper.touchDrag(event, function(){									
 									saveImg = ctx.getImageData(0, 0, srcWidth , srcHeight);
+									drawArea(context.stateProperties.commonProps.area_1, context.stateProperties.commonProps.isEndArea_1, 3, colorAdditionalArea) 
 								});
 								return;
 						}
@@ -1147,7 +1152,7 @@ var StateMap = {
 								var dataURL = canvas.toDataURL("image/png");
 						        img.src = dataURL;
                                 img.onload = function(){									
-									if(modules.ImgWarper)context.$props().warper = new modules.ImgWarper.PointDefiner(canvas, img, saveImg);
+									if(modules.ImgWarper)context.$props().warper = new modules.ImgWarper.PointDefiner(canvas, img, saveImg, function(){ drawArea(context.stateProperties.commonProps.area_1, context.stateProperties.commonProps.isEndArea_1, 3, colorAdditionalArea)  });
 								}
                          this.$methods().renderAll(false, {drawAreaPoints: false});
 			

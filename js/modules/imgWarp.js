@@ -11,7 +11,7 @@ if(onloadModules.ImgWarper  != undefined)return;
 var ImgWarper = ImgWarper || {};
 
 ImgWarper.Warper = function(
-    canvas, img, imgData, optGridSize, optAlpha) {
+    canvas, img, imgData, optGridSize, optAlpha, callb) {
   this.alpha = optAlpha || 1;
   this.gridSize = optGridSize || 20;
   this.canvas = canvas;
@@ -41,6 +41,7 @@ ImgWarper.Warper = function(
       this.grid.push([a, b, c, d]);
     }
   }
+  if(callb)callb();
 }
 
 ImgWarper.Warper.prototype.warp = function(fromPoints, toPoints) {
@@ -339,7 +340,7 @@ ImgWarper.Point.prototype.InfintyNormDistanceTo = function (o) {
   return Math.max(Math.abs(this.x - o.x), Math.abs(this.y - o.y));
 }
 
-ImgWarper.PointDefiner = function(canvas, image, imgData) {
+ImgWarper.PointDefiner = function(canvas, image, imgData, callb) {
   this.oriPoints = new Array();
   this.dstPoints = new Array();
 
@@ -354,7 +355,7 @@ ImgWarper.PointDefiner = function(canvas, image, imgData) {
  // $(c).bind('mousemove', function (e) { that.touchDrag(e); });
  // $(c).bind('mouseup', function (e) { that.touchEnd(e); });
   this.currentPointIndex = -1;
-  this.imgWarper = new ImgWarper.Warper(c, image, imgData);
+  this.imgWarper = new ImgWarper.Warper(c, image, imgData, 20, 1, callb);
 };
 
 ImgWarper.PointDefiner.prototype.touchEnd = function(event) {
