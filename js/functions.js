@@ -8,7 +8,7 @@ function startImg(){
 	var min_height = document.getElementsByClassName("canvas-container")[0].clientHeight;
 	
 	if(littleCanvas && min_width > img.width*mainImgScale_x){
-		console.log(min_width, img.width);
+		//console.log(min_width, img.width);
 		min_width = img.width*mainImgScale_x;		
 		min_height = img.height*mainImgScale_y;	
 	}
