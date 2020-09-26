@@ -19,6 +19,7 @@
      var mainImgScale_y = 0.7; //множитель размера картинки(масштаб)
 	 var mirror_x = 1; //отражение фона
 	 var mirror_y = 1;
+	 var littleCanvas = false; //true - если холст больше размера картинки уменьшает размер холста, false - рисует картинку в левом верхнем углу
 	 var showLogs = true;
 	 var modules = {}; //подключаемые cdn функции
 	 var onloadModules = {}; ///список загруженых модулей и скриптов
@@ -46,6 +47,7 @@ window.onload = function(){
 			lineWidth: 3,
 		    mainImgScale_x: 0.7,
             mainImgScale_y: 0.7,
+			littleCanvas: true,
 			showLogs: true,
 			imgSrc: "./img/img.png",
 		  },			
@@ -86,7 +88,8 @@ window.onload = function(){
 			if(collagenSettings.common.colorSpriteArea)colorSpriteArea = collagenSettings.common.colorSpriteArea;
 			if(collagenSettings.common.lineWidth)lineWidth = collagenSettings.common.lineWidth;
             if(collagenSettings.common.mainImgScale_x) mainImgScale_x = collagenSettings.common.mainImgScale_x;
-			if(collagenSettings.common.mainImgScale_y)mainImgScale_y = collagenSettings.common.mainImgScale_y;	
+			if(collagenSettings.common.mainImgScale_y)mainImgScale_y = collagenSettings.common.mainImgScale_y;
+			if(collagenSettings.common.littleCanvas != undefined)littleCanvas = collagenSettings.common.littleCanvas;			
 			
 	}
 

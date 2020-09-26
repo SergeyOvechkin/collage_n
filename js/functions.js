@@ -1,8 +1,18 @@
 
+
+
+
 //операции с фоновой картинкой
 function startImg(){
     var min_width = document.getElementsByClassName("canvas-container")[0].clientWidth; 
 	var min_height = document.getElementsByClassName("canvas-container")[0].clientHeight;
+	
+	if(littleCanvas && min_width > img.width*mainImgScale_x){
+		console.log(min_width, img.width);
+		min_width = img.width*mainImgScale_x;		
+		min_height = img.height*mainImgScale_y;	
+	}
+	
 	document.getElementsByClassName("canvas-container")[0].setAttribute("style", "");
 
 	canvas.setAttribute("style", "width:"+Math.round(min_width)+"px; height: "+Math.round(min_height)+"px;");
